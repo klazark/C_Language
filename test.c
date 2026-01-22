@@ -1,1 +1,1 @@
-tuk edna programa na C, koyto izchislqva i izvezhda summata na dve celi chisla, vavedeni ot potrebitelya.
+baba test
