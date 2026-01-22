@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тест: Оператори в C - Увод в програмирането</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            padding: 40px;
+        }
+        
+        h1 {
+            color: #667eea;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2em;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 0.9em;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        
+        .question-card {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .question-card.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .question-header {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .question-number {
+            color: #667eea;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+        
+        .question-text {
+            font-size: 1.2em;
+            font-weight: 600;
+            margin-top: 10px;
+            line-height: 1.6;
+        }
+        
+        .code-block {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            line-height: 1.5;
+        }
+        
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin: 20px 0;
+        }
+        
+        .option {
+            padding: 15px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .option:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+            transform: translateX(5px);
+        }
+        
+        .option.selected {
+            border-color: #667eea;
+            background: #e8ecff;
+        }
+        
+        .option.correct {
+            border-color: #28a745;
+            background: #d4edda;
+            animation: pulse 0.5s ease;
+        }
+        
+        .option.incorrect {
+            border-color: #dc3545;
+            background: #f8d7da;
+            animation: shake 0.5s ease;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+        
+        .option-label {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: #667eea;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+        
+        .option.correct .option-label {
+            background: #28a745;
+        }
+        
+        .option.incorrect .option-label {
+            background: #dc3545;
+        }
+        
+        .explanation {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 10px;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .explanation.show {
+            display: block;
+        }
+        
+        .explanation.correct {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+        }
+        
+        .explanation.incorrect {
+            background: #f8d7da;
+            border-left: 4px solid #dc3545;
+        }
+        
+        .explanation-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .explanation-text {
+            line-height: 1.6;
+        }
+        
+        .buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            justify-content: space-between;
+        }
+        
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+        
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+        
+        .btn-primary:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+        
+        .results {
+            display: none;
+            text-align: center;
+        }
+        
+        .results.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .score-circle {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            margin: 30px auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 3em;
+            font-weight: bold;
+            color: white;
+            position: relative;
+        }
+        
+        .score-label {
+            font-size: 0.3em;
+            font-weight: normal;
+        }
+        
+        .results-message {
+            font-size: 1.5em;
+            margin: 20px 0;
+            font-weight: 600;
+        }
+        
+        .results-details {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: left;
+        }
+        
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 1.5em;
+            }
+            
+            .buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎯 Тест: Оператори в C</h1>
+        <p class="subtitle">Увод в програмирането - 8 клас ТУЕС</p>
+        
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressBar"></div>
+        </div>
+        
+        <div id="quiz"></div>
+        
+        <div class="results" id="results">
+            <div class="score-circle" id="scoreCircle">
+                <div class="score-label">Резултат</div>
+                <div id="scoreText"></div>
+            </div>
+            <div class="results-message" id="resultsMessage"></div>
+            <div class="results-details" id="resultsDetails"></div>
+            <button class="btn btn-primary" onclick="location.reload()">🔄 Започни отново</button>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "Какво прави този код?",
+                code: "int age = 15;\nage = age + 1;",
+                options: [
+                    "Създава променлива age с стойност 16",
+                    "Създава променлива age с стойност 15, след това я увеличава на 16",
+                    "Създава две променливи age",
+                    "Дава грешка при компилация"
+                ],
+                correct: 1,
+                explanation: {
+                    correct: "✅ Правилно! Първо се създава променлива age = 15, след това операторът за присвояване изчислява age + 1 (което е 16) и го записва обратно в age.",
+                    incorrect: "❌ Не съвсем. Тук се случват две неща: първо age получава стойност 15, след това операторът присвояване взима старата стойност (15), добавя 1 и резултатът (16) се записва в age."
+                }
+            },
+            {
+                question: "Какъв ще е изходът от този код?",
+                code: "int x = 10;\nif (x > 5) {\n    printf(\"Голямо\");\n} else {\n    printf(\"Малко\");\n}",
+                options: [
+                    "Голямо",
+                    "Малко",
+                    "ГолямоМалко",
+                    "Нищо няма да се отпечата"
+                ],
+                correct: 0,
+                explanation: {
+                    correct: "✅ Перфектно! x е 10, което е по-голямо от 5, затова условието (x > 5) е истина и се изпълнява първият блок, който отпечатва \"Голямо\".",
+                    incorrect: "❌ Внимавай! x е 10, а условието проверява дали x > 5. Тъй като 10 > 5 е истина, изпълнява се първият блок с printf(\"Голямо\"), не else частта."
+                }
+            },
+            {
+                question: "Колко пъти ще се изпълни този цикъл?",
+                code: "int i = 0;\nwhile (i < 3) {\n    printf(\"%d \", i);\n    i = i + 1;\n}",
+                options: [
+                    "2 пъти",
+                    "3 пъти",
+                    "4 пъти",
+                    "Безкрайно много пъти"
+                ],
+                correct: 1,
+                explanation: {
+                    correct: "✅ Браво! Цикълът започва с i=0 и се изпълнява докато i < 3. Значи при i=0, i=1, i=2 (3 пъти). Когато i стане 3, условието i < 3 е лъжа и цикълът спира.",
+                    incorrect: "❌ Помисли отново! Цикълът стартира с i=0 и върти докато i < 3. Това означава: i=0 (1-ви път), i=1 (2-ри път), i=2 (3-ти път). При i=3 условието вече е лъжа и спира. Общо 3 пъти."
+                }
+            },
+            {
+                question: "Какво трябва да напишем на мястото на ???, за да получим изход \"Успех\"?",
+                code: "int score = 85;\nif (??? ) {\n    printf(\"Успех\");\n}",
+                options: [
+                    "score < 60",
+                    "score >= 60",
+                    "score == 60",
+                    "score = 60"
+                ],
+                correct: 1,
+                explanation: {
+                    correct: "✅ Точно така! score е 85, а условието score >= 60 (по-голямо или равно на 60) е истина, защото 85 >= 60. Затова се изпълнява printf(\"Успех\").",
+                    incorrect: "❌ Внимание! score е 85. За да се изпълни printf(\"Успех\"), условието трябва да е истина. От дадените варианти само score >= 60 е истина, защото 85 >= 60. Вариант 'd' (score = 60) е присвояване, не сравнение!"
+                }
+            },
+            {
+                question: "Каква е разликата между while и do-while цикъл?",
+                code: "// Вариант 1:\nwhile (x < 5) {\n    printf(\"A\");\n}\n\n// Вариант 2:\ndo {\n    printf(\"B\");\n} while (x < 5);",
+                options: [
+                    "Няма разлика, правят едно и също",
+                    "do-while винаги се изпълнява поне веднъж",
+                    "while е по-бърз от do-while",
+                    "do-while не може да има условие"
+                ],
+                correct: 1,
+                explanation: {
+                    correct: "✅ Отлично! do-while първо изпълнява тялото, после проверява условието. Затова дори ако условието е лъжа от началото, тялото се изпълнява поне веднъж. При while първо се проверява условието.",
+                    incorrect: "❌ Основната разлика е: while проверява условието ПРЕДИ изпълнение (може да не се изпълни никога), а do-while изпълнява тялото ПРЕДИ проверка (винаги поне веднъж)."
+                }
+            },
+            {
+                question: "Какъв ще е резултатът от този код?",
+                code: "int a = 5;\nint b = 10;\na = b;\nb = 20;\nprintf(\"%d %d\", a, b);",
+                options: [
+                    "5 10",
+                    "10 20",
+                    "5 20",
+                    "20 10"
+                ],
+                correct: 1,
+                explanation: {
+                    correct: "✅ Супер! След a = b, променливата a получава стойност 10 (копие на b). След това b = 20 променя само b, a остава 10. Краен резултат: a=10, b=20.",
+                    incorrect: "❌ Проследи стъпка по стъпка: a=5, b=10 → a=b прави a=10 (копира стойността на b в a) → b=20 променя само b → резултат: a=10, b=20. Важно: a = b копира стойност, не създава връзка!"
+                }
+            },
+            {
+                question: "Кой код правилно увеличава score с 5?",
+                code: "int score = 10;",
+                options: [
+                    "score + 5;",
+                    "score = score + 5;",
+                    "score == score + 5;",
+                    "5 + score = score;"
+                ],
+                correct: 1,
+                explanation: {
+                    correct: "✅ Правилно! Операторът за присвояване = взима резултата от score + 5 (което е 15) и го записва обратно в score. Вариант 'a' само изчислява но не присвоява, 'c' е сравнение, 'd' е невалиден синтаксис.",
+                    incorrect: "❌ За да променим score, трябва да използваме присвояване: score = score + 5. Вариант 'a' изчислява израза но не го присвоява никъде. Вариант 'c' (==) е оператор за сравнение, не променя стойността. Вариант 'd' е синтактично грешен."
+                }
+            },
+            {
+                question: "Какво означават фигурните скоби { } в C?",
+                code: "if (x > 0) {\n    printf(\"Положително\");\n    x = x - 1;\n}",
+                options: [
+                    "Създават нова променлива",
+                    "Обединяват няколко оператора в един блок",
+                    "Означават край на програмата",
+                    "Служат само за красота на кода"
+                ],
+                correct: 1,
+                explanation: {
+                    correct: "✅ Точно! Фигурните скоби { } създават съставен оператор (блок), който обединява няколко оператора. Ако имаш само един оператор след if, скобите не са задължителни, но с повече от един са необходими.",
+                    incorrect: "❌ Фигурните скоби { } служат за обединяване на няколко оператора в един блок (съставен оператор). Например, ако след if искаш да изпълниш 2 реда код, трябва да ги обградиш с { }. Без тях само първият ред ще бъде част от if-а."
+                }
+            },
+            {
+                question: "Какъв ще е изходът?",
+                code: "int count = 5;\ndo {\n    printf(\"%d \", count);\n    count = count - 1;\n} while (count > 5);",
+                options: [
+                    "Нищо няма да се отпечата",
+                    "5",
+                    "5 4 3 2 1",
+                    "Безкраен цикъл"
+                ],
+                correct: 1,
+                explanation: {
+                    correct: "✅ Браво! do-while първо изпълнява тялото (отпечатва 5 и намалява count на 4), СЛЕД ТОВА проверява условието count > 5. Тъй като 4 > 5 е лъжа, цикълът спира. Изход: само \"5\".",
+                    incorrect: "❌ Ключовото е, че do-while изпълнява тялото ПРЕДИ да провери условието! Стъпки: count=5 → отпечатва \"5\" → count става 4 → проверява 4 > 5 (лъжа) → спира. Затова се отпечатва само \"5\"."
+                }
+            },
+            {
+                question: "Какво трябва да сложим в условието, за да циклът да се изпълни 10 пъти?",
+                code: "int i = 0;\nwhile (???) {\n    printf(\"%d \", i);\n    i = i + 1;\n}",
+                options: [
+                    "i < 10",
+                    "i <= 10",
+                    "i == 10",
+                    "i > 0"
+                ],
+                correct: 0,
+                explanation: {
+                    correct: "✅ Перфектно! При i < 10 цикълът се изпълнява когато i е 0,1,2,3,4,5,6,7,8,9 (общо 10 стойности). Когато i стане 10, условието i < 10 е лъжа и спира.",
+                    incorrect: "❌ Помисли: започваме с i=0 и искаме 10 изпълнения. При i < 10: цикълът върти докато i е 0,1,2...9 (10 пъти). При i <= 10 би се изпълнил 11 пъти (0 до 10). При i == 10 никога не се изпълнява, защото i започва от 0. При i > 0 първата проверка (i=0) е лъжа."
+                }
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let selectedAnswer = null;
+        let answered = false;
+
+        function renderQuestion() {
+            const quiz = document.getElementById('quiz');
+            const question = questions[currentQuestion];
+            
+            let html = `
+                <div class="question-card active">
+                    <div class="question-header">
+                        <div class="question-number">Въпрос ${currentQuestion + 1} от ${questions.length}</div>
+                        <div class="question-text">${question.question}</div>
+                        ${question.code ? `<div class="code-block">${escapeHtml(question.code)}</div>` : ''}
+                    </div>
+                    <div class="options" id="options">
+            `;
+            
+            question.options.forEach((option, index) => {
+                html += `
+                    <div class="option" onclick="selectOption(${index})">
+                        <div class="option-label">${String.fromCharCode(65 + index)}</div>
+                        <div>${option}</div>
+                    </div>
+                `;
+            });
+            
+            html += `
+                    </div>
+                    <div class="explanation" id="explanation"></div>
+                    <div class="buttons">
+                        <button class="btn btn-secondary" onclick="previousQuestion()" ${currentQuestion === 0 ? 'style="visibility:hidden"' : ''}>← Назад</button>
+                        <button class="btn btn-primary" id="submitBtn" onclick="submitAnswer()" disabled>Провери отговора</button>
+                    </div>
+                </div>
+            `;
+            
+            quiz.innerHTML = html;
+            updateProgress();
+        }
+
+        function escapeHtml(text) {
+            const map = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#039;'
+            };
+            return text.replace(/[&<>"']/g, m => map[m]);
+        }
+
+        function selectOption(index) {
+            if (answered) return;
+            
+            selectedAnswer = index;
+            
+            document.querySelectorAll('.option').forEach((opt, i) => {
+                opt.classList.remove('selected');
+                if (i === index) {
+                    opt.classList.add('selected');
+                }
+            });
+            
+            document.getElementById('submitBtn').disabled = false;
+        }
+
+        function submitAnswer() {
+            if (selectedAnswer === null || answered) return;
+            
+            answered = true;
+            const question = questions[currentQuestion];
+            const isCorrect = selectedAnswer === question.correct;
+            
+            if (isCorrect) {
+                score++;
+            }
+            
+            document.querySelectorAll('.option').forEach((opt, i) => {
+                opt.style.pointerEvents = 'none';
+                if (i === question.correct) {
+                    opt.classList.add('correct');
+                } else if (i === selectedAnswer && !isCorrect) {
+                    opt.classList.add('incorrect');
+                }
+            });
+            
+            const explanation = document.getElementById('explanation');
+            explanation.className = `explanation show ${isCorrect ? 'correct' : 'incorrect'}`;
+            explanation.innerHTML = `
+                <div class="explanation-title">
+                    ${isCorrect ? '✅ Правилен отговор!' : '❌ Грешен отговор'}
+                </div>
+                <div class="explanation-text">
+                    ${isCorrect ? question.explanation.correct : question.explanation.incorrect}
+                </div>
+            `;
+            
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.textContent = currentQuestion === questions.length - 1 ? 'Виж резултатите →' : 'Следващ въпрос →';
+            submitBtn.onclick = nextQuestion;
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            
+            if (currentQuestion >= questions.length) {
+                showResults();
+            } else {
+                selectedAnswer = null;
+                answered = false;
+                renderQuestion();
+            }
+        }
+
+        function previousQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                selectedAnswer = null;
+                answered = false;
+                renderQuestion();
+            }
+        }
+
+        function updateProgress() {
+            const progress = ((currentQuestion + 1) / questions.length) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        function showResults() {
+            const percentage = (score / questions.length) * 100;
+            const quiz = document.getElementById('quiz');
+            const results = document.getElementById('results');
+            
+            quiz.style.display = 'none';
+            results.classList.add('show');
+            
+            const scoreCircle = document.getElementById('scoreCircle');
+            const scoreText = document.getElementById('scoreText');
+            const resultsMessage = document.getElementById('resultsMessage');
+            
+            scoreText.textContent = score + '/' + questions.length;
+            
+            if (percentage >= 90) {
+                scoreCircle.style.background = 'linear-gradient(135deg, #11998e, #38ef7d)';
+                resultsMessage.textContent = '🏆 Отлично! Перфектно владееш операторите!';
+            } else if (percentage >= 70) {
+                scoreCircle.style.background = 'linear-gradient(135deg, #667eea, #764ba2)';
+                resultsMessage.textContent = '🎉 Много добре! Имаш солидни познания.';
+            } else if (percentage >= 50) {
+                scoreCircle.style.background = 'linear-gradient(135deg, #f093fb, #f5576c)';
+                resultsMessage.textContent = '👍 Добре! Продължавай да практикуваш.';
+            } else {
+                scoreCircle.style.background = 'linear-gradient(135deg, #fa709a, #fee140)';
+                resultsMessage.textContent = '📚 Прегледай материала отново и опитай пак!';
+            }
+            
+            const detailsHtml = `
+                <div class="detail-row">
+                    <span>Общо въпроси:</span>
+                    <strong>${questions.length}</strong>
+                </div>
+                <div class="detail-row">
+                    <span>Верни отговори:</span>
+                    <strong style="color: #28a745;">${score}</strong>
+                </div>
+                <div class="detail-row">
+                    <span>Грешни отговори:</span>
+                    <strong style="color: #dc3545;">${questions.length - score}</strong>
+                </div>
+                <div class="detail-row">
+                    <span>Процент:</span>
+                    <strong>${percentage.toFixed(0)}%</strong>
+                </div>
+            `;
+            
+            document.getElementById('resultsDetails').innerHTML = detailsHtml;
+            document.getElementById('progressBar').style.width = '100%';
+        }
+
+        // Стартираме теста
+        renderQuestion();
+    </script>
+</body>
+</html>
+
