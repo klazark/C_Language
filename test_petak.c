@@ -1,1 +1,1 @@
-towa e programata
+zada
