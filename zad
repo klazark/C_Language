@@ -2,14 +2,42 @@
 
 int main()
 
-    int n;
+#include <stdio.h>
+#define sys printf
 
-printf("n = ");
-scanf("%d", &n);
-
-for (int i = 1; i <= n; i++)
+    int main(void)
 {
-    printf("%d", i);
+    int n;
+    sys("n = ");
+    if (scanf("%d", &n) != 1)
+        return 0;
+    if (n <= 1)
+    {
+        sys("YES\n");
+        return 0;
+    }
+
+    long long prev, cur;
+    if (scanf("%lld", &prev) != 1)
+        return 0;
+    int sorted = 1;
+    for (int i = 1; i < n; ++i)
+    {
+        if (scanf("%lld", &cur) != 1)
+            break;
+        if (cur < prev)
+        {
+            sorted = 0;
+        }
+        prev = cur;
+    }
+
+    sys(sorted ? "YES\n" : "NO\n");
+    return 0;
 }
 
-return 0;
+/*
+Usage:
+  - Input first an integer n (number of elements), then n integers.
+  - Prints "YES" if array is in non-decreasing (ascending) order, otherwise "NO".
+*/
