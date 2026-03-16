@@ -32,3 +32,17 @@ int main(void)
         }
     }
 }
+
+printf("\n--- Sreden uspeh po uchenici ---\n");
+
+ for (int i = 0; i < n; i++)
+
+{
+    double sum = 0;
+
+    for (int k = 0; k < m; k++)
+
+    {
+        sum += marks[i][k];
+    }
+}
