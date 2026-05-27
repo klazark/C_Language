@@ -6,7 +6,7 @@
 int main(void)
 {
     int n, m;
-    double ocenki[MAX_UCHENICI][MAX_PREDMETI];
+    float ocenki[MAX_UCHENICI][MAX_PREDMETI];
 
     do
     {
@@ -28,7 +28,7 @@ int main(void)
             do
             {
                 printf("  Predmet %d ocenka (2-6): ", j + 1);
-                scanf("%lf", &ocenki[i][j]);
+                scanf("%f", &ocenki[i][j]);
             } while (ocenki[i][j] < 2 || ocenki[i][j] > 6);
         }
     }
@@ -37,16 +37,16 @@ int main(void)
     printf("  Sreden uspeh po uchenici\n");
     printf("=============================\n");
 
-    double klassen_sreden = 0;
+    float klassen_sreden = 0;
 
     for (int i = 0; i < n; i++)
     {
-        double suma = 0;
+        float suma = 0;
         for (int j = 0; j < m; j++)
         {
             suma += ocenki[i][j];
         }
-        double sreden = suma / m;
+        float sreden = suma / m;
         klassen_sreden += sreden;
         printf("Uchenik %2d: %.2f\n", i + 1, sreden);
     }
