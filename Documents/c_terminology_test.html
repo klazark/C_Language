@@ -575,7 +575,7 @@
         function renderQuestion() {
             const quiz = document.getElementById('quiz');
             const question = questions[currentQuestion];
-            
+
             let html = `
                 <div class="question-card active">
                     <div class="question-header">
@@ -585,7 +585,7 @@
                     </div>
                     <div class="options" id="options">
             `;
-            
+
             question.options.forEach((option, index) => {
                 html += `
                     <div class="option" onclick="selectOption(${index})">
@@ -594,7 +594,7 @@
                     </div>
                 `;
             });
-            
+
             html += `
                     </div>
                     <div class="explanation" id="explanation"></div>
@@ -604,8 +604,45 @@
                     </div>
                 </div>
             `;
-            
+
             quiz.innerHTML = html;
+
+            // Restore state if this question was already answered
+            const state = questionStates[currentQuestion];
+            if (state.answered) {
+                // Restore visual state for already answered question
+                const options = document.querySelectorAll('.option');
+                options.forEach((opt, i) => {
+                    opt.style.pointerEvents = 'none';
+                    if (i === question.correct) {
+                        opt.classList.add('correct');
+                    } else if (i === state.selectedAnswer && !state.isCorrect) {
+                        opt.classList.add('incorrect');
+                    }
+                    if (i === state.selectedAnswer) {
+                        opt.classList.add('selected');
+                    }
+                });
+
+                // Show explanation
+                const explanation = document.getElementById('explanation');
+                explanation.className = `explanation show ${state.isCorrect ? 'correct' : 'incorrect'}`;
+                explanation.innerHTML = `
+                    <div class="explanation-title">
+                        ${state.isCorrect ? '✅ Правилен отговор!' : '❌ Грешен отговор'}
+                    </div>
+                    <div class="explanation-text">
+                        ${state.isCorrect ? question.explanation.correct : question.explanation.incorrect}
+                    </div>
+                `;
+
+                // Update button for next navigation
+                const submitBtn = document.getElementById('submitBtn');
+                submitBtn.textContent = currentQuestion === questions.length - 1 ? 'Виж резултатите →' : 'Следващ въпрос →';
+                submitBtn.onclick = nextQuestion;
+                submitBtn.disabled = false;
+            }
+
             updateProgress();
         }
 
@@ -681,12 +718,14 @@
 
         function nextQuestion() {
             currentQuestion++;
-            
+
             if (currentQuestion >= questions.length) {
                 showResults();
             } else {
-                selectedAnswer = null;
-                answered = false;
+                // Restore state of the next question if it was already answered
+                const state = questionStates[currentQuestion];
+                selectedAnswer = state.answered ? state.selectedAnswer : null;
+                answered = state.answered;
                 renderQuestion();
             }
         }
