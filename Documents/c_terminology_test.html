@@ -640,6 +640,7 @@
                 // Update button for next navigation
                 const submitBtn = document.getElementById('submitBtn');
                 submitBtn.textContent = currentQuestion === questions.length - 1 ? 'Виж резултатите →' : 'Следващ въпрос →';
+                submitBtn.removeAttribute('onclick'); // Clear inline handler to prevent conflicts
                 submitBtn.onclick = nextQuestion;
                 submitBtn.disabled = false;
             }
@@ -716,6 +717,7 @@
 
             const submitBtn = document.getElementById('submitBtn');
             submitBtn.textContent = currentQuestion === questions.length - 1 ? 'Виж резултатите →' : 'Следващ въпрос →';
+            submitBtn.removeAttribute('onclick'); // Clear inline handler to prevent conflicts
             submitBtn.onclick = nextQuestion;
         }
 
