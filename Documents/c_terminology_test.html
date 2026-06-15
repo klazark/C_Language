@@ -569,7 +569,8 @@
         const questionStates = new Array(questions.length).fill(null).map(() => ({
             answered: false,
             selectedAnswer: null,
-            isCorrect: false
+            isCorrect: false,
+            scored: false
         }));
 
         function renderQuestion() {
@@ -680,14 +681,16 @@
             const isCorrect = selectedAnswer === question.correct;
 
             // Save the state for this question
+            const wasAlreadyScored = questionStates[currentQuestion].scored;
             questionStates[currentQuestion] = {
                 answered: true,
                 selectedAnswer: selectedAnswer,
-                isCorrect: isCorrect
+                isCorrect: isCorrect,
+                scored: true
             };
 
             // Only increment score if this question hasn't been counted before
-            if (isCorrect) {
+            if (isCorrect && !wasAlreadyScored) {
                 score++;
             }
 
