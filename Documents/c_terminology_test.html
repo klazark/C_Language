@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тест: Терминология и Синтаксис в C</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 850px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            padding: 40px;
+        }
+        
+        h1 {
+            color: #11998e;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2em;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 0.9em;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #11998e, #38ef7d);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        
+        .question-card {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .question-card.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .question-header {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .question-number {
+            color: #11998e;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+        
+        .question-text {
+            font-size: 1.2em;
+            font-weight: 600;
+            margin-top: 10px;
+            line-height: 1.6;
+        }
+        
+        .code-block {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            line-height: 1.5;
+        }
+        
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin: 20px 0;
+        }
+        
+        .option {
+            padding: 15px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .option:hover {
+            border-color: #11998e;
+            background: #f0fff4;
+            transform: translateX(5px);
+        }
+        
+        .option.selected {
+            border-color: #11998e;
+            background: #e6fffa;
+        }
+        
+        .option.correct {
+            border-color: #28a745;
+            background: #d4edda;
+            animation: pulse 0.5s ease;
+        }
+        
+        .option.incorrect {
+            border-color: #dc3545;
+            background: #f8d7da;
+            animation: shake 0.5s ease;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+        
+        .option-label {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: #11998e;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+        
+        .option.correct .option-label {
+            background: #28a745;
+        }
+        
+        .option.incorrect .option-label {
+            background: #dc3545;
+        }
+        
+        .explanation {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 10px;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .explanation.show {
+            display: block;
+        }
+        
+        .explanation.correct {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+        }
+        
+        .explanation.incorrect {
+            background: #f8d7da;
+            border-left: 4px solid #dc3545;
+        }
+        
+        .explanation-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .explanation-text {
+            line-height: 1.6;
+        }
+        
+        .buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            justify-content: space-between;
+        }
+        
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+        
+        .btn-primary {
+            background: #11998e;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #0d7a6e;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(17, 153, 142, 0.3);
+        }
+        
+        .btn-primary:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+        
+        .results {
+            display: none;
+            text-align: center;
+        }
+        
+        .results.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .score-circle {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            margin: 30px auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 3em;
+            font-weight: bold;
+            color: white;
+            position: relative;
+        }
+        
+        .score-label {
+            font-size: 0.3em;
+            font-weight: normal;
+        }
+        
+        .results-message {
+            font-size: 1.5em;
+            margin: 20px 0;
+            font-weight: 600;
+        }
+        
+        .results-details {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: left;
+        }
+        
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 1.5em;
+            }
+            
+            .buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📚 Тест: Терминология и Синтаксис в C</h1>
+        <p class="subtitle">Основни понятия в програмирането с C - 8 клас ТУЕС</p>
+        
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressBar"></div>
+        </div>
+        
+        <div id="quiz"></div>
+        
+        <div class="results" id="results">
+            <div class="score-circle" id="scoreCircle">
+                <div class="score-label">Резултат</div>
+                <div id="scoreText"></div>
+            </div>
+            <div class="results-message" id="resultsMessage"></div>
+            <div class="results-details" id="resultsDetails"></div>
+            <button class="btn btn-primary" onclick="location.reload()">🔄 Започни отново</button>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "Какво е оператор (operator) в езика C?",
+                options: [
+                    "Командата, с която стартираме програмата",
+                    "Символ или комбинация от символи, която извършва операция върху един или повече операнда",
+                    "Името на променлива",
+                    "Вид коментар в кода"
+                ],
+                correct: 1,
+                explanation: {
+                    correct: "✅ Правилно! Операторите са символи като +, -, *, /, =, ==, && и др., които извършват операции върху стойности (операнди). Например, в израза 'a + b', '+' е оператор, а 'a' и 'b' са операнди.",
+                    incorrect: "❌ Не съвсем. Операторите в C са специални символи или комбинации от символи, които извършват операции върху данни. Примери: аритметични (+, -, *, /), за присвояване (=), за сравнение (==, !=, <, >), логически (&&, ||, !)."
+                }
+            },
+            {
+                question: "Какво е цикъл (loop) в програмирането?",
+                options: [
+                    "Грешка в кода, която кара програмата да се повтаря",
+                    "Конструкция, която позволява изпълнението на блок код многократно",
+                    "Метод за създаване на променливи",
+                    "Специален тип коментар"
+                ],
+                correct: 1,
+                explanation: {
+                    correct: "✅ Точно така! Цикълът е контролна структура, която позволява да изпълним един и същи блок от код многократно, докато дадено условие е изпълнено. В C имаме for, while и do-while цикли.",
+                    incorrect: "❌ Не е вярно. Цикълът е фундаментална контролна структура в програмирането, която позволява многократно изпълнение на код. Без цикли ще трябва да копираме един и същи код многократно."
+                }
+            },
+            {
+                question: "Какво е масив (array) в езика C?",
+                options: [
+                    "Само поредица от символи",
+                    "Колекция от променливи от един и същи тип, съхранявани в последователни клетки от паметта",
+                    "Единична променлива, която съдържа много стойности от различни типове",
+                    "Специална функция за математически изчисления"
+                ],
+                correct: 1,
+                explanation: {
+                    correct: "✅ Браво! Масивът е структура от данни, която съхранява множество стойности от един и същи тип в последователни клетки от паметта. Достъпът до елементите става чрез индекс: arr[0], arr[1], arr[2] и т.н.",
+                    incorrect: "❌ Не съвсем. Масивът е структура, съхраняваща множество стойности от един и същи тип (int, char, float и т.н.) в последователни адреси от паметта. Декларира се като 'int arr[5];' и всички елементи са от тип int."
+                }
+            },
+            {
+                question: "Какво е низ (string) в езика C?",
+                options: [
+                    "Масив от символи, завършващ със специален терминиращ символ '\\0'",
+                    "Отделен тип данни, вграден в езика",
+                    "Само единичен символ",
+                    "Число с плаваща запетая"
+                ],
+                correct: 0,
+                explanation: {
+                    correct: "✅ Перфектно! В C низът е масив от символи (char), който задължително завършва с null терминатор '\\0'. Този символ маркира края на низа. Пример: char str[] = \"Hello\"; всъщност съдържа 'H','e','l','l','o','\\0'.",
+                    incorrect: "❌ Важно: В C няма специален тип 'string'. Низът е масив от символи (char array), който задължително завършва с '\\0' (null terminator). Без този терминатор, функциите за работа с низове (strlen, printf с %s) няма да работят правилно."
+                }
+            },
+            {
+                question: "Какво е променлива (variable) в програмирането?",
+                options: [
+                    "Стойност, която не може да се променя",
+                    "Именувано място в паметта, което съхранява стойност, която може да се променя по време на изпълнение",
+                    "Името на програмата",
+                    "Специален оператор за математика"
+                ],
+                correct: 1,
+                explanation: {
+                    correct: "✅ Точно! Променливата е именувано място в паметта, което съхранява данни от определен тип. Стойността й може да се променя по време на изпълнение на програмата. Пример: int age = 15; age = 16;",
+                    incorrect: "❌ Не е правилно. Променливата е контейнер за данни с име и тип. Тя заема място в паметта (RAM) и стойността й може да се чете и променя. За разлика от константата, която е неизменяема."
+                }
+            },
+            {
+                question: "Какво е функция (function) в езика C?",
+                options: [
+                    "Само main() - началната точка на програмата",
+                    "Блок от код, който изпълнява конкретна задача и може да бъде извикан многократно",
+                    "Вид променлива",
+                    "Коментар в кода"
+                ],
+                correct: 1,
+                explanation: {
+                    correct: "✅ Отлично! Функцията е самостоятелен блок от код, който изпълнява специфична задача. Функциите позволяват повторно използване на код, организиране на програмата и намаляване на дублирането. Могат да приемат параметри и да връщат стойност.",
+                    incorrect: "❌ Не съвсем. Функцията е независим блок код, който изпълнява конкретна задача. Всички C програми използват функции - не само main(), но и printf(), scanf(), както и потребителски дефинирани функции като int add(int a, int b) { return a + b; }."
+                }
+            },
+            {
+                question: "Какво е тип данни (data type) в езика C?",
+                options: [
+                    "Само числовите стойности в програмата",
+                    "Класификация, която определя вида на данните, размера в паметта и операциите, които могат да се извършват",
+                    "Име на променлива",
+                    "Вид коментар"
+                ],
+                correct: 1,
+                explanation: {
+                    correct: "✅ Правилно! Типът данни определя: 1) Какви стойности може да приема променливата, 2) Колко памет заема, 3) Какви операции са валидни. Основни типове: int (цяло число), float/double (реални), char (символ), void (празен).",
+                    incorrect: "❌ Не е точно. Типът данни е декларация за природата на данните. Той казва на компилатора колко памет да задели и как да интерпретира битовете. Примери: int (4 байта, цяло число), char (1 байт, символ), float (4 байта, реално число)."
+                }
+            },
+            {
+                question: "Какво е условен оператор (if statement)?",
+                options: [
+                    "Оператор, който винаги изпълнява един и същи код",
+                    "Конструкция, която изпълнява различен код в зависимост от това дали условие е истина или лъжа",
+                    "Метод за създаване на масиви",
+                    "Вид цикъл"
+                ],
+                correct: 1,
+                explanation: {
+                    correct: "✅ Точно така! if операторът е контролна структура за вземане на решения. Той проверява условие и ако то е истина (true/ненула стойност), изпълнява един блок код; ако е лъжа (false/нула) - друг блок или нищо (при наличие на else).",
+                    incorrect: "❌ Не съвсем. if е условна структура, която позволява избор на изпълнение. Пример: if (x > 0) { printf(\"Положително\"); } else { printf(\"Отрицателно\"); }. Тук изпълнението зависи от стойността на x."
+                }
+            },
+            {
+                question: "Какво е указател (pointer) в езика C?",
+                options: [
+                    "Специален тип променлива, която съхранява адрес в паметта",
+                    "Програмен инструмент за рисуване",
+                    "Вид цикъл",
+                    "Функция за математически изчисления"
+                ],
+                correct: 0,
+                explanation: {
+                    correct: "✅ Браво! Указателят е променлива, която съхранява адрес (местоположение) в паметта на друга променлива, а не самата стойност. Декларира се с * (int *ptr). Операторът & връща адрес, а * достъпва стойността на адреса.",
+                    incorrect: "❌ Грешно. Указателят е една от най-мощните концепции в C. Той съхранява адрес в паметта. Пример: int x = 10; int *p = &x; // p съдържа адреса на x. printf(\"%d\", *p); // отпечатва 10 (стойността на адреса)."
+                }
+            },
+            {
+                question: "Какво е коментар (comment) в езика C?",
+                options: [
+                    "Код, който се изпълнява само при грешка",
+                    "Текст, който се игнорира от компилатора и служи за документация на кода",
+                    "Вид променлива",
+                    "Специална функция за отпечатване"
+                ],
+                correct: 1,
+                explanation: {
+                    correct: "✅ Правилно! Коментарите са текстови бележки за програмистите, които компилаторът игнорира. В C има: // едноредови коментари и /* многоредови */ коментари. Те правят кода по-разбираем, но не влияят на изпълнението.",
+                    incorrect: "❌ Не е вярно. Коментарите са пояснения в кода, които компилаторът прескача. Служат за документиране: защо е направено нещо, как работи алгоритъмът и т.н. В C: // за един ред, /* ... */ за много редове."
+                }
+            },
+            {
+                question: "Какво е препроцесорна директива (preprocessor directive)?",
+                options: [
+                    "Функция, която се изпълнява по време на работа на програмата",
+                    "Инструкция към препроцесора, която се обработва преди компилация",
+                    "Вид променлива",
+                    "Оператор за цикъл"
+                ],
+                correct: 1,
+                explanation: {
+                    correct: "✅ Точно! Препроцесорните директиви започват с # и се обработват преди компилация. Примери: #include <stdio.h> (включва библиотека), #define PI 3.14 (константа), #ifdef (условна компилация). Те модифицират кода преди компилация.",
+                    incorrect: "❌ Не съвсем. Директивите с # се обработват от препроцесора (първи етап на компилация). #include копира съдържание на файлове, #define прави текстови замествания, #ifdef/#endif позволяват условно включване на код."
+                }
+            },
+            {
+                question: "Какво е константа (constant) в езика C?",
+                options: [
+                    "Променлива, чиято стойност може да се променя по всяко време",
+                    "Стойност, която не може да се променя по време на изпълнение на програмата",
+                    "Вид функция",
+                    "Специален оператор"
+                ],
+                correct: 1,
+                explanation: {
+                    correct: "✅ Отлично! Константата е стойност, която остава неизменна по време на изпълнение. В C се дефинира с const (const int MAX = 100;) или #define (#define PI 3.14159). Опитът за промяна води до грешка при компилация.",
+                    incorrect: "❌ Не е правилно. Константата е неизменна стойност. За разлика от променливата, която може да получава различни стойности, константата се инициализира веднъж и остава фиксирана. Полезна е за стойности като π, максимален размер и т.н."
+                }
+            },
+            {
+                question: "Какво е структура (struct) в езика C?",
+                options: [
+                    "Функция, която структурира кода",
+                    "Потребителски дефиниран тип, който групира свързани променливи от различни типове под едно име",
+                    "Вид цикъл",
+                    "Специален коментар"
+                ],
+                correct: 1,
+                explanation: {
+                    correct: "✅ Точно така! struct е потребителски дефиниран тип данни, който комбинира променливи от различни типове в една логическа единица. Пример: struct Student { char name[50]; int age; float grade; }; Позволява моделиране на реални обекти.",
+                    incorrect: "❌ Грешно. struct (структура) е начин за групиране на свързани данни от различни типове. За разлика от масив, който съхранява само един тип, struct може да комбинира int, char, float и др. в една променлива."
+                }
+            },
+            {
+                question: "Какво е заглавен файл (header file) в езика C?",
+                options: [
+                    "Файл с разширение .c, който съдържа main функцията",
+                    "Файл с разширение .h, който съдържа декларации на функции, макроси и типове",
+                    "Файл със стойности на променливи",
+                    "Специален файл с коментари"
+                ],
+                correct: 1,
+                explanation: {
+                    correct: "✅ Правилно! Заглавните файлове (.h) съдържат декларации (прототипи) на функции, дефиниции на макроси (#define), typedef декларации и структури. Включват се с #include. Примери: stdio.h, stdlib.h, string.h, math.h.",
+                    incorrect: "❌ Не е точно. Файловете .h са заглавни/хедър файлове. Те декларират (обявяват) интерфейса на библиотеки - какви функции съществуват и какви параметри приемат. Реалната имплементация е в .c файловете. Включват се с #include <stdio.h>."
+                }
+            },
+            {
+                question: "Какво е прототип на функция (function prototype)?",
+                options: [
+                    "Пълната имплементация на функцията",
+                    "Декларация на функцията без тялото й, показваща типа връщана стойност, името и параметрите",
+                    "Вид коментар за функцията",
+                    "Специален оператор"
+                ],
+                correct: 1,
+                explanation: {
+                    correct: "✅ Точно! Прототипът е декларация на функция без тялото. Пример: int add(int a, int b);. Казва на компилатора: тази функция съществува, приема тези параметри и връща този тип. Позволява извикване преди дефиницията.",
+                    incorrect: "❌ Не съвсем. Прототипът е предварителна декларация: int max(int, int);. Той казва на компилатора името, типа връщана стойност и параметрите, без да дава кода на функцията. Позволява извикване на функцията преди нейната дефиниция във файла."
+                }
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let selectedAnswer = null;
+        let answered = false;
+
+        function renderQuestion() {
+            const quiz = document.getElementById('quiz');
+            const question = questions[currentQuestion];
+            
+            let html = `
+                <div class="question-card active">
+                    <div class="question-header">
+                        <div class="question-number">Въпрос ${currentQuestion + 1} от ${questions.length}</div>
+                        <div class="question-text">${question.question}</div>
+                        ${question.code ? `<div class="code-block">${escapeHtml(question.code)}</div>` : ''}
+                    </div>
+                    <div class="options" id="options">
+            `;
+            
+            question.options.forEach((option, index) => {
+                html += `
+                    <div class="option" onclick="selectOption(${index})">
+                        <div class="option-label">${String.fromCharCode(65 + index)}</div>
+                        <div>${option}</div>
+                    </div>
+                `;
+            });
+            
+            html += `
+                    </div>
+                    <div class="explanation" id="explanation"></div>
+                    <div class="buttons">
+                        <button class="btn btn-secondary" onclick="previousQuestion()" ${currentQuestion === 0 ? 'style="visibility:hidden"' : ''}>← Назад</button>
+                        <button class="btn btn-primary" id="submitBtn" onclick="submitAnswer()" disabled>Провери отговора</button>
+                    </div>
+                </div>
+            `;
+            
+            quiz.innerHTML = html;
+            updateProgress();
+        }
+
+        function escapeHtml(text) {
+            const map = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#039;'
+            };
+            return text.replace(/[&<>"']/g, m => map[m]);
+        }
+
+        function selectOption(index) {
+            if (answered) return;
+            
+            selectedAnswer = index;
+            
+            document.querySelectorAll('.option').forEach((opt, i) => {
+                opt.classList.remove('selected');
+                if (i === index) {
+                    opt.classList.add('selected');
+                }
+            });
+            
+            document.getElementById('submitBtn').disabled = false;
+        }
+
+        function submitAnswer() {
+            if (selectedAnswer === null || answered) return;
+            
+            answered = true;
+            const question = questions[currentQuestion];
+            const isCorrect = selectedAnswer === question.correct;
+            
+            if (isCorrect) {
+                score++;
+            }
+            
+            document.querySelectorAll('.option').forEach((opt, i) => {
+                opt.style.pointerEvents = 'none';
+                if (i === question.correct) {
+                    opt.classList.add('correct');
+                } else if (i === selectedAnswer && !isCorrect) {
+                    opt.classList.add('incorrect');
+                }
+            });
+            
+            const explanation = document.getElementById('explanation');
+            explanation.className = `explanation show ${isCorrect ? 'correct' : 'incorrect'}`;
+            explanation.innerHTML = `
+                <div class="explanation-title">
+                    ${isCorrect ? '✅ Правилен отговор!' : '❌ Грешен отговор'}
+                </div>
+                <div class="explanation-text">
+                    ${isCorrect ? question.explanation.correct : question.explanation.incorrect}
+                </div>
+            `;
+            
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.textContent = currentQuestion === questions.length - 1 ? 'Виж резултатите →' : 'Следващ въпрос →';
+            submitBtn.onclick = nextQuestion;
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            
+            if (currentQuestion >= questions.length) {
+                showResults();
+            } else {
+                selectedAnswer = null;
+                answered = false;
+                renderQuestion();
+            }
+        }
+
+        function previousQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                selectedAnswer = null;
+                answered = false;
+                renderQuestion();
+            }
+        }
+
+        function updateProgress() {
+            const progress = ((currentQuestion + 1) / questions.length) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        function showResults() {
+            const percentage = (score / questions.length) * 100;
+            const quiz = document.getElementById('quiz');
+            const results = document.getElementById('results');
+            
+            quiz.style.display = 'none';
+            results.classList.add('show');
+            
+            const scoreCircle = document.getElementById('scoreCircle');
+            const scoreText = document.getElementById('scoreText');
+            const resultsMessage = document.getElementById('resultsMessage');
+            
+            scoreText.textContent = score + '/' + questions.length;
+            
+            if (percentage >= 90) {
+                scoreCircle.style.background = 'linear-gradient(135deg, #11998e, #38ef7d)';
+                resultsMessage.textContent = '🏆 Отлично! Перфектно познаваш терминологията!';
+            } else if (percentage >= 70) {
+                scoreCircle.style.background = 'linear-gradient(135deg, #667eea, #764ba2)';
+                resultsMessage.textContent = '🎉 Много добре! Имаш солидни познания за синтаксиса.';
+            } else if (percentage >= 50) {
+                scoreCircle.style.background = 'linear-gradient(135deg, #f093fb, #f5576c)';
+                resultsMessage.textContent = '👍 Добре! Продължавай да учиш основните понятия.';
+            } else {
+                scoreCircle.style.background = 'linear-gradient(135deg, #fa709a, #fee140)';
+                resultsMessage.textContent = '📚 Препоръчвам да прегледаш отново материала и опитай пак!';
+            }
+            
+            const detailsHtml = `
+                <div class="detail-row">
+                    <span>Общо въпроси:</span>
+                    <strong>${questions.length}</strong>
+                </div>
+                <div class="detail-row">
+                    <span>Верни отговори:</span>
+                    <strong style="color: #28a745;">${score}</strong>
+                </div>
+                <div class="detail-row">
+                    <span>Грешни отговори:</span>
+                    <strong style="color: #dc3545;">${questions.length - score}</strong>
+                </div>
+                <div class="detail-row">
+                    <span>Процент:</span>
+                    <strong>${percentage.toFixed(0)}%</strong>
+                </div>
+            `;
+            
+            document.getElementById('resultsDetails').innerHTML = detailsHtml;
+            document.getElementById('progressBar').style.width = '100%';
+        }
+
+        // Стартираме теста
+        renderQuestion();
+    </script>
+</body>
+</html>
