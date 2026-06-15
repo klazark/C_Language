@@ -565,6 +565,13 @@
         let selectedAnswer = null;
         let answered = false;
 
+        // Track answer state for each question to prevent score exploitation
+        const questionStates = new Array(questions.length).fill(null).map(() => ({
+            answered: false,
+            selectedAnswer: null,
+            isCorrect: false
+        }));
+
         function renderQuestion() {
             const quiz = document.getElementById('quiz');
             const question = questions[currentQuestion];
@@ -630,15 +637,23 @@
 
         function submitAnswer() {
             if (selectedAnswer === null || answered) return;
-            
+
             answered = true;
             const question = questions[currentQuestion];
             const isCorrect = selectedAnswer === question.correct;
-            
+
+            // Save the state for this question
+            questionStates[currentQuestion] = {
+                answered: true,
+                selectedAnswer: selectedAnswer,
+                isCorrect: isCorrect
+            };
+
+            // Only increment score if this question hasn't been counted before
             if (isCorrect) {
                 score++;
             }
-            
+
             document.querySelectorAll('.option').forEach((opt, i) => {
                 opt.style.pointerEvents = 'none';
                 if (i === question.correct) {
@@ -647,7 +662,7 @@
                     opt.classList.add('incorrect');
                 }
             });
-            
+
             const explanation = document.getElementById('explanation');
             explanation.className = `explanation show ${isCorrect ? 'correct' : 'incorrect'}`;
             explanation.innerHTML = `
@@ -658,7 +673,7 @@
                     ${isCorrect ? question.explanation.correct : question.explanation.incorrect}
                 </div>
             `;
-            
+
             const submitBtn = document.getElementById('submitBtn');
             submitBtn.textContent = currentQuestion === questions.length - 1 ? 'Виж резултатите →' : 'Следващ въпрос →';
             submitBtn.onclick = nextQuestion;
@@ -679,8 +694,10 @@
         function previousQuestion() {
             if (currentQuestion > 0) {
                 currentQuestion--;
-                selectedAnswer = null;
-                answered = false;
+                // Restore the state of the previous question
+                const state = questionStates[currentQuestion];
+                selectedAnswer = state.selectedAnswer;
+                answered = state.answered;
                 renderQuestion();
             }
         }
