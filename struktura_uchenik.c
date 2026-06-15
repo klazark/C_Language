@@ -2,6 +2,8 @@
 #include <string.h>
 
 #define BROJ_OCENKI 4
+#define MIN_OCENKA 2
+#define MAX_OCENKA 6
 
 typedef struct {
     int nomer_v_klasa;
@@ -24,7 +26,12 @@ int main(void) {
     u.godishni_ocenki[3] = 6;
 
     for (i = 0; i < BROJ_OCENKI; i++) {
-        suma += u.godishni_ocenki[i];
+        int o = u.godishni_ocenki[i];
+        if (o < MIN_OCENKA || o > MAX_OCENKA) {
+            printf("Greshka: vsichki ocenki trqbva da sa mejdu %d i %d.\n", MIN_OCENKA, MAX_OCENKA);
+            return 1;
+        }
+        suma += o;
     }
     u.sreden_uspeh = (float)suma / BROJ_OCENKI;
 
