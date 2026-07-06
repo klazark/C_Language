@@ -34,7 +34,7 @@ int main() {
         
         // Проверка дали числото има точно k цифри
         if (digits == k) {
-            count++;
+            count = count + 1;
         }
     }
     
