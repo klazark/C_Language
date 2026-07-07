@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>06 Масиви</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+  min-height: 100vh;
+  padding: 20px;
+  color: #333;
+}
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+  padding: 40px;
+}
+h1 {
+  color: #11998e;
+  text-align: center;
+  margin-bottom: 10px;
+  font-size: 2em;
+  border-bottom: 3px solid #38ef7d;
+  padding-bottom: 15px;
+}
+h2 {
+  color: #0d7a70;
+  margin-top: 30px;
+  margin-bottom: 12px;
+  font-size: 1.4em;
+  border-left: 4px solid #38ef7d;
+  padding-left: 10px;
+}
+h3 {
+  color: #11998e;
+  margin-top: 22px;
+  margin-bottom: 10px;
+  font-size: 1.15em;
+}
+h4 {
+  color: #0d7a70;
+  margin-top: 18px;
+  margin-bottom: 8px;
+  font-size: 1em;
+}
+p { margin: 10px 0; line-height: 1.6; }
+ul, ol { margin: 10px 0 10px 25px; line-height: 1.6; }
+li { margin: 4px 0; }
+strong { color: #0d7a70; }
+code {
+  background: #f0f7f6;
+  color: #11998e;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: 'Consolas', 'Monaco', monospace;
+  font-size: 0.9em;
+}
+pre {
+  background: #1e1e1e;
+  color: #dcdcdc;
+  padding: 16px;
+  border-radius: 8px;
+  overflow-x: auto;
+  margin: 15px 0;
+  font-size: 0.88em;
+  line-height: 1.5;
+}
+pre code {
+  background: none;
+  color: inherit;
+  padding: 0;
+  border-radius: 0;
+}
+blockquote {
+  border-left: 4px solid #38ef7d;
+  padding-left: 15px;
+  color: #555;
+  margin: 12px 0;
+  font-style: italic;
+}
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 15px 0;
+}
+th, td {
+  border: 1px solid #ddd;
+  padding: 8px 12px;
+  text-align: left;
+}
+th {
+  background: #11998e;
+  color: white;
+}
+tr:nth-child(even) { background: #f7fcfb; }
+hr {
+  border: none;
+  border-top: 2px dashed #38ef7d;
+  margin: 25px 0;
+}
+a { color: #11998e; }
+a:hover { color: #0d7a70; }
+.subtitle {
+  text-align: center;
+  color: #666;
+  margin-bottom: 20px;
+  font-size: 0.9em;
+}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>06 Масиви</h1>
+<p>Масиви</p>
+<ol type="1">
+<li><p>Определение - масивът е структура от данни, състояща се от
+фиксиран брой еднотипни елементи.</p></li>
+<li><p>Размерност на масив - определя се от броя на индексите, с които
+се избира всеки елемент на масива.Едномерен масив - всеки елемент се
+избира с един индекс.Двумерен масив - всеки елемент се избира с два
+индекса.n-мерен масив - всеки елемент се избира с n индексa.</p></li>
+<li><p>Дефиниране на едномерни масиви в С:</p>
+<p>int A[10];int - тип на елементитеA -име на масива10 - брой на
+елементите на масиваПри дефинирането на масива се заделя оперативна
+памет за него ( в случая 10 елемента * 4 байта за всеки елемент= 40
+байта).Избор на елементите на масива - става с името на масива (А) и
+индекс на елемента. Индексите на елементите в С започват от 0!A[0] -
+1-ви елементA[1]…A[9] - последен (10-ти) елемент</p></li>
+<li><p>Операции с елементите на масив</p>
+<p>Операциите с масивите се извършват поелементно (не с масива като
+цяло, а с отделните елементи на масива). Операциите, допустими за
+обикновените променливи от даден тип, са допустими с елементите на
+масива от този тип. В случая - елементите на масива А са от тип int и
+всички операции, допустими за обикновени променливи от тип int, са
+допустими и за елементите на масива А.</p></li>
+<li><p>Задача: Да се състави програма, която въвежда дневните
+температури за период от n дни (n&lt;=100). Да се изчисли средната
+температура за периода и отклоненията на дневните температури от
+средната за периода</p></li>
+</ol>
+<p>#include&lt;stdio.h&gt; #define max_br 100 int main() { float
+temp[max_br]; float s=0,avr; int n,i; do {
+printf(“n=?(n&lt;=%d):”,max_br); scanf(“%d”,&amp;n);
+}while(n&lt;1||n&gt;max_br); for(i=0;i&lt;n;i++) { printf(“temp for day
+%d=”,i+1); scanf(“%f”,&amp;temp[i]); } for(i=0;i&lt;n;i++) s+=temp[i];
+avr=s/n; printf(“\navr=%.2f”,avr); for(i=0;i&lt;n;i++)
+printf(“\ndeviation for day %d=%.2f”,i+1,temp[i]-avr); return 0;</p>
+<p>}</p>
+<p>**1. Двумерни масиви</p>
+<p>Задача: Да се въведат срочните оценки на учениците от един клас (брой
+ученици &lt;=30, брой предмети&lt;=20).</p>
+<p>Да се изчислят:</p>
+<p>а/ средният успех на всеки ученик</p>
+<p>б/ средният успех на класа по всеки предмет</p>
+<p>в/ средният успех на класа</p>
+<p>Резултатите да се изведат в табличен вид.</p>
+<p>Пример:</p>
+<p>5 5 5 5.00</p>
+<p>4 4 4 4.00</p>
+<p>6 6 6 6.00</p>
+<p>5.00 5.00 5.00 5.00</p>
+<p>#include&lt;stdio.h&gt;</p>
+<p>#define max_u 30</p>
+<p>#define max_p 20</p>
+<p>int main()</p>
+<p>{</p>
+<p>int marks[max_u][max_p];</p>
+<p>int n,m;</p>
+<p>//въвеждане на брой ученици (n) и брой предмети (m)</p>
+<p>do{</p>
+<p>** **printf(“n=? (n&lt;=%d):”, max_u);</p>
+<p>** **scanf(“%d”,&amp;n);</p>
+<p>}while(n&lt;1 || n&gt;max_u);</p>
+<p>do{</p>
+<p>** **printf(“m=? (m&lt;=%d):”, max_p);</p>
+<p>** **scanf(“%d”,&amp;m);</p>
+<p>}while(m&lt;1 || m&gt;max_p);</p>
+<p>//въвеждане на оценките</p>
+<p>int i,k;</p>
+<p>for(i=0;i&lt;n;i++)</p>
+<pre><code>for(k=0;k&lt;m;k++)</code></pre>
+<p>** ** do{</p>
+<pre><code>printf(&quot;mark %d for student %d=&quot;, k+1,i+1);
+
+scanf(&quot;%d&quot;,&amp;marks[i][k]);
+
+}while(marks[i][k]&lt;2 || marks[i][k]&gt;6);</code></pre>
+<p>//изчисляване на средния успех на всеки ученик</p>
+<p>float avr_u[max_u];</p>
+<p>for(i=0;i&lt;n;i++)</p>
+<p>{</p>
+<p>avr_u[i]=0;</p>
+<p>for(k=0;k&lt;m;k++)</p>
+<p>** **avr_u[i]=avr_u[i]+marks[i][k];</p>
+<p>avr_u[i]=avr_u[i]/m;</p>
+<p>}</p>
+<p>//изчисляване на средния успех на класа по всеки предмет</p>
+<p>float avr_p[max_p];</p>
+<p>for(k=0;k&lt;m;k++)</p>
+<p>{</p>
+<p>avr_p[k]=0;</p>
+<p>for(i=0;i&lt; n;i++)</p>
+<p>** **avr_p[k]=avr_p[k]+marks[i][k];</p>
+<p>avr_p[k]=avr_p[k]/n;</p>
+<p>}</p>
+<p>//изчисляване на средния успех на класа</p>
+<p>float avr=0;</p>
+<p>for(i=0;i&lt;n;i++)</p>
+<p>for(k=0;k&lt;m;k++)</p>
+<p>** **avr=avr+marks[i][k];</p>
+<p>avr=avr/(n*m);</p>
+<p>for(i=0;i&lt;n;i++)</p>
+<p>{</p>
+<pre><code>for(k=0;k&lt;m;k++)
+
+printf(&quot;%-5d&quot;,marks[i][k]);
+
+printf(&quot;%-5.2f\n&quot;,avr_u[i]);</code></pre>
+<p>}</p>
+<p>for(i=0;i&lt;m;i++)</p>
+<pre><code>printf(&quot;%-5.2f&quot;,avr_p[i]);</code></pre>
+<p>printf(“%-5.2f”,avr);</p>
+<p>return 0;</p>
+<p>}</p>
+<p>**</p>
+</div>
+</body>
+</html>

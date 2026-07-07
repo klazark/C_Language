@@ -1,0 +1,1244 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Обход на конспекта — Увод в програмирането (8 клас)</title>
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+        --accent1: #667eea;
+        --accent2: #764ba2;
+        --bg: #f4f5fb;
+        --card: #ffffff;
+        --code-bg: #1e1e2e;
+        --code-fg: #e8e8f0;
+        --border: #e4e4f2;
+    }
+
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: var(--bg);
+        color: #2c2c3a;
+        line-height: 1.6;
+    }
+
+    header {
+        background: linear-gradient(135deg, var(--accent1) 0%, var(--accent2) 100%);
+        color: white;
+        padding: 50px 20px 60px;
+        text-align: center;
+    }
+
+    header h1 {
+        font-size: 2.1em;
+        margin-bottom: 10px;
+    }
+
+    header p {
+        opacity: 0.9;
+        font-size: 1.05em;
+    }
+
+    .layout {
+        max-width: 1200px;
+        margin: -30px auto 60px;
+        padding: 0 20px;
+        display: grid;
+        grid-template-columns: 260px 1fr;
+        gap: 24px;
+        align-items: start;
+    }
+
+    nav.toc {
+        position: sticky;
+        top: 20px;
+        background: var(--card);
+        border-radius: 14px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        padding: 20px;
+    }
+
+    nav.toc h2 {
+        font-size: 0.95em;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--accent2);
+        margin-bottom: 12px;
+    }
+
+    nav.toc ol {
+        list-style: none;
+        counter-reset: toc-counter;
+    }
+
+    nav.toc li {
+        counter-increment: toc-counter;
+        margin-bottom: 6px;
+    }
+
+    nav.toc a {
+        display: block;
+        text-decoration: none;
+        color: #4a4a5a;
+        padding: 8px 10px;
+        border-radius: 8px;
+        font-size: 0.92em;
+        transition: background 0.15s ease, color 0.15s ease;
+    }
+
+    nav.toc a::before {
+        content: counter(toc-counter) ". ";
+        color: var(--accent1);
+        font-weight: 700;
+    }
+
+    nav.toc a:hover {
+        background: #eef0ff;
+        color: var(--accent2);
+    }
+
+    nav.toc li.special { counter-increment: none; }
+    nav.toc li.special a::before { content: "§ "; }
+
+    main {
+        display: flex;
+        flex-direction: column;
+        gap: 22px;
+    }
+
+    section.card {
+        background: var(--card);
+        border-radius: 14px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+        padding: 30px 34px;
+        scroll-margin-top: 20px;
+    }
+
+    section.card h2 {
+        color: var(--accent2);
+        font-size: 1.4em;
+        margin-bottom: 14px;
+        border-bottom: 2px solid var(--border);
+        padding-bottom: 10px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    section.card h2 .num {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--accent1), var(--accent2));
+        color: white;
+        font-size: 0.6em;
+        flex-shrink: 0;
+    }
+
+    section.card h3 {
+        color: #4a4a5a;
+        margin: 18px 0 8px;
+        font-size: 1.05em;
+    }
+
+    p { margin-bottom: 10px; }
+
+    code {
+        background: #eef0ff;
+        color: #5a3fa0;
+        padding: 2px 6px;
+        border-radius: 5px;
+        font-family: 'Cascadia Code', 'Fira Code', Consolas, monospace;
+        font-size: 0.92em;
+    }
+
+    pre {
+        background: var(--code-bg);
+        color: var(--code-fg);
+        padding: 16px 18px;
+        border-radius: 10px;
+        overflow-x: auto;
+        margin: 12px 0;
+        font-size: 0.88em;
+        line-height: 1.5;
+    }
+
+    pre code {
+        background: none;
+        color: inherit;
+        padding: 0;
+        font-size: 1em;
+    }
+
+    .kw { color: #7aa2f7; }
+    .tp { color: #f6c177; }
+    .cm { color: #6b7280; font-style: italic; }
+    .st { color: #a6e3a1; }
+    .fn { color: #89b4fa; }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 12px 0;
+        font-size: 0.93em;
+    }
+
+    th, td {
+        border: 1px solid var(--border);
+        padding: 8px 12px;
+        text-align: left;
+    }
+
+    th {
+        background: #f0f1fb;
+        color: var(--accent2);
+    }
+
+    tr:nth-child(even) { background: #fafafe; }
+
+    .note {
+        background: #fff7e6;
+        border-left: 4px solid #f6c177;
+        padding: 10px 16px;
+        border-radius: 6px;
+        margin: 12px 0;
+        font-size: 0.94em;
+    }
+
+    .output {
+        background: #10141f;
+        color: #a6e3a1;
+        padding: 10px 14px;
+        border-radius: 8px;
+        font-family: Consolas, monospace;
+        font-size: 0.88em;
+        margin: 10px 0;
+    }
+
+    /* Речник на понятията */
+    dl.terms {
+        margin: 12px 0;
+    }
+    dl.terms dt {
+        font-weight: 700;
+        color: var(--accent2);
+        margin-top: 12px;
+    }
+    dl.terms dd {
+        margin: 2px 0 0 0;
+        padding-left: 14px;
+        border-left: 2px solid var(--border);
+    }
+
+    /* Синтактична схема (шаблон) */
+    .syntax {
+        background: #f0f1fb;
+        border: 1px dashed var(--accent1);
+        border-radius: 10px;
+        padding: 12px 16px;
+        margin: 12px 0;
+        font-family: 'Cascadia Code', 'Fira Code', Consolas, monospace;
+        font-size: 0.9em;
+        line-height: 1.7;
+        color: #3a3a52;
+    }
+    .syntax .ph { color: var(--accent2); font-style: italic; }
+    .syntax .kw2 { color: #5a3fa0; font-weight: 700; }
+
+    /* Блок-схеми */
+    figure.flow {
+        margin: 16px 0;
+        text-align: center;
+        overflow-x: auto;
+    }
+    figure.flow svg { max-width: 100%; height: auto; }
+    figure.flow figcaption {
+        font-size: 0.85em;
+        color: #8888a0;
+        margin-top: 6px;
+    }
+    .fl-start { fill: #e8ecff; stroke: #667eea; stroke-width: 1.5; }
+    .fl-proc  { fill: #ffffff; stroke: #764ba2; stroke-width: 1.5; }
+    .fl-io    { fill: #fff7e6; stroke: #f6c177; stroke-width: 1.5; }
+    .fl-dec   { fill: #f3ecff; stroke: #764ba2; stroke-width: 1.5; }
+    .fl-txt   { fill: #2c2c3a; font-family: 'Segoe UI', Tahoma, sans-serif; font-size: 13px; text-anchor: middle; dominant-baseline: middle; }
+    .fl-mono  { fill: #2c2c3a; font-family: 'Cascadia Code', Consolas, monospace; font-size: 12px; text-anchor: middle; dominant-baseline: middle; }
+    .fl-line  { stroke: #9aa0c0; stroke-width: 1.6; fill: none; }
+    .fl-lbl   { fill: #6b7280; font-family: 'Segoe UI', Tahoma, sans-serif; font-size: 12px; font-weight: 700; }
+
+    /* Легенда за блок-схемите */
+    .flow-legend {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px 18px;
+        margin: 10px 0;
+        font-size: 0.86em;
+        color: #4a4a5a;
+    }
+    .flow-legend span { display: inline-flex; align-items: center; gap: 6px; }
+    .flow-legend i {
+        width: 20px; height: 14px; display: inline-block; border-radius: 3px;
+        border: 1.5px solid #999;
+    }
+    .lg-start { background: #e8ecff; border-color: #667eea !important; border-radius: 8px !important; }
+    .lg-proc  { background: #ffffff; border-color: #764ba2 !important; }
+    .lg-io    { background: #fff7e6; border-color: #f6c177 !important; transform: skewX(-18deg); }
+    .lg-dec   { background: #f3ecff; border-color: #764ba2 !important; transform: rotate(45deg); width: 12px !important; height: 12px !important; }
+
+    footer {
+        text-align: center;
+        padding: 30px 20px 50px;
+        color: #8888a0;
+        font-size: 0.88em;
+    }
+
+    a.back-top {
+        display: inline-block;
+        margin-top: 10px;
+        font-size: 0.85em;
+        color: var(--accent1);
+        text-decoration: none;
+    }
+
+    @media (max-width: 860px) {
+        .layout { grid-template-columns: 1fr; }
+        nav.toc { position: static; }
+    }
+
+    @media print {
+        header, nav.toc, a.back-top { display: none; }
+        section.card { box-shadow: none; break-inside: avoid; }
+    }
+</style>
+</head>
+<body id="top">
+
+<header>
+    <h1>Обход на конспекта</h1>
+    <p>Увод в програмирането — теория и примери на C, 8 клас</p>
+</header>
+
+<div class="layout">
+    <nav class="toc" aria-label="Съдържание">
+        <h2>Съдържание</h2>
+        <ol>
+            <li class="special"><a href="#t0">Основни понятия и синтаксис</a></li>
+            <li><a href="#t1">Целочислени типове данни</a></li>
+            <li><a href="#t2">Реални типове данни</a></li>
+            <li><a href="#t3">Условен оператор</a></li>
+            <li><a href="#t4">Оператори за цикъл</a></li>
+            <li><a href="#t5">Символен тип. ASCII</a></li>
+            <li><a href="#t6">Switch оператор</a></li>
+            <li><a href="#t7">Функции</a></li>
+            <li><a href="#t8">Масиви</a></li>
+            <li><a href="#t9">Символни низове</a></li>
+            <li><a href="#t10">Структури</a></li>
+        </ol>
+    </nav>
+
+    <main>
+
+    <section class="card" id="t0">
+        <h2><span class="num">§</span>Основни понятия и синтаксис</h2>
+        <p>Тук са събрани <strong>универсалните определения</strong> на думите, които се използват навсякъде по-долу. Ако разбереш тези понятия, всеки следващ пример се чете лесно.</p>
+
+        <h3>Израз, оператор, блок</h3>
+        <dl class="terms">
+            <dt>Израз (expression)</dt>
+            <dd>Комбинация от стойности, променливи, операции и извиквания на функции, която <strong>се пресмята до една стойност</strong>. Примери: <code>3 + 4</code>, <code>a * b</code>, <code>grade &gt;= 60</code>, <code>n % 10</code>, <code>stepen(a, n)</code>. В условие изразът се тълкува като <strong>истина</strong> (различно от 0) или <strong>лъжа</strong> (0).</dd>
+
+            <dt>Оператор (statement)</dt>
+            <dd>Една завършена команда (стъпка), която компютърът изпълнява. Обикновено завършва с <strong>точка и запетая</strong> <code>;</code>. Примери: <code>a = 5;</code> (оператор за присвояване), <code>printf("Hi");</code> (извикване), <code>if (...) ...</code> (условен оператор), <code>while (...) ...</code> (оператор за цикъл). Там, където схемата пише <span class="ph">оператор1</span>/<span class="ph">оператор2</span>, се има предвид <strong>една такава команда</strong> — или единичен оператор, или цял блок <code>{ }</code>.</dd>
+
+            <dt>Съставен оператор / блок</dt>
+            <dd>Няколко оператора, заградени във <strong>фигурни скоби</strong> <code>{ }</code>, които се третират като <strong>един</strong> оператор. Използва се в <code>if</code>, <code>else</code>, <code>while</code>, <code>do-while</code>, <code>for</code>, тялото на функция и т.н.</dd>
+
+            <dt>Инициализация</dt>
+            <dd>Задаване на <strong>начална стойност</strong> на променлива. Напр. <code>int i = 1;</code> или частта <code>i = 1</code> в заглавието на <code>for</code>.</dd>
+
+            <dt>Инкрементация / стъпка</dt>
+            <dd><strong>Инкрементация</strong> = увеличаване с 1 (<code>i++</code> е същото като <code>i = i + 1</code>); <strong>декрементация</strong> = намаляване с 1 (<code>i--</code>). В заглавието на <code>for</code> това е <strong>стъпката</strong> — как се променя броячът на всяко повторение.</dd>
+
+            <dt>Итерация</dt>
+            <dd>Едно <strong>завъртане</strong> (едно изпълнение на тялото) на цикъл.</dd>
+        </dl>
+
+        <h3>Видове скоби</h3>
+        <table>
+            <tr><th>Скоба</th><th>Име</th><th>За какво служи</th></tr>
+            <tr><td><code>( )</code></td><td>кръгли скоби</td><td>условие след <code>if</code>/<code>while</code>/<code>switch</code>; списък с параметри на функция; промяна на реда на пресмятане: <code>(a + b) * c</code>.</td></tr>
+            <tr><td><code>{ }</code></td><td>фигурни (къдрави) скоби</td><td>ограждат <strong>блок</strong> (съставен оператор) — тяло на цикъл, функция, структура; също и при инициализация: <code>{2, "Maria"}</code>.</td></tr>
+            <tr><td><code>[ ]</code></td><td>квадратни скоби</td><td>размер на масив при дефиниране (<code>int A[10];</code>) и <strong>индекс</strong> на елемент при достъп (<code>A[3]</code>).</td></tr>
+            <tr><td><code>&lt; &gt;</code></td><td>ъглови скоби</td><td>ограждат име на стандартна библиотека при <code>#include &lt;stdio.h&gt;</code>; също и операторите за сравнение „по-малко"/„по-голямо".</td></tr>
+        </table>
+
+        <h3>Директиви на предпроцесора (редове с #)</h3>
+        <p><strong>Директива</strong> е ред, който започва с <code>#</code> и се обработва от <strong>предпроцесора</strong> — стъпка, която се изпълнява <strong>преди</strong> същинската компилация. Директивата <strong>не е обикновен оператор</strong>: не завършва с точка и запетая <code>;</code> и обикновено стои в началото на файла. Двете най-важни са:</p>
+        <table>
+            <tr><th>Директива</th><th>Какво прави</th></tr>
+            <tr><td><code>#include</code></td><td>„Вмъква" съдържанието на <strong>заглавен файл (библиотека)</strong> в програмата — така получаваш достъп до готови функции. <code>&lt;stdio.h&gt;</code> дава <code>printf</code>/<code>scanf</code>; <code>&lt;string.h&gt;</code> — <code>strlen</code>/<code>strcpy</code>; <code>&lt;math.h&gt;</code> — математически функции. Ъгловите скоби <code>&lt; &gt;</code> означават <strong>стандартна</strong> (системна) библиотека.</td></tr>
+            <tr><td><code>#define</code></td><td>Задава <strong>символна константа</strong> (макрос): преди компилацията предпроцесорът заменя всяко срещане на името със стойността. <code>#define N 30</code> прави така, че всяко <code>N</code> в кода става <code>30</code>. По конвенция имената се пишат с <strong>главни букви</strong>.</td></tr>
+        </table>
+        <pre><code><span class="cm">#include &lt;stdio.h&gt;    // за printf и scanf</span>
+<span class="cm">#define N 30          // символна константа (без = и без ;)</span>
+
+<span class="tp">int</span> <span class="fn">main</span>() {
+    <span class="tp">int</span> a[N];             <span class="cm">// след замяната -> int a[30];</span>
+    <span class="fn">printf</span>(<span class="st">"Готово\n"</span>);
+    <span class="kw">return</span> <span class="st">0</span>;
+}</code></pre>
+        <div class="note"><strong>Защо <code>#define</code>?</strong> Ако размерът е записан на едно място като <code>N</code>, промяната му (напр. от 30 на 40) става с една редакция, вместо да търсиш всяко <code>30</code> из целия код. <strong>Внимание:</strong> това е чиста <em>текстова замяна</em> — след реда с <code>#define</code> няма <code>;</code> (иначе и точката и запетаята ще влезе в заместването).</div>
+
+        <h3>Кога се слагат фигурни скоби и кога може да се пропуснат</h3>
+        <p>След <code>if</code>, <code>else</code>, <code>while</code>, <code>for</code> „принадлежи“ <strong>само един оператор</strong>. Ако тялото е един-единствен оператор, фигурните скоби <strong>може да се пропуснат</strong>. Ако операторите са два или повече — скобите са <strong>задължителни</strong>, за да ги обединят в блок.</p>
+        <pre><code><span class="kw">if</span> (x &gt; <span class="st">0</span>)
+    <span class="fn">printf</span>(<span class="st">"положително"</span>);   <span class="cm">// 1 оператор -> скоби не са нужни</span>
+
+<span class="kw">if</span> (x &gt; <span class="st">0</span>) {
+    y = x * <span class="st">2</span>;                <span class="cm">// 2 оператора -> скобите</span>
+    <span class="fn">printf</span>(<span class="st">"%d"</span>, y);          <span class="cm">// СА задължителни</span>
+}</code></pre>
+        <div class="note"><strong>Съвет:</strong> дори при един оператор мнозина винаги слагат <code>{ }</code> — така по-късно е лесно да добавиш втори ред, без да сгрешиш. Класически капан е следният код:
+        <pre><code><span class="kw">if</span> (x &gt; <span class="st">0</span>)
+    <span class="fn">printf</span>(<span class="st">"A"</span>);
+    <span class="fn">printf</span>(<span class="st">"B"</span>);   <span class="cm">// НЕ е в if-а! Изпълнява се ВИНАГИ (отстъпът лъже)</span></code></pre>
+        Отстъпът (indentation) е само за човека — компилаторът гледа скобите, не празните места.</div>
+
+        <h3>Референция и достъп до елементи / полета</h3>
+        <p><strong>Референция (обръщение)</strong> означава „да посочиш“ конкретна стойност или част от съставен обект, за да я прочетеш или промениш. В зависимост от типа данни се използват различни оператори:</p>
+        <table>
+            <tr><th>Запис</th><th>Име на оператора</th><th>Какво прави</th></tr>
+            <tr><td><code>A[i]</code></td><td>индексиране (квадратни скоби)</td><td>достъп до <strong>елемент</strong> на масив по индекс (брои се от <code>0</code>).</td></tr>
+            <tr><td><code>s.name</code></td><td>точка <code>.</code></td><td>достъп до <strong>поле</strong> на структура през самата променлива.</td></tr>
+            <tr><td><code>p-&gt;name</code></td><td>стрелка <code>-&gt;</code></td><td>достъп до поле на структура през <strong>указател</strong> към нея; <code>p-&gt;name</code> е кратък запис на <code>(*p).name</code>.</td></tr>
+            <tr><td><code>&amp;a</code></td><td>амперсанд <code>&amp;</code> (адрес-на)</td><td>взима <strong>адреса</strong> на променливата <code>a</code> (нужен на <code>scanf</code> и на указатели).</td></tr>
+            <tr><td><code>*p</code></td><td>звездичка <code>*</code> (стойност-по-адрес)</td><td>стойността, която се намира на адреса в указателя <code>p</code>.</td></tr>
+        </table>
+        <p>Тези три реда достъпват едно и също поле по три начина:</p>
+        <pre><code>s.average = <span class="st">5.5</span>;        <span class="cm">// през променливата (точка)</span>
+class_[i].average = <span class="st">5.5</span>;   <span class="cm">// елемент i от масив, после негово поле</span>
+p-&gt;average = <span class="st">5.5</span>;         <span class="cm">// през указател (стрелка)</span></code></pre>
+
+        <h3>Прост пример с &amp; (адрес-на) и * (стойност-по-адрес)</h3>
+        <p><strong>Аналогия:</strong> представи си, че всяка променлива е <strong>апартамент</strong>. <strong>Адресът</strong> е номерът на апартамента (къде се намира), а <strong>стойността</strong> е кой живее вътре. Тогава:</p>
+        <ul style="margin:0 0 10px 22px;">
+            <li><code>&amp;a</code> пита: „<strong>Кой е номерът</strong> на апартамента <code>a</code>?" → връща адрес.</li>
+            <li><code>*p</code> пита: „<strong>Кой живее</strong> на адреса, записан в <code>p</code>?" → връща стойността там.</li>
+        </ul>
+        <pre><code><span class="tp">int</span> a = <span class="st">5</span>;
+<span class="tp">int</span> *p = &amp;a;          <span class="cm">// p пази АДРЕСА на a (p "сочи" към a)</span>
+
+<span class="fn">printf</span>(<span class="st">"%d\n"</span>, a);     <span class="cm">// 5              - стойността на a</span>
+<span class="fn">printf</span>(<span class="st">"%p\n"</span>, &amp;a);    <span class="cm">// 0x7ffee3b0c4ac - АДРЕСЪТ на a (къде е в паметта)</span>
+<span class="fn">printf</span>(<span class="st">"%p\n"</span>, p);     <span class="cm">// 0x7ffee3b0c4ac - същият адрес (p сочи натам)</span>
+<span class="fn">printf</span>(<span class="st">"%d\n"</span>, *p);    <span class="cm">// 5              - стойността НА адреса в p (обратно към a)</span>
+
+*p = <span class="st">9</span>;               <span class="cm">// променяме стойността ПРЕЗ указателя</span>
+<span class="fn">printf</span>(<span class="st">"%d\n"</span>, a);     <span class="cm">// 9              - a СЕ ПРОМЕНИ, защото p сочи към a!</span></code></pre>
+        <p><strong>Какво реално виждаш като стойност:</strong></p>
+        <table>
+            <tr><th>Израз</th><th>Какво е</th><th>Примерна стойност на екрана</th></tr>
+            <tr><td><code>a</code></td><td>стойността на променливата</td><td><code>5</code></td></tr>
+            <tr><td><code>&amp;a</code></td><td>адресът на <code>a</code> (шестнайсетично число)</td><td><code>0x7ffee3b0c4ac</code></td></tr>
+            <tr><td><code>p</code></td><td>адресът, който указателят пази (същият)</td><td><code>0x7ffee3b0c4ac</code></td></tr>
+            <tr><td><code>*p</code></td><td>стойността, намираща се на този адрес</td><td><code>5</code></td></tr>
+        </table>
+        <div class="note"><strong>Двата оператора са обратни:</strong> <code>&amp;</code> тръгва от променлива и дава <strong>адрес</strong>; <code>*</code> тръгва от адрес и дава <strong>стойност</strong>. Затова <code>*(&amp;a)</code> е просто <code>a</code>. <strong>Ефектът</strong>, който виждаш: адресите (<code>&amp;a</code>, <code>p</code>) са дълги hex числа, които се <em>сменят при всяко пускане</em> на програмата; стойностите (<code>a</code>, <code>*p</code>) са нормалните числа. Промяна през <code>*p</code> се отразява върху <code>a</code>, защото двете сочат едно и също място в паметта. Точно затова <code>scanf("%d", &amp;a)</code> ползва <code>&amp;</code> — дава на <code>scanf</code> адреса, за да може да <em>запише</em> в <code>a</code>.</div>
+
+        <h3>Колко параметъра приемат scanf и printf?</h3>
+        <p><code>printf</code> и <code>scanf</code> са функции с <strong>променлив брой параметри</strong> (variadic). Правилото е просто:</p>
+        <dl class="terms">
+            <dt>Първи параметър — форматен низ</dt>
+            <dd>Винаги точно един низ в кавички: за <code>printf</code> това е текстът за извеждане, за <code>scanf</code> — какви данни да прочете. В него стоят <strong>форматни спецификатори</strong>: <code>%d</code> (int), <code>%f</code> (float), <code>%lf</code> (double), <code>%c</code> (char), <code>%s</code> (низ).</dd>
+            <dt>Следващи параметри — по един за всеки спецификатор</dt>
+            <dd>Броят им <strong>не е фиксиран</strong> — колкото <code>%</code>-спецификатора има във форматния низ, толкова аргумента трябва да подадеш след него (в същия ред). Може да са 0, 1, 2, 3 или повече.</dd>
+        </dl>
+        <pre><code><span class="fn">printf</span>(<span class="st">"Hello\n"</span>);                 <span class="cm">// само форматен низ (0 допълнителни)</span>
+<span class="fn">printf</span>(<span class="st">"%d"</span>, a);                     <span class="cm">// 1 спецификатор -> 1 аргумент</span>
+<span class="fn">printf</span>(<span class="st">"%s е на %d г.\n"</span>, name, age); <span class="cm">// 2 спецификатора -> 2 аргумента</span>
+
+<span class="fn">scanf</span>(<span class="st">"%d %d"</span>, &amp;a, &amp;b);            <span class="cm">// 2 стойности -> 2 адреса (&) </span></code></pre>
+        <div class="note"><strong>Важно за <code>scanf</code>:</strong> след форматния низ се подават <strong>адреси</strong> (<code>&amp;a</code>), защото функцията трябва да <em>запише</em> в променливите. Изключение са низовете (<code>char</code> масив), при които името вече е адрес: <code>scanf("%s", s)</code> — без <code>&amp;</code>. Ако броят на спецификаторите и на аргументите не съвпада, програмата се държи непредсказуемо.</div>
+
+        <h3>Легенда на блок-схемите</h3>
+        <p>По-долу към примерите има <strong>блок-схеми</strong>. Всяка фигура има смисъл:</p>
+        <div class="flow-legend">
+            <span><i class="lg-start"></i> овал — Старт / Край</span>
+            <span><i class="lg-io"></i> паралелограм — Вход / Изход</span>
+            <span><i class="lg-proc"></i> правоъгълник — Процес (действие)</span>
+            <span><i class="lg-dec"></i> ромб — Условие (Да / Не)</span>
+        </div>
+        <a class="back-top" href="#top">↑ горе</a>
+    </section>
+
+    <section class="card" id="t1">
+        <h2><span class="num">1</span>Целочислени типове данни</h2>
+        <p><strong>Константи</strong> — число със знак <code>+</code>/<code>-</code> или без знак: <code>245</code>, <code>-10</code>.</p>
+        <h3>Типове и размери</h3>
+        <table>
+            <tr><th>Тип</th><th>Размер</th><th>Диапазон</th></tr>
+            <tr><td><code>int</code></td><td>4 байта, със знак</td><td>≈ ±2 млрд.</td></tr>
+            <tr><td><code>short int</code></td><td>2 байта</td><td>-32768 .. 32767</td></tr>
+            <tr><td><code>unsigned int</code></td><td>4 байта, без знак</td><td>0 .. ≈4 млрд.</td></tr>
+            <tr><td><code>long int</code></td><td>8 байта (64-бит.)</td><td>по-голям диапазон</td></tr>
+        </table>
+        <p><code>sizeof(int)</code> връща броя байтове, заделени за типа.</p>
+        <h3>Операции</h3>
+        <p><code>+ - * / %</code> (остатък при деление). Цяло/цяло дава цяло: <code>15/4</code> е <code>3</code>, <code>15%4</code> е <code>3</code>.</p>
+        <h3>Вход/изход</h3>
+        <pre><code><span class="tp">int</span> a;
+<span class="fn">scanf</span>(<span class="st">"%d"</span>, &amp;a);   <span class="cm">// & - адрес на променливата, задължителен при scanf</span>
+<span class="fn">printf</span>(<span class="st">"a=%d"</span>, a);</code></pre>
+        <a class="back-top" href="#top">↑ горе</a>
+    </section>
+
+    <section class="card" id="t2">
+        <h2><span class="num">2</span>Реални типове данни</h2>
+        <p><strong>Константи:</strong> с десетична точка (<code>2.33</code>, <code>-12.4</code>) или с експонента (<code>2.5E-1</code> = 2.5·10⁻¹).</p>
+        <p><strong>Променливи:</strong> <code>float a;</code> (4 байта), <code>double b;</code> (8 байта) — разлика в точността и диапазона.</p>
+        <h3>Типът double — подробно</h3>
+        <p><code>double</code> („двойна точност", от <em>double precision</em>) е реален тип, който заема <strong>8 байта (64 бита)</strong>. Съхранява числа с дробна част в „плаваща запетая" — знак, мантиса (значещите цифри) и експонента (порядъка). В сравнение с <code>float</code> той пази <strong>повече значещи цифри</strong> и покрива <strong>по-голям диапазон</strong>.</p>
+        <table>
+            <tr><th>Тип</th><th>Размер</th><th>Точност (значещи цифри)</th><th>Приблизителен диапазон</th></tr>
+            <tr><td><code>float</code></td><td>4 байта</td><td>≈ 7 цифри</td><td>≈ ±3.4·10³⁸</td></tr>
+            <tr><td><code>double</code></td><td>8 байта</td><td>≈ 15–16 цифри</td><td>≈ ±1.7·10³⁰⁸</td></tr>
+        </table>
+        <p><strong>По подразбиране реалните константи са <code>double</code>:</strong> литерал като <code>3.14</code> или <code>2.5E-1</code> е от тип <code>double</code>. За да е <code>float</code>, се пише наставка <code>f</code>: <code>3.14f</code>. Функциите от <code>&lt;math.h&gt;</code> (напр. <code>sqrt</code>, <code>sin</code>) също работят и връщат <code>double</code>. Затова <code>double</code> е <strong>обичайният избор</strong> за реални пресмятания, а <code>float</code> се ползва, когато паметта е критична (напр. големи масиви).</p>
+        <h3>Вход/изход при double (важно!)</h3>
+        <p>Тук има несиметрия, която често обърква:</p>
+        <table>
+            <tr><th>Тип</th><th><code>scanf</code> (четене)</th><th><code>printf</code> (печат)</th></tr>
+            <tr><td><code>float</code></td><td><code>%f</code></td><td><code>%f</code></td></tr>
+            <tr><td><code>double</code></td><td><code>%lf</code></td><td><code>%f</code> (или <code>%lf</code>)</td></tr>
+        </table>
+        <pre><code><span class="tp">double</span> b;
+<span class="fn">scanf</span>(<span class="st">"%lf"</span>, &amp;b);       <span class="cm">// за double ЗАДЪЛЖИТЕЛНО %lf ('l' = long)</span>
+<span class="fn">printf</span>(<span class="st">"%f\n"</span>, b);       <span class="cm">// при печат %f работи и за double</span>
+<span class="fn">printf</span>(<span class="st">"%.2f\n"</span>, b);     <span class="cm">// %.2f -> 2 цифри след запетаята</span></code></pre>
+        <div class="note"><strong>Внимание — реалните числа не са точни:</strong> някои стойности (напр. <code>0.1</code>) не могат да се представят точно в двоичен вид, затова <code>0.1 + 0.2</code> може да даде <code>0.30000000000000004</code>. Затова <strong>не сравнявай</strong> реални числа с <code>==</code>; вместо това проверявай дали разликата е достатъчно малка: <code>if (fabs(x - y) &lt; 1e-9)</code>. <code>double</code> греши по-рядко от <code>float</code>, защото пази повече цифри, но проблемът остава по принцип.</div>
+        <h3>Внимание при деление</h3>
+        <pre><code><span class="tp">int</span> s = <span class="st">7</span>, n = <span class="st">2</span>;
+<span class="tp">float</span> avr;
+avr = s / n;          <span class="cm">// ГРЕШНО - цяло/цяло = 3 (0.5 се губи)</span>
+avr = (<span class="tp">float</span>)s / n;   <span class="cm">// ВЯРНО - явно преобразуване -> 3.5</span></code></pre>
+        <h3>Вход/изход</h3>
+        <pre><code><span class="fn">scanf</span>(<span class="st">"%f"</span>, &amp;a);    <span class="cm">// за float</span>
+<span class="fn">scanf</span>(<span class="st">"%lf"</span>, &amp;b);   <span class="cm">// за double</span>
+<span class="fn">printf</span>(<span class="st">"%f"</span>, a);</code></pre>
+        <a class="back-top" href="#top">↑ горе</a>
+    </section>
+
+    <section class="card" id="t3">
+        <h2><span class="num">3</span>Условен оператор (if/else)</h2>
+        <h3>Синтактична схема (шаблон)</h3>
+        <div class="syntax"><span class="kw2">if</span> (<span class="ph">израз</span>)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="ph">оператор1</span><br><span class="kw2">else</span><br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="ph">оператор2</span></div>
+        <dl class="terms">
+            <dt><span class="ph">израз</span></dt>
+            <dd>условие в кръгли скоби, което се пресмята до <strong>истина</strong> (≠ 0) или <strong>лъжа</strong> (0), напр. <code>grade &gt;= 60</code>.</dd>
+            <dt><span class="ph">оператор1</span></dt>
+            <dd>изпълнява се, ако изразът е <strong>истина</strong>. Може да е един оператор или блок <code>{ }</code>.</dd>
+            <dt><span class="ph">оператор2</span></dt>
+            <dd>изпълнява се, ако изразът е <strong>лъжа</strong>. Частта <code>else</code> е <strong>незадължителна</strong> — без нея имаме <em>непълна форма</em>.</dd>
+        </dl>
+        <pre><code><span class="kw">if</span> (grade &gt;= <span class="st">60</span>)          <span class="cm">// пълна форма</span>
+    <span class="fn">printf</span>(<span class="st">"Взето\n"</span>);
+<span class="kw">else</span>
+    <span class="fn">printf</span>(<span class="st">"Скъсано\n"</span>);
+
+<span class="kw">if</span> (temp &gt; <span class="st">30</span>)             <span class="cm">// непълна форма (без else)</span>
+    <span class="fn">printf</span>(<span class="st">"Горещо\n"</span>);</code></pre>
+        <figure class="flow">
+        <svg viewBox="0 0 480 350" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Блок-схема на if/else">
+            <defs><marker id="ar-if" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#9aa0c0"/></marker></defs>
+            <ellipse class="fl-start" cx="240" cy="26" rx="52" ry="18"/>
+            <text class="fl-txt" x="240" y="26">Старт</text>
+            <polygon class="fl-io" points="181,63 329,63 313,97 165,97"/>
+            <text class="fl-txt" x="247" y="80">Въведи grade</text>
+            <polygon class="fl-dec" points="240,110 332,150 240,190 148,150"/>
+            <text class="fl-mono" x="240" y="150">grade &gt;= 60 ?</text>
+            <rect class="fl-proc" x="72" y="230" width="140" height="38" rx="6"/>
+            <text class="fl-txt" x="142" y="249">Изведи</text>
+            <text class="fl-txt" x="142" y="264" font-size="12">"Взето"</text>
+            <rect class="fl-proc" x="284" y="230" width="150" height="38" rx="6"/>
+            <text class="fl-txt" x="359" y="249">Изведи</text>
+            <text class="fl-txt" x="359" y="264" font-size="12">"Скъсано"</text>
+            <ellipse class="fl-start" cx="240" cy="326" rx="52" ry="18"/>
+            <text class="fl-txt" x="240" y="326">Край</text>
+            <path class="fl-line" d="M240,44 L240,61" marker-end="url(#ar-if)"/>
+            <path class="fl-line" d="M240,97 L240,108" marker-end="url(#ar-if)"/>
+            <path class="fl-line" d="M148,150 L142,150 L142,228" marker-end="url(#ar-if)"/>
+            <path class="fl-line" d="M332,150 L359,150 L359,228" marker-end="url(#ar-if)"/>
+            <path class="fl-line" d="M142,268 L142,300 L240,300 L240,306" marker-end="url(#ar-if)"/>
+            <path class="fl-line" d="M359,268 L359,300 L240,300" fill="none"/>
+            <text class="fl-lbl" x="120" y="172">Да</text>
+            <text class="fl-lbl" x="340" y="172">Не</text>
+        </svg>
+        <figcaption>Блок-схема: пълна форма на условния оператор (grade ≥ 60).</figcaption>
+        </figure>
+        <h3>Вложени условни оператори (nested if/else)</h3>
+        <p><code>if</code> вътре в <code>if</code> (или в <code>else</code>) — полезно за многостепенни проверки, при които второто условие има смисъл само ако първото вече е изпълнено. Пример — намиране на най-голямото от 3 числа:</p>
+        <pre><code><span class="kw">if</span> (a &gt; b) {
+    <span class="kw">if</span> (a &gt; c)                  <span class="cm">// влизаме тук само ако a > b</span>
+        <span class="fn">printf</span>(<span class="st">"Най-голямо: a = %d\n"</span>, a);
+    <span class="kw">else</span>
+        <span class="fn">printf</span>(<span class="st">"Най-голямо: c = %d\n"</span>, c);
+} <span class="kw">else</span> {
+    <span class="kw">if</span> (b &gt; c)                  <span class="cm">// влизаме тук само ако b >= a</span>
+        <span class="fn">printf</span>(<span class="st">"Най-голямо: b = %d\n"</span>, b);
+    <span class="kw">else</span>
+        <span class="fn">printf</span>(<span class="st">"Най-голямо: c = %d\n"</span>, c);
+}</code></pre>
+        <div class="note"><strong>Обяснение:</strong> първо сравняваме <code>a</code> и <code>b</code>, за да стесним избора до двойка кандидати; вътрешният <code>if/else</code> сравнява победителя с <code>c</code>. Всяко ниво на влагане се изпълнява само ако условието на нивото над него е било истина (или лъжа, при <code>else</code> клона) — по този начин с 2 нива проверки покриваме 3 числа, вместо да пишем сложен единичен израз с <code>&amp;&amp;</code>/<code>||</code>.</div>
+        <figure class="flow">
+        <svg viewBox="0 0 620 445" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Блок-схема на вложен if (най-голямо от 3 числа)">
+            <defs><marker id="ar-nif" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#9aa0c0"/></marker></defs>
+            <ellipse class="fl-start" cx="310" cy="22" rx="50" ry="16"/>
+            <text class="fl-txt" x="310" y="22">Старт</text>
+            <polygon class="fl-io" points="252,55 368,55 356,85 240,85"/>
+            <text class="fl-mono" x="304" y="70">Въведи a, b, c</text>
+            <polygon class="fl-dec" points="310,100 378,130 310,160 242,130"/>
+            <text class="fl-mono" x="310" y="130">a &gt; b ?</text>
+            <polygon class="fl-dec" points="150,197 212,225 150,253 88,225"/>
+            <text class="fl-mono" x="150" y="225">a &gt; c ?</text>
+            <polygon class="fl-dec" points="470,197 532,225 470,253 408,225"/>
+            <text class="fl-mono" x="470" y="225">b &gt; c ?</text>
+            <polygon class="fl-io" points="41,321 129,321 109,353 21,353"/>
+            <text class="fl-txt" x="75" y="338">макс = a</text>
+            <polygon class="fl-io" points="191,321 279,321 259,353 171,353"/>
+            <text class="fl-txt" x="225" y="338">макс = c</text>
+            <polygon class="fl-io" points="361,321 449,321 429,353 341,353"/>
+            <text class="fl-txt" x="395" y="338">макс = b</text>
+            <polygon class="fl-io" points="511,321 599,321 579,353 491,353"/>
+            <text class="fl-txt" x="545" y="338">макс = c</text>
+            <ellipse class="fl-start" cx="310" cy="424" rx="50" ry="16"/>
+            <text class="fl-txt" x="310" y="424">Край</text>
+            <path class="fl-line" d="M310,38 L310,53" marker-end="url(#ar-nif)"/>
+            <path class="fl-line" d="M310,85 L310,98" marker-end="url(#ar-nif)"/>
+            <path class="fl-line" d="M242,130 L150,130 L150,195" marker-end="url(#ar-nif)"/>
+            <path class="fl-line" d="M378,130 L470,130 L470,195" marker-end="url(#ar-nif)"/>
+            <path class="fl-line" d="M88,225 L75,225 L75,319" marker-end="url(#ar-nif)"/>
+            <path class="fl-line" d="M212,225 L225,225 L225,319" marker-end="url(#ar-nif)"/>
+            <path class="fl-line" d="M408,225 L395,225 L395,319" marker-end="url(#ar-nif)"/>
+            <path class="fl-line" d="M532,225 L545,225 L545,319" marker-end="url(#ar-nif)"/>
+            <path class="fl-line" d="M75,353 L75,400 L310,400" fill="none"/>
+            <path class="fl-line" d="M225,353 L225,400" fill="none"/>
+            <path class="fl-line" d="M395,353 L395,400" fill="none"/>
+            <path class="fl-line" d="M545,353 L545,400 L310,400" fill="none"/>
+            <path class="fl-line" d="M310,400 L310,408" marker-end="url(#ar-nif)"/>
+            <text class="fl-lbl" x="196" y="124">Да</text>
+            <text class="fl-lbl" x="388" y="124">Не</text>
+            <text class="fl-lbl" x="52" y="219">Да</text>
+            <text class="fl-lbl" x="216" y="219">Не</text>
+            <text class="fl-lbl" x="372" y="219">Да</text>
+            <text class="fl-lbl" x="536" y="219">Не</text>
+        </svg>
+        <figcaption>Блок-схема: вложен <code>if</code> за най-голямото от три числа. Всяко ниво стеснява избора.</figcaption>
+        </figure>
+        <h3>Оператори за сравнение и логически оператори</h3>
+        <table>
+            <tr><th>Оператор</th><th>Значение</th></tr>
+            <tr><td><code>== != &gt; &lt; &gt;= &lt;=</code></td><td>сравнение</td></tr>
+            <tr><td><code>&amp;&amp;</code></td><td>И (двете условия истина)</td></tr>
+            <tr><td><code>||</code></td><td>ИЛИ (поне едно условие истина)</td></tr>
+            <tr><td><code>!</code></td><td>НЕ (обръща резултата)</td></tr>
+        </table>
+        <pre><code><span class="kw">if</span> (age &gt;= <span class="st">18</span> &amp;&amp; age &lt;= <span class="st">65</span>)   <span class="cm">// и двете условия трябва да са истина</span>
+    <span class="fn">printf</span>(<span class="st">"Валидна възраст\n"</span>);</code></pre>
+        <h3>Приоритет (старшинство) на операторите</h3>
+        <p>Когато в един израз има няколко оператора, те се изпълняват по <strong>приоритет</strong> (старшинство) — по-старшите първи. Ако приоритетът е еднакъв, редът обикновено е <strong>отляво надясно</strong>. Ето най-важните за условия, подредени от <strong>най-висок</strong> към <strong>най-нисък</strong>:</p>
+        <table>
+            <tr><th>Приоритет</th><th>Оператори</th><th>Описание</th></tr>
+            <tr><td>1 (най-висок)</td><td><code>( )</code></td><td>скоби — винаги първи, „заобикалят" всички правила</td></tr>
+            <tr><td>2</td><td><code>!</code></td><td>логическо НЕ (унарен — действа на едно нещо)</td></tr>
+            <tr><td>3</td><td><code>* / %</code></td><td>умножение, деление, остатък</td></tr>
+            <tr><td>4</td><td><code>+ -</code></td><td>събиране, изваждане</td></tr>
+            <tr><td>5</td><td><code>&lt; &lt;= &gt; &gt;=</code></td><td>сравнение за наредба</td></tr>
+            <tr><td>6</td><td><code>== !=</code></td><td>сравнение за равенство/различие</td></tr>
+            <tr><td>7</td><td><code>&amp;&amp;</code></td><td>логическо И</td></tr>
+            <tr><td>8</td><td><code>||</code></td><td>логическо ИЛИ</td></tr>
+            <tr><td>9 (най-нисък)</td><td><code>=</code></td><td>присвояване</td></tr>
+        </table>
+        <p><strong>Прости примери</strong> (в скоби е показано как компилаторът „вижда" израза):</p>
+        <pre><code>a + <span class="st">1</span> &gt; b        <span class="cm">// (a + 1) > b     - аритметика преди сравнение</span>
+x &gt; <span class="st">0</span> &amp;&amp; x &lt; <span class="st">10</span>  <span class="cm">// (x > 0) && (x < 10)  - сравнение преди &&</span>
+!found &amp;&amp; ok    <span class="cm">// (!found) && ok  - ! преди &&</span>
+a || b &amp;&amp; c     <span class="cm">// a || (b && c)   - && преди ||</span>
+<span class="st">2</span> + <span class="st">3</span> == <span class="st">5</span>     <span class="cm">// (2 + 3) == 5    - + преди ==  -> истина</span></code></pre>
+        <div class="note"><strong>Правило за оцеляване:</strong> <code>&amp;&amp;</code> е по-старши от <code>||</code>, а сравненията (<code>&gt;</code>, <code>==</code>…) са по-старши от <code>&amp;&amp;</code>/<code>||</code>. Затова <code>x &gt; 0 &amp;&amp; x &lt; 10</code> работи без скоби. Когато обаче смесваш <code>&amp;&amp;</code> и <code>||</code>, <strong>слагай скоби</strong> за яснота: <code>(a || b) &amp;&amp; c</code> е нещо различно от <code>a || (b &amp;&amp; c)</code>.</div>
+        <a class="back-top" href="#top">↑ горе</a>
+    </section>
+
+    <section class="card" id="t4">
+        <h2><span class="num">4</span>Оператори за цикъл</h2>
+        <h3>С предусловие (while)</h3>
+        <p>Условието се проверява <strong>преди</strong> тялото; може да не се изпълни нито веднъж:</p>
+        <pre><code><span class="kw">while</span> (n &gt; <span class="st">0</span>) {
+    <span class="fn">printf</span>(<span class="st">"%d "</span>, n % <span class="st">10</span>);
+    n = n / <span class="st">10</span>;
+}</code></pre>
+        <figure class="flow">
+        <svg viewBox="0 0 480 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Блок-схема на while цикъл">
+            <defs><marker id="ar-wh" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#9aa0c0"/></marker></defs>
+            <ellipse class="fl-start" cx="210" cy="22" rx="50" ry="16"/>
+            <text class="fl-txt" x="210" y="22">Старт</text>
+            <polygon class="fl-dec" points="210,52 292,92 210,132 128,92"/>
+            <text class="fl-mono" x="210" y="92">n &gt; 0 ?</text>
+            <rect class="fl-proc" x="120" y="168" width="180" height="42" rx="6"/>
+            <text class="fl-mono" x="210" y="183">изведи n % 10</text>
+            <text class="fl-mono" x="210" y="199">n = n / 10</text>
+            <ellipse class="fl-start" cx="410" cy="92" rx="48" ry="16"/>
+            <text class="fl-txt" x="410" y="92">Край</text>
+            <path class="fl-line" d="M210,38 L210,50" marker-end="url(#ar-wh)"/>
+            <path class="fl-line" d="M210,132 L210,166" marker-end="url(#ar-wh)"/>
+            <path class="fl-line" d="M120,189 L56,189 L56,92 L128,92" marker-end="url(#ar-wh)"/>
+            <path class="fl-line" d="M292,92 L360,92" marker-end="url(#ar-wh)"/>
+            <text class="fl-lbl" x="182" y="152">Да</text>
+            <text class="fl-lbl" x="318" y="84">Не</text>
+        </svg>
+        <figcaption>Блок-схема на <code>while</code>: условието се проверява <strong>преди</strong> тялото — затова цикълът може да не се завърти нито веднъж.</figcaption>
+        </figure>
+        <h3>С постусловие (do-while)</h3>
+        <p>Тялото се изпълнява <strong>поне веднъж</strong>, след което се проверява условието:</p>
+        <pre><code><span class="kw">do</span> {
+    <span class="fn">printf</span>(<span class="st">"%d\n"</span>, x);
+    x++;
+} <span class="kw">while</span> (x &lt; <span class="st">3</span>);</code></pre>
+        <figure class="flow">
+        <svg viewBox="0 0 480 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Блок-схема на do-while цикъл">
+            <defs><marker id="ar-dw" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#9aa0c0"/></marker></defs>
+            <ellipse class="fl-start" cx="210" cy="22" rx="50" ry="16"/>
+            <text class="fl-txt" x="210" y="22">Старт</text>
+            <rect class="fl-proc" x="130" y="60" width="160" height="40" rx="6"/>
+            <text class="fl-mono" x="210" y="75">изведи x</text>
+            <text class="fl-mono" x="210" y="91">x++</text>
+            <polygon class="fl-dec" points="210,124 292,162 210,200 128,162"/>
+            <text class="fl-mono" x="210" y="162">x &lt; 3 ?</text>
+            <ellipse class="fl-start" cx="410" cy="162" rx="48" ry="16"/>
+            <text class="fl-txt" x="410" y="162">Край</text>
+            <path class="fl-line" d="M210,38 L210,58" marker-end="url(#ar-dw)"/>
+            <path class="fl-line" d="M210,100 L210,122" marker-end="url(#ar-dw)"/>
+            <path class="fl-line" d="M128,162 L56,162 L56,80 L130,80" marker-end="url(#ar-dw)"/>
+            <path class="fl-line" d="M292,162 L360,162" marker-end="url(#ar-dw)"/>
+            <text class="fl-lbl" x="86" y="154">Да</text>
+            <text class="fl-lbl" x="318" y="154">Не</text>
+        </svg>
+        <figcaption>Блок-схема на <code>do-while</code>: тялото е <strong>преди</strong> проверката — затова се изпълнява поне веднъж.</figcaption>
+        </figure>
+        <h3>Кога логично да използваш do-while</h3>
+        <p>Използвай <code>do-while</code>, когато <strong>първо трябва да направиш нещо</strong>, а едва после да решиш дали да го повториш. Най-типичният случай е <strong>валидация на вход от потребителя</strong> — питаш поне веднъж, проверяваш, и ако е грешно, питаш отново.</p>
+        <pre><code><span class="cm">// Потребителят ТРЯБВА да въведе число между 1 и 100</span>
+<span class="kw">do</span> {
+    <span class="fn">printf</span>(<span class="st">"Въведи число от 1 до 100: "</span>);
+    <span class="fn">scanf</span>(<span class="st">"%d"</span>, &amp;n);
+} <span class="kw">while</span> (n &lt; <span class="st">1</span> || n &gt; <span class="st">100</span>);   <span class="cm">// повтаря само ако е извън диапазона</span>
+
+<span class="fn">printf</span>(<span class="st">"Прието: %d\n"</span>, n);</code></pre>
+        <div class="note"><strong>Защо не while?</strong> С <code>while</code> трябва или да инициализираш <code>n</code> с невалидна стойност (напр. <code>n = 0</code>), или да дублираш <code>scanf</code> преди цикъла. С <code>do-while</code> логиката е естествена: <em>направи → провери → повтори при нужда</em>.</div>
+        <p>Друг типичен случай — <strong>меню</strong>, което се показва поне веднъж:</p>
+        <pre><code><span class="kw">do</span> {
+    <span class="fn">printf</span>(<span class="st">"1. Нова игра\n2. Резултат\n0. Изход\nИзбор: "</span>);
+    <span class="fn">scanf</span>(<span class="st">"%d"</span>, &amp;choice);
+    <span class="cm">// обработка на избора...</span>
+} <span class="kw">while</span> (choice != <span class="st">0</span>);</code></pre>
+        <h3>Цикъл for</h3>
+        <p>Компактен цикъл с брояч. В заглавието му, в кръгли скоби и разделени с <code>;</code>, стоят <strong>три части</strong>:</p>
+        <div class="syntax"><span class="kw2">for</span> (<span class="ph">инициализация</span>; <span class="ph">условие</span>; <span class="ph">стъпка</span>)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="ph">оператор</span></div>
+        <dl class="terms">
+            <dt><span class="ph">инициализация</span></dt>
+            <dd>изпълнява се <strong>веднъж</strong> в началото — задава начална стойност на брояча, напр. <code>i = 1</code>.</dd>
+            <dt><span class="ph">условие</span></dt>
+            <dd>проверява се <strong>преди всяко</strong> повторение; докато е истина, тялото се изпълнява, напр. <code>i &lt;= 5</code>.</dd>
+            <dt><span class="ph">стъпка (инкрементация)</span></dt>
+            <dd>изпълнява се <strong>след всяко</strong> тяло — променя брояча, напр. <code>i = i + 1</code> (или <code>i++</code>).</dd>
+            <dt><span class="ph">оператор</span></dt>
+            <dd>тялото — единичен оператор или блок <code>{ }</code>.</dd>
+        </dl>
+        <p><strong>Ред на изпълнение:</strong> инициализация → (условие → тяло → стъпка) → (условие → тяло → стъпка) → … докато условието стане лъжа.</p>
+        <pre><code><span class="kw">for</span> (i = <span class="st">1</span>; i &lt;= <span class="st">5</span>; i = i + <span class="st">1</span>)
+    <span class="fn">printf</span>(<span class="st">"%d "</span>, i);   <span class="cm">// 1 2 3 4 5</span></code></pre>
+        <figure class="flow">
+        <svg viewBox="0 0 500 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Блок-схема на for цикъл">
+            <defs><marker id="ar-for" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#9aa0c0"/></marker></defs>
+            <ellipse class="fl-start" cx="210" cy="22" rx="50" ry="16"/>
+            <text class="fl-txt" x="210" y="22">Старт</text>
+            <rect class="fl-proc" x="140" y="50" width="140" height="34" rx="6"/>
+            <text class="fl-mono" x="210" y="67">i = 1</text>
+            <text class="fl-lbl" x="288" y="71">инициализация</text>
+            <polygon class="fl-dec" points="210,98 298,136 210,174 122,136"/>
+            <text class="fl-mono" x="210" y="136">i &lt;= 5 ?</text>
+            <rect class="fl-proc" x="130" y="196" width="160" height="34" rx="6"/>
+            <text class="fl-mono" x="210" y="213">printf("%d ", i)</text>
+            <text class="fl-lbl" x="296" y="217">тяло</text>
+            <rect class="fl-proc" x="140" y="248" width="140" height="34" rx="6"/>
+            <text class="fl-mono" x="210" y="265">i = i + 1</text>
+            <text class="fl-lbl" x="288" y="269">стъпка</text>
+            <ellipse class="fl-start" cx="410" cy="136" rx="48" ry="16"/>
+            <text class="fl-txt" x="410" y="136">Край</text>
+            <path class="fl-line" d="M210,38 L210,48" marker-end="url(#ar-for)"/>
+            <path class="fl-line" d="M210,84 L210,96" marker-end="url(#ar-for)"/>
+            <path class="fl-line" d="M210,174 L210,194" marker-end="url(#ar-for)"/>
+            <path class="fl-line" d="M210,282 L210,300 L60,300 L60,136 L120,136" marker-end="url(#ar-for)"/>
+            <path class="fl-line" d="M298,136 L360,136" marker-end="url(#ar-for)"/>
+            <text class="fl-lbl" x="182" y="190">Да</text>
+            <text class="fl-lbl" x="318" y="128">Не</text>
+            <text class="fl-lbl" x="66" y="230">обратно към условието</text>
+        </svg>
+        <figcaption>Блок-схема на <code>for</code>: след тялото се изпълнява стъпката и потокът се връща към условието.</figcaption>
+        </figure>
+        <h3>Как да избера вида цикъл?</h3>
+        <p>И трите цикъла могат да свършат една и съща работа — изборът е въпрос на <strong>четимост</strong> и на това коя логика е най-естествена. Водещият въпрос е: <strong>знам ли предварително колко пъти ще се повтори?</strong></p>
+        <table>
+            <tr><th>Цикъл</th><th>Кога го предпочитаме</th><th>Типични примери</th></tr>
+            <tr>
+                <td><code>for</code></td>
+                <td>Знаем <strong>точно броя</strong> повторения; има <strong>брояч</strong> с фиксирана стъпка; искаме компактност (инициализация, условие и стъпка на едно място).</td>
+                <td>числа от 1 до <code>n</code>; въвеждане на <code>n</code> стойности; обхождане на масив по индекс.</td>
+            </tr>
+            <tr>
+                <td><code>while</code></td>
+                <td><strong>Не знаем</strong> броя предварително; условието зависи от данни, които се променят в тялото; трябва да проверим <strong>преди</strong> първото изпълнение (може и 0 пъти).</td>
+                <td>обработка на цифрите на число (докато стане 0); четене до специална стойност (напр. 0 или −1).</td>
+            </tr>
+            <tr>
+                <td><code>do-while</code></td>
+                <td>Тялото трябва да се изпълни <strong>поне веднъж</strong>, а после да решим дали да повторим (проверка <strong>след</strong> тялото).</td>
+                <td>валидация на въведени данни; меню, което се показва поне веднъж.</td>
+            </tr>
+        </table>
+        <div class="note"><strong>Практично правило:</strong> започни с въпроса „брояч с известен край?" → <code>for</code>. „Повтарям, докато нещо се случи, без да знам колко пъти?" → <code>while</code>. „Задължително поне веднъж?" → <code>do-while</code>. Технически всеки <code>for</code> може да се пренапише като <code>while</code> и обратно — избираме този, който прави кода <strong>по-ясен</strong>.</div>
+        <p>Пример за същия резултат, изразен и с двата цикъла:</p>
+        <pre><code><span class="cm">// for - броячът, условието и стъпката са събрани в заглавието</span>
+<span class="kw">for</span> (i = <span class="st">1</span>; i &lt;= <span class="st">5</span>; i++)
+    <span class="fn">printf</span>(<span class="st">"%d "</span>, i);
+
+<span class="cm">// while - същото, но частите са разпръснати</span>
+i = <span class="st">1</span>;                 <span class="cm">// инициализация - преди цикъла</span>
+<span class="kw">while</span> (i &lt;= <span class="st">5</span>) {         <span class="cm">// условие</span>
+    <span class="fn">printf</span>(<span class="st">"%d "</span>, i);
+    i++;                <span class="cm">// стъпка - в тялото</span>
+}</code></pre>
+        <h3>Вложени цикли (nested loops)</h3>
+        <p><strong>Вложен цикъл</strong> означава цикъл вътре в тялото на друг цикъл. Външният наричаме <strong>външен цикъл</strong>, вътрешния — <strong>вътрешен цикъл</strong>. Ключовото правило: <strong>за всяко едно завъртане на външния цикъл вътрешният се завърта изцяло</strong> (от начало до край).</p>
+        <pre><code><span class="kw">for</span> (i = <span class="st">1</span>; i &lt;= <span class="st">3</span>; i++) {      <span class="cm">// външен цикъл - 3 реда</span>
+    <span class="kw">for</span> (k = <span class="st">1</span>; k &lt;= <span class="st">4</span>; k++)   <span class="cm">// вътрешен цикъл - 4 звезди</span>
+        <span class="fn">printf</span>(<span class="st">"* "</span>);
+    <span class="fn">printf</span>(<span class="st">"\n"</span>);              <span class="cm">// нов ред след всеки ред</span>
+}</code></pre>
+        <div class="output">* * * *<br>* * * *<br>* * * *</div>
+        <p>Тялото <code>printf("* ")</code> се изпълнява <strong>3 × 4 = 12 пъти</strong>. Външният брояч <code>i</code> отчита редовете, вътрешният <code>k</code> — колоните. Затова вложените цикли са естественият избор за <strong>двумерни масиви (матрици)</strong> и таблици.</p>
+        <figure class="flow">
+        <svg viewBox="0 0 600 420" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Блок-схема на вложени for цикли">
+            <defs><marker id="ar-nf" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#9aa0c0"/></marker></defs>
+            <ellipse class="fl-start" cx="250" cy="22" rx="50" ry="16"/>
+            <text class="fl-txt" x="250" y="22">Старт</text>
+            <rect class="fl-proc" x="180" y="44" width="140" height="32" rx="6"/>
+            <text class="fl-mono" x="250" y="60">i = 1</text>
+            <polygon class="fl-dec" points="250,86 330,116 250,146 170,116"/>
+            <text class="fl-mono" x="250" y="116">i &lt;= 3 ?</text>
+            <rect class="fl-proc" x="180" y="172" width="140" height="32" rx="6"/>
+            <text class="fl-mono" x="250" y="188">k = 1</text>
+            <polygon class="fl-dec" points="250,214 330,244 250,274 170,244"/>
+            <text class="fl-mono" x="250" y="244">k &lt;= 4 ?</text>
+            <rect class="fl-proc" x="170" y="300" width="160" height="32" rx="6"/>
+            <text class="fl-mono" x="250" y="316">изведи "* "</text>
+            <rect class="fl-proc" x="180" y="360" width="140" height="32" rx="6"/>
+            <text class="fl-mono" x="250" y="376">k++</text>
+            <rect class="fl-proc" x="385" y="228" width="130" height="32" rx="6"/>
+            <text class="fl-txt" x="450" y="244" font-size="12">изведи нов ред</text>
+            <rect class="fl-proc" x="390" y="324" width="120" height="32" rx="6"/>
+            <text class="fl-mono" x="450" y="340">i++</text>
+            <ellipse class="fl-start" cx="70" cy="116" rx="46" ry="16"/>
+            <text class="fl-txt" x="70" y="116">Край</text>
+            <path class="fl-line" d="M250,38 L250,42" marker-end="url(#ar-nf)"/>
+            <path class="fl-line" d="M250,76 L250,84" marker-end="url(#ar-nf)"/>
+            <path class="fl-line" d="M250,146 L250,170" marker-end="url(#ar-nf)"/>
+            <path class="fl-line" d="M250,204 L250,212" marker-end="url(#ar-nf)"/>
+            <path class="fl-line" d="M250,274 L250,298" marker-end="url(#ar-nf)"/>
+            <path class="fl-line" d="M250,332 L250,358" marker-end="url(#ar-nf)"/>
+            <path class="fl-line" d="M180,376 L120,376 L120,244 L170,244" marker-end="url(#ar-nf)"/>
+            <path class="fl-line" d="M330,244 L383,244" marker-end="url(#ar-nf)"/>
+            <path class="fl-line" d="M450,260 L450,322" marker-end="url(#ar-nf)"/>
+            <path class="fl-line" d="M510,340 L560,340 L560,116 L332,116" marker-end="url(#ar-nf)"/>
+            <path class="fl-line" d="M170,116 L118,116" marker-end="url(#ar-nf)"/>
+            <text class="fl-lbl" x="258" y="164">Да</text>
+            <text class="fl-lbl" x="258" y="292">Да</text>
+            <text class="fl-lbl" x="126" y="108">Не</text>
+            <text class="fl-lbl" x="344" y="236">Не</text>
+        </svg>
+        <figcaption>Блок-схема на вложени <code>for</code>: вътрешният цикъл (k) прави пълен оборот при всяко завъртане на външния (i).</figcaption>
+        </figure>
+        <h3>Оператор за прекратяване (break)</h3>
+        <p><strong><code>break</code></strong> прекратява цикъла <strong>веднага</strong>, без да чака условието да стане лъжа — изпълнението продължава след цикъла. Полезен е, когато отговорът е намерен по-рано, напр. при проверка дали число е просто: щом намерим един делител, няма смисъл да търсим повече.</p>
+        <pre><code><span class="kw">for</span> (i = <span class="st">2</span>; i &lt; n; i++) {
+    <span class="kw">if</span> (n % i == <span class="st">0</span>) {       <span class="cm">// намерихме делител ->  n не е просто</span>
+        isPrime = <span class="st">0</span>;
+        <span class="kw">break</span>;              <span class="cm">// излизаме веднага от цикъла</span>
+    }
+}</code></pre>
+        <div class="note"><code>break</code> прекъсва само <strong>един</strong> (най-вътрешния) цикъл, в който се намира.</div>
+        <a class="back-top" href="#top">↑ горе</a>
+    </section>
+
+    <section class="card" id="t5">
+        <h2><span class="num">5</span>Символен тип данни. ASCII таблица</h2>
+        <p><strong><code>char</code></strong> съхранява един символ в 1 байт — реално е малко цяло число, кодирано по <strong>ASCII</strong> (American Standard Code for Information Interchange — таблица, свързваща числа 0–127 със символи, напр. <code>'A'</code> = 65, <code>'a'</code> = 97, <code>'0'</code> = 48).</p>
+        <pre><code><span class="tp">char</span> c = <span class="st">'A'</span>;
+<span class="fn">printf</span>(<span class="st">"%c има код %d\n"</span>, c, c);   <span class="cm">// A има код 65</span></code></pre>
+        <p>Понеже <code>char</code> е числов тип, върху него важат аритметичните операции:</p>
+        <pre><code><span class="tp">char</span> digit = <span class="st">'7'</span>;
+<span class="tp">int</span> value = digit - <span class="st">'0'</span>;   <span class="cm">// '7'-'0' = 7 (символ -> число)</span></code></pre>
+        <p><strong>Вход/изход:</strong> <code>%c</code> за единичен символ; <code>getchar()</code>/<code>putchar()</code> четат/пишат по един символ.</p>
+        <a class="back-top" href="#top">↑ горе</a>
+    </section>
+
+    <section class="card" id="t6">
+        <h2><span class="num">6</span>Оператор switch</h2>
+        <pre><code><span class="kw">switch</span> (day) {
+    <span class="kw">case</span> <span class="st">1</span>: <span class="fn">printf</span>(<span class="st">"Понеделник"</span>); <span class="kw">break</span>;
+    <span class="kw">case</span> <span class="st">2</span>: <span class="fn">printf</span>(<span class="st">"Вторник"</span>); <span class="kw">break</span>;
+    <span class="kw">default</span>: <span class="fn">printf</span>(<span class="st">"Друг ден"</span>);
+}</code></pre>
+        <p><strong>Изпълнение:</strong> сравнява израза с всяко <code>case</code>; при съвпадение изпълнява от там нататък. <code>break</code> е задължителен, за да не „пропадне“ (fall-through) в следващия <code>case</code>. <code>default</code> е незадължителен и се изпълнява при липса на съвпадение. Полезен като по-четима алтернатива на верига от <code>if-else if</code>.</p>
+        <h3>Какво стои в скобите на switch(...)?</h3>
+        <p>В скобите стои <strong>целочислен израз</strong> — променлива или израз, който се пресмята до <strong>цяло число</strong> (напр. <code>day</code>, <code>choice</code>, <code>n % 3</code>). Всеки етикет <code>case</code> е <strong>константа от същия тип</strong> и стойностите на <code>case</code> трябва да са <strong>различни</strong>.</p>
+        <table>
+            <tr><th>Тип на израза</th><th>Разрешен в switch?</th></tr>
+            <tr><td><code>int</code>, <code>short</code>, <code>long</code></td><td>✅ да (целочислени)</td></tr>
+            <tr><td><code>char</code></td><td>✅ да (символът е малко цяло число по ASCII)</td></tr>
+            <tr><td><code>enum</code> (изброен тип)</td><td>✅ да (стойностите му са цели числа)</td></tr>
+            <tr><td><code>float</code>, <code>double</code></td><td>❌ не (реални числа)</td></tr>
+            <tr><td>низ (<code>char[]</code> / <code>"текст"</code>)</td><td>❌ не — <strong>не може</strong> да се превключва по низ</td></tr>
+        </table>
+        <p>Понеже <code>char</code> е целочислен тип, <code>switch</code> върху символ е напълно валиден и много удобен за менюта:</p>
+        <pre><code><span class="tp">char</span> op;
+<span class="fn">scanf</span>(<span class="st">" %c"</span>, &amp;op);
+<span class="kw">switch</span> (op) {
+    <span class="kw">case</span> <span class="st">'+'</span>: <span class="fn">printf</span>(<span class="st">"%d\n"</span>, a + b); <span class="kw">break</span>;
+    <span class="kw">case</span> <span class="st">'-'</span>: <span class="fn">printf</span>(<span class="st">"%d\n"</span>, a - b); <span class="kw">break</span>;
+    <span class="kw">default</span>: <span class="fn">printf</span>(<span class="st">"Непозната операция\n"</span>);
+}</code></pre>
+        <div class="note"><strong>Какво НЕ може в <code>case</code>:</strong> етикетът трябва да е <strong>константа, известна при компилация</strong> — не може да е променлива (<code>case x:</code>), диапазон (<code>case 1..5:</code>) или условие (<code>case n &gt; 0:</code>). За такива случаи (реални числа, низове, диапазони) се използва верига от <code>if / else if</code>.</div>
+        <a class="back-top" href="#top">↑ горе</a>
+    </section>
+
+    <section class="card" id="t7">
+        <h2><span class="num">7</span>Функции</h2>
+        <h3>Дефиниция</h3>
+        <p>заглавие (тип + име + параметри) + тяло:</p>
+        <pre><code><span class="tp">float</span> <span class="fn">stepen</span>(<span class="tp">float</span> a, <span class="tp">int</span> n) {   <span class="cm">// формални параметри</span>
+    <span class="tp">float</span> p = <span class="st">1</span>;
+    <span class="kw">for</span> (<span class="tp">int</span> i = <span class="st">1</span>; i &lt;= n; i++) p = p * a;
+    <span class="kw">return</span> p;
+}</code></pre>
+        <p><strong>Извикване:</strong> <code>s = stepen(a, n);</code> (фактически параметри).</p>
+        <h3>Параметри по стойност</h3>
+        <p>Функцията получава <strong>копие</strong>, не може да променя оригинала:</p>
+        <pre><code><span class="tp">void</span> <span class="fn">change</span>(<span class="tp">int</span> a, <span class="tp">int</span> b) { <span class="tp">int</span> c = a; a = b; b = c; }
+<span class="cm">// НЕ разменя x и y в main()</span></code></pre>
+        <h3>Указатели (pointers)</h3>
+        <p>Променлива, съдържаща адрес — решава проблема по-горе:</p>
+        <pre><code><span class="tp">void</span> <span class="fn">change</span>(<span class="tp">int</span> *pa, <span class="tp">int</span> *pb) {
+    <span class="tp">int</span> c = *pa; *pa = *pb; *pb = c;
+}
+<span class="fn">change</span>(&amp;x, &amp;y);   <span class="cm">// сега x и y СЕ разменят</span></code></pre>
+        <h3>Рекурсия (рекурсивно извикване)</h3>
+        <p><strong>Рекурсия</strong> е когато функция <strong>извиква сама себе си</strong>, за да реши по-малка версия на същата задача. Всяка коректна рекурсия има <strong>две задължителни части</strong>:</p>
+        <dl class="terms">
+            <dt>Базов случай („дъно")</dt>
+            <dd>условие, при което функцията връща стойност <strong>без</strong> да се извиква повече — така рекурсията спира. При факториела това е <code>n == 0</code>.</dd>
+            <dt>Рекурсивен случай</dt>
+            <dd>функцията се извиква със <strong>стъпка към базовия случай</strong> (напр. <code>n - 1</code>) и построява отговора от резултата на по-малкото извикване.</dd>
+        </dl>
+        <pre><code><span class="tp">int</span> <span class="fn">fact</span>(<span class="tp">int</span> n) {
+    <span class="kw">if</span> (n == <span class="st">0</span>) <span class="kw">return</span> <span class="st">1</span>;        <span class="cm">// базов случай - спира рекурсията</span>
+    <span class="kw">return</span> n * <span class="fn">fact</span>(n - <span class="st">1</span>);      <span class="cm">// рекурсивен случай - извиква себе си</span>
+}</code></pre>
+        <p><strong>Как се разгъва <code>fact(3)</code>:</strong> първо извикванията се „спускат" до дъното, после стойностите се връщат нагоре:</p>
+        <pre><code>fact(3) = 3 * fact(2)
+        = 3 * (2 * fact(1))
+        = 3 * (2 * (1 * fact(0)))
+        = 3 * (2 * (1 * 1))          <span class="cm">// достигнато дъно: fact(0) = 1</span>
+        = 3 * (2 * 1)
+        = 3 * 2
+        = 6</code></pre>
+        <div class="note"><strong>Внимание — безкрайна рекурсия:</strong> ако липсва базов случай или стъпката не се приближава към него (напр. <code>fact(n)</code> вместо <code>fact(n - 1)</code>), функцията се вика безспир, докато не се препълни стекът (<em>stack overflow</em>) и програмата „забие". Затова базовият случай е <strong>задължителен</strong>.</div>
+        <div class="note"><strong>Рекурсия срещу цикъл:</strong> всяка рекурсия може да се напише и с цикъл (итеративно). Рекурсията е по-бавна и ползва повече памет (за всяко извикване се заделя памет в стека), но за някои задачи (факториел, Фибоначи, обхождане на дървовидни структури) кодът е по-къс и по-близък до математическата дефиниция.</div>
+        <a class="back-top" href="#top">↑ горе</a>
+    </section>
+
+    <section class="card" id="t8">
+        <h2><span class="num">8</span>Масиви</h2>
+        <h3>Едномерен масив</h3>
+        <p><code>int A[10];</code> — 10 елемента, индекси от <code>0</code> до <code>9</code>.</p>
+        <pre><code><span class="tp">float</span> temp[<span class="st">100</span>];
+<span class="kw">for</span> (i = <span class="st">0</span>; i &lt; n; i++) <span class="fn">scanf</span>(<span class="st">"%f"</span>, &amp;temp[i]);
+<span class="kw">for</span> (i = <span class="st">0</span>; i &lt; n; i++) s += temp[i];
+avr = s / n;</code></pre>
+        <h3>Двумерен масив (матрица)</h3>
+        <p><code>int marks[30][20];</code> — избира се с два индекса <code>marks[i][k]</code> (ред, колона). Използва се за таблици (напр. оценки на ученици по предмети), с вложени <code>for</code> цикли за обхождане.</p>
+        <div class="note">Всички операции се извършват <strong>поелементно</strong> — не съществува „цял масив + цял масив“.</div>
+        <h3>Пример: оценки на клас — средна оценка и брой отличници</h3>
+        <p>Обхождаме матрицата <code>grades[n][m]</code> (<code>n</code> ученици × <code>m</code> предмета) с вложени цикли. Едновременно (1) сумираме всички оценки за <strong>средната оценка на класа</strong> и (2) с <strong>флаг</strong> проверяваме за всеки ученик дали има <strong>само 6-ци</strong>.</p>
+        <pre><code><span class="cm">#define N 30            // максимум ученици</span>
+<span class="cm">#define M 5             // максимум предмети</span>
+
+<span class="tp">float</span> grades[N][M];
+<span class="tp">int</span> n, m, i, k;
+<span class="tp">float</span> classSum = <span class="st">0</span>;      <span class="cm">// сума на ВСИЧКИ оценки в класа</span>
+<span class="tp">int</span> allSixes = <span class="st">0</span>;         <span class="cm">// брояч: ученици само с 6-ци</span>
+
+<span class="fn">scanf</span>(<span class="st">"%d %d"</span>, &amp;n, &amp;m);   <span class="cm">// брой ученици и предмети</span>
+
+<span class="kw">for</span> (i = <span class="st">0</span>; i &lt; n; i++) {        <span class="cm">// външен цикъл - по ученици</span>
+    <span class="tp">int</span> onlySix = <span class="st">1</span>;             <span class="cm">// флаг: приемаме "да", докато не се докаже обратното</span>
+    <span class="kw">for</span> (k = <span class="st">0</span>; k &lt; m; k++) {    <span class="cm">// вътрешен цикъл - по предмети</span>
+        <span class="fn">scanf</span>(<span class="st">"%f"</span>, &amp;grades[i][k]);
+        classSum += grades[i][k];  <span class="cm">// трупаме към общата сума</span>
+        <span class="kw">if</span> (grades[i][k] != <span class="st">6</span>)
+            onlySix = <span class="st">0</span>;         <span class="cm">// намерена оценка != 6 -> вече не е "само 6-ци"</span>
+    }
+    <span class="kw">if</span> (onlySix)
+        allSixes++;                <span class="cm">// този ученик има само 6-ци</span>
+}
+
+<span class="tp">float</span> classAvg = classSum / (n * m);   <span class="cm">// средна оценка за класа</span>
+
+<span class="fn">printf</span>(<span class="st">"Средна оценка за класа: %.2f\n"</span>, classAvg);
+<span class="fn">printf</span>(<span class="st">"Ученици само с 6-ци: %d\n"</span>, allSixes);</code></pre>
+        <div class="output">Средна оценка за класа: 5.24<br>Ученици само с 6-ци: 3</div>
+        <div class="note"><strong>Флаг (булев признак):</strong> <code>onlySix</code> започва с <code>1</code> („да") и става <code>0</code> при <strong>първата</strong> оценка, различна от 6. Този шаблон „приеми истина → опровергай при контрапример" се използва навсякъде (проверка за просто число, дали масив е сортиран и т.н.). <strong>Забележка:</strong> тук <em>не</em> слагаме <code>break</code> след <code>onlySix = 0;</code>, защото вътрешният цикъл трябва да прочете с <code>scanf</code> и да сумира всичките <code>m</code> оценки — ако прекъснем по-рано, останалите оценки на ученика ще останат непрочетени и входът ще се разчете грешно.</div>
+        <a class="back-top" href="#top">↑ горе</a>
+    </section>
+
+    <section class="card" id="t9">
+        <h2><span class="num">9</span>Символни низове</h2>
+        <p>Низът е <code>char</code> масив, завършващ с нулевия байт <code>\0</code>:</p>
+        <pre><code><span class="tp">char</span> s[<span class="st">10</span>] = <span class="st">"Hello"</span>;   <span class="cm">// 'H','e','l','l','o','\0' + 4 неизползвани байта</span></code></pre>
+        <h3>Вход/изход</h3>
+        <pre><code><span class="fn">scanf</span>(<span class="st">"%s"</span>, s);       <span class="cm">// спира на празен символ</span>
+<span class="fn">fgets</span>(s, <span class="st">10</span>, stdin);  <span class="cm">// по-безопасно от gets(), чете до нов ред</span>
+<span class="fn">printf</span>(<span class="st">"%s"</span>, s);
+<span class="fn">puts</span>(s);</code></pre>
+        <h3>Стандартни функции (#include &lt;string.h&gt;)</h3>
+        <table>
+            <tr><th>Функция</th><th>Действие</th></tr>
+            <tr><td><code>strlen(s)</code></td><td>връща дължината на низа</td></tr>
+            <tr><td><code>strcpy(a, s)</code></td><td>копира <code>s</code> в <code>a</code></td></tr>
+            <tr><td><code>strcat(s1, s2)</code></td><td>добавя <code>s2</code> в края на <code>s1</code></td></tr>
+        </table>
+        <a class="back-top" href="#top">↑ горе</a>
+    </section>
+
+    <section class="card" id="t10">
+        <h2><span class="num">10</span>Структури</h2>
+        <h3>Дефиниция</h3>
+        <p>Групира разнородни полета под едно име:</p>
+        <pre><code><span class="kw">typedef</span> <span class="kw">struct</span> {
+    <span class="tp">int</span> number;
+    <span class="tp">char</span> name[<span class="st">30</span>];
+    <span class="tp">float</span> average;
+} Student;</code></pre>
+        <h3>Достъп до полета — операторът .</h3>
+        <pre><code>Student s1;
+s1.number = <span class="st">1</span>;
+<span class="fn">strcpy</span>(s1.name, <span class="st">"Ivan"</span>);</code></pre>
+        <h3>Масив от структури</h3>
+        <p>Списък от обекти (напр. цял клас ученици):</p>
+        <pre><code>Student class_[<span class="st">30</span>];
+class_[i].average = sum / m;   <span class="cm">// всеки елемент е цяла структура</span></code></pre>
+        <h3>Указател към структура — операторът -&gt;</h3>
+        <pre><code><span class="tp">void</span> <span class="fn">print_student</span>(Student *p) {
+    <span class="fn">printf</span>(<span class="st">"%s: %.2f"</span>, p-&gt;name, p-&gt;average);
+}</code></pre>
+        <div class="note"><strong>Кратко сравнение:</strong> масив = еднакви елементи (<code>a[i]</code>); структура = един обект с различни полета (<code>s.field</code>); масив от структури = списък от обекти (<code>arr[i].field</code>).</div>
+
+        <h3>Пример: оценки на клас със структури</h3>
+        <p>Същата задача като при масивите (средна оценка за класа + брой ученици само с 6-ци), но всеки ученик е <strong>обект</strong> <code>Student</code> с полета <code>name</code>, <code>grades</code>, <code>average</code> и <code>onlySix</code>. Данните за един ученик „пътуват заедно".</p>
+        <p>Всеки елемент от масива <code>class_[i]</code> е <strong>цяла структура</strong>; неговите полета се достъпват с <strong>точка</strong>: <code>class_[i].average</code>, <code>class_[i].grades[k]</code>.</p>
+        <figure class="flow">
+        <svg viewBox="0 0 620 210" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Масив от структури Student">
+            <text class="fl-mono" x="20" y="16" style="text-anchor:start" font-weight="700">Student class_[N];</text>
+            <!-- class_[0] -->
+            <rect class="fl-proc" x="20" y="30" width="170" height="150" rx="8"/>
+            <rect x="20" y="30" width="170" height="26" rx="8" fill="#eef0ff" stroke="#764ba2" stroke-width="1.5"/>
+            <text class="fl-mono" x="105" y="43" font-weight="700" fill="#764ba2">class_[0]</text>
+            <text class="fl-mono" x="30" y="76" style="text-anchor:start">name: Ivan</text>
+            <text class="fl-mono" x="30" y="102" style="text-anchor:start">grades: 6 6 6 6 6</text>
+            <text class="fl-mono" x="30" y="128" style="text-anchor:start">average: 6.00</text>
+            <text class="fl-mono" x="30" y="158" style="text-anchor:start">onlySix: <tspan fill="#2f9e44" font-weight="700">1</tspan></text>
+            <!-- class_[1] -->
+            <rect class="fl-proc" x="205" y="30" width="170" height="150" rx="8"/>
+            <rect x="205" y="30" width="170" height="26" rx="8" fill="#eef0ff" stroke="#764ba2" stroke-width="1.5"/>
+            <text class="fl-mono" x="290" y="43" font-weight="700" fill="#764ba2">class_[1]</text>
+            <text class="fl-mono" x="215" y="76" style="text-anchor:start">name: Mia</text>
+            <text class="fl-mono" x="215" y="102" style="text-anchor:start">grades: 5 6 5 6 6</text>
+            <text class="fl-mono" x="215" y="128" style="text-anchor:start">average: 5.60</text>
+            <text class="fl-mono" x="215" y="158" style="text-anchor:start">onlySix: <tspan fill="#c92a2a" font-weight="700">0</tspan></text>
+            <!-- class_[2] -->
+            <rect class="fl-proc" x="390" y="30" width="170" height="150" rx="8"/>
+            <rect x="390" y="30" width="170" height="26" rx="8" fill="#eef0ff" stroke="#764ba2" stroke-width="1.5"/>
+            <text class="fl-mono" x="475" y="43" font-weight="700" fill="#764ba2">class_[2]</text>
+            <text class="fl-mono" x="400" y="76" style="text-anchor:start">name: Nik</text>
+            <text class="fl-mono" x="400" y="102" style="text-anchor:start">grades: 6 6 6 6 6</text>
+            <text class="fl-mono" x="400" y="128" style="text-anchor:start">average: 6.00</text>
+            <text class="fl-mono" x="400" y="158" style="text-anchor:start">onlySix: <tspan fill="#2f9e44" font-weight="700">1</tspan></text>
+            <text class="fl-mono" x="590" y="108" font-weight="700">…</text>
+        </svg>
+        <figcaption>Масив от структури: всеки елемент <code>class_[i]</code> е самостоятелен обект <code>Student</code> с всичките си полета.</figcaption>
+        </figure>
+        <pre><code><span class="cm">#define N 30</span>
+<span class="cm">#define M 5</span>
+
+<span class="kw">typedef</span> <span class="kw">struct</span> {
+    <span class="tp">char</span>  name[<span class="st">30</span>];
+    <span class="tp">float</span> grades[M];
+    <span class="tp">float</span> average;      <span class="cm">// среден успех на ученика</span>
+    <span class="tp">int</span>   onlySix;      <span class="cm">// 1 = само 6-ци, 0 = не</span>
+} Student;
+
+<span class="tp">int</span> <span class="fn">main</span>() {
+    Student class_[N];
+    <span class="tp">int</span> n, i, k;
+    <span class="tp">float</span> classSum = <span class="st">0</span>;   <span class="cm">// сума на средните успехи</span>
+    <span class="tp">int</span> allSixes = <span class="st">0</span>;      <span class="cm">// брой отличници</span>
+
+    <span class="fn">scanf</span>(<span class="st">"%d"</span>, &amp;n);       <span class="cm">// брой ученици</span>
+
+    <span class="kw">for</span> (i = <span class="st">0</span>; i &lt; n; i++) {           <span class="cm">// външен цикъл - по ученици</span>
+        <span class="fn">scanf</span>(<span class="st">"%s"</span>, class_[i].name);
+        <span class="tp">float</span> sum = <span class="st">0</span>;
+        class_[i].onlySix = <span class="st">1</span>;         <span class="cm">// флаг: приемаме "да"</span>
+
+        <span class="kw">for</span> (k = <span class="st">0</span>; k &lt; M; k++) {       <span class="cm">// вътрешен цикъл - по предмети</span>
+            <span class="fn">scanf</span>(<span class="st">"%f"</span>, &amp;class_[i].grades[k]);
+            sum += class_[i].grades[k];
+            <span class="kw">if</span> (class_[i].grades[k] != <span class="st">6</span>)
+                class_[i].onlySix = <span class="st">0</span>;   <span class="cm">// оценка != 6 -> не е отличник</span>
+        }
+
+        class_[i].average = sum / M;      <span class="cm">// успех на ученика</span>
+        classSum += class_[i].average;    <span class="cm">// трупаме към класа</span>
+        <span class="kw">if</span> (class_[i].onlySix)
+            allSixes++;
+    }
+
+    <span class="tp">float</span> classAvg = classSum / n;        <span class="cm">// среден успех на класа</span>
+
+    <span class="fn">printf</span>(<span class="st">"Среден успех на класа: %.2f\n"</span>, classAvg);
+    <span class="fn">printf</span>(<span class="st">"Отличници (само 6-ци): %d\n"</span>, allSixes);
+    <span class="kw">return</span> <span class="st">0</span>;
+}</code></pre>
+        <div class="output">Среден успех на класа: 5.24<br>Отличници (само 6-ци): 3</div>
+        <div class="note"><strong>Разлика с версията само с масиви:</strong> тук <code>average</code> и <code>onlySix</code> се <strong>пазят вътре в структурата</strong> на всеки ученик — остават достъпни и след цикъла (напр. за отпечатване или сортиране). Средният успех на класа смятаме като средно от успехите на учениците (<code>classSum / n</code>); при равен брой предмети <code>M</code> това е същото като „сума на всички оценки / (n·M)".</div>
+
+        <h4 style="color:#4a4a5a;margin:18px 0 8px;font-size:1.02em;">Блок-схема 1 — обхождане на класа (външен цикъл)</h4>
+        <p>Общият поток: за всеки ученик извикваме „обработка" (детайлите са в блок-схема 2), после трупаме към класа и броим отличниците.</p>
+        <figure class="flow">
+        <svg viewBox="0 0 560 450" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Блок-схема: обхождане на клас от структури">
+            <defs><marker id="ar-ov" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#9aa0c0"/></marker></defs>
+            <ellipse class="fl-start" cx="230" cy="22" rx="50" ry="16"/>
+            <text class="fl-txt" x="230" y="22">Старт</text>
+            <polygon class="fl-io" points="188,48 288,48 272,78 172,78"/>
+            <text class="fl-mono" x="234" y="63">Въведи n</text>
+            <rect class="fl-proc" x="120" y="94" width="220" height="32" rx="6"/>
+            <text class="fl-mono" x="230" y="110" font-size="11">classSum = 0; allSixes = 0</text>
+            <rect class="fl-proc" x="160" y="140" width="140" height="30" rx="6"/>
+            <text class="fl-mono" x="230" y="155">i = 0</text>
+            <polygon class="fl-dec" points="230,178 300,208 230,238 160,208"/>
+            <text class="fl-mono" x="230" y="208">i &lt; n ?</text>
+            <rect class="fl-proc" x="120" y="258" width="220" height="46" rx="6"/>
+            <rect class="fl-proc" x="126" y="258" width="208" height="46" rx="6"/>
+            <text class="fl-txt" x="230" y="274" font-size="12">Обработи ученик class_[i]</text>
+            <text class="fl-lbl" x="230" y="292" style="text-anchor:middle">(виж блок-схема 2)</text>
+            <rect class="fl-proc" x="96" y="324" width="268" height="46" rx="6"/>
+            <text class="fl-mono" x="230" y="340" font-size="11">classSum += class_[i].average</text>
+            <text class="fl-mono" x="230" y="358" font-size="11">ако onlySix → allSixes++</text>
+            <rect class="fl-proc" x="170" y="392" width="120" height="30" rx="6"/>
+            <text class="fl-mono" x="230" y="407">i++</text>
+            <rect class="fl-proc" x="360" y="192" width="180" height="32" rx="6"/>
+            <text class="fl-mono" x="450" y="208" font-size="11">classAvg = classSum / n</text>
+            <polygon class="fl-io" points="376,244 528,244 512,274 360,274"/>
+            <text class="fl-txt" x="446" y="259" font-size="12">Изведи резултати</text>
+            <ellipse class="fl-start" cx="450" cy="316" rx="48" ry="16"/>
+            <text class="fl-txt" x="450" y="316">Край</text>
+            <path class="fl-line" d="M230,38 L230,46" marker-end="url(#ar-ov)"/>
+            <path class="fl-line" d="M230,78 L230,92" marker-end="url(#ar-ov)"/>
+            <path class="fl-line" d="M230,126 L230,138" marker-end="url(#ar-ov)"/>
+            <path class="fl-line" d="M230,170 L230,176" marker-end="url(#ar-ov)"/>
+            <path class="fl-line" d="M230,238 L230,256" marker-end="url(#ar-ov)"/>
+            <path class="fl-line" d="M230,304 L230,322" marker-end="url(#ar-ov)"/>
+            <path class="fl-line" d="M230,370 L230,390" marker-end="url(#ar-ov)"/>
+            <path class="fl-line" d="M170,407 L60,407 L60,208 L160,208" marker-end="url(#ar-ov)"/>
+            <path class="fl-line" d="M300,208 L360,208" marker-end="url(#ar-ov)"/>
+            <path class="fl-line" d="M450,224 L450,242" marker-end="url(#ar-ov)"/>
+            <path class="fl-line" d="M446,274 L446,298" marker-end="url(#ar-ov)"/>
+            <text class="fl-lbl" x="238" y="252">Да</text>
+            <text class="fl-lbl" x="316" y="200">Не</text>
+        </svg>
+        <figcaption>Блок-схема 1: външният цикъл минава по учениците; „Обработи ученик" крие детайлите (вътрешния цикъл).</figcaption>
+        </figure>
+
+        <h4 style="color:#4a4a5a;margin:18px 0 8px;font-size:1.02em;">Блок-схема 2 — обработка на един ученик (вътрешен цикъл)</h4>
+        <p>Тук е логиката вътре в един ученик: четем оценките му, трупаме сумата и с флага <code>onlySix</code> проверяваме дали всичките са 6.</p>
+        <figure class="flow">
+        <svg viewBox="0 0 560 470" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Блок-схема: обработка на един ученик">
+            <defs><marker id="ar-ps" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#9aa0c0"/></marker></defs>
+            <ellipse class="fl-start" cx="200" cy="22" rx="64" ry="16"/>
+            <text class="fl-txt" x="200" y="22" font-size="12">ученик class_[i]</text>
+            <rect class="fl-proc" x="100" y="50" width="200" height="32" rx="6"/>
+            <text class="fl-mono" x="200" y="66" font-size="11">sum = 0; onlySix = 1</text>
+            <polygon class="fl-io" points="116,96 300,96 284,126 100,126"/>
+            <text class="fl-mono" x="204" y="111" font-size="11">Въведи name</text>
+            <rect class="fl-proc" x="140" y="140" width="120" height="30" rx="6"/>
+            <text class="fl-mono" x="200" y="155">k = 0</text>
+            <polygon class="fl-dec" points="200,178 270,208 200,238 130,208"/>
+            <text class="fl-mono" x="200" y="208">k &lt; M ?</text>
+            <polygon class="fl-io" points="100,262 300,262 284,308 84,308"/>
+            <text class="fl-mono" x="196" y="279" font-size="11">Въведи grades[k]</text>
+            <text class="fl-mono" x="196" y="296" font-size="11">sum += grades[k]</text>
+            <polygon class="fl-dec" points="200,326 300,362 200,398 100,362"/>
+            <text class="fl-mono" x="200" y="362" font-size="11">grades[k] != 6 ?</text>
+            <rect class="fl-proc" x="360" y="346" width="150" height="32" rx="6"/>
+            <text class="fl-mono" x="435" y="362" font-size="11">onlySix = 0</text>
+            <rect class="fl-proc" x="140" y="420" width="120" height="30" rx="6"/>
+            <text class="fl-mono" x="200" y="435">k++</text>
+            <rect class="fl-proc" x="360" y="192" width="170" height="32" rx="6"/>
+            <text class="fl-mono" x="445" y="208" font-size="11">average = sum / M</text>
+            <ellipse class="fl-start" cx="445" cy="266" rx="46" ry="16"/>
+            <text class="fl-txt" x="445" y="266">Край</text>
+            <path class="fl-line" d="M200,38 L200,48" marker-end="url(#ar-ps)"/>
+            <path class="fl-line" d="M200,82 L200,94" marker-end="url(#ar-ps)"/>
+            <path class="fl-line" d="M200,126 L200,138" marker-end="url(#ar-ps)"/>
+            <path class="fl-line" d="M200,170 L200,176" marker-end="url(#ar-ps)"/>
+            <path class="fl-line" d="M200,238 L200,260" marker-end="url(#ar-ps)"/>
+            <path class="fl-line" d="M200,308 L200,324" marker-end="url(#ar-ps)"/>
+            <path class="fl-line" d="M300,362 L360,362" marker-end="url(#ar-ps)"/>
+            <path class="fl-line" d="M435,378 L435,435 L260,435" marker-end="url(#ar-ps)"/>
+            <path class="fl-line" d="M200,398 L200,418" marker-end="url(#ar-ps)"/>
+            <path class="fl-line" d="M140,435 L50,435 L50,208 L130,208" marker-end="url(#ar-ps)"/>
+            <path class="fl-line" d="M270,208 L360,208" marker-end="url(#ar-ps)"/>
+            <path class="fl-line" d="M445,224 L445,250" marker-end="url(#ar-ps)"/>
+            <text class="fl-lbl" x="208" y="254">Да</text>
+            <text class="fl-lbl" x="282" y="200">Не</text>
+            <text class="fl-lbl" x="308" y="354">Да</text>
+            <text class="fl-lbl" x="208" y="416">Не</text>
+        </svg>
+        <figcaption>Блок-схема 2: вътрешният цикъл по предметите. Флагът <code>onlySix</code> пада на 0 при първата оценка, различна от 6.</figcaption>
+        </figure>
+        <a class="back-top" href="#top">↑ горе</a>
+    </section>
+
+    </main>
+</div>
+
+<footer>
+    Генерирано от конспекта „Увод в програмирането — теория“ (8 клас) и допълнителните материали в <code>Documents/</code>.
+</footer>
+
+</body>
+</html>

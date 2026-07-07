@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>05 Прости типове данни</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+  min-height: 100vh;
+  padding: 20px;
+  color: #333;
+}
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+  padding: 40px;
+}
+h1 {
+  color: #11998e;
+  text-align: center;
+  margin-bottom: 10px;
+  font-size: 2em;
+  border-bottom: 3px solid #38ef7d;
+  padding-bottom: 15px;
+}
+h2 {
+  color: #0d7a70;
+  margin-top: 30px;
+  margin-bottom: 12px;
+  font-size: 1.4em;
+  border-left: 4px solid #38ef7d;
+  padding-left: 10px;
+}
+h3 {
+  color: #11998e;
+  margin-top: 22px;
+  margin-bottom: 10px;
+  font-size: 1.15em;
+}
+h4 {
+  color: #0d7a70;
+  margin-top: 18px;
+  margin-bottom: 8px;
+  font-size: 1em;
+}
+p { margin: 10px 0; line-height: 1.6; }
+ul, ol { margin: 10px 0 10px 25px; line-height: 1.6; }
+li { margin: 4px 0; }
+strong { color: #0d7a70; }
+code {
+  background: #f0f7f6;
+  color: #11998e;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: 'Consolas', 'Monaco', monospace;
+  font-size: 0.9em;
+}
+pre {
+  background: #1e1e1e;
+  color: #dcdcdc;
+  padding: 16px;
+  border-radius: 8px;
+  overflow-x: auto;
+  margin: 15px 0;
+  font-size: 0.88em;
+  line-height: 1.5;
+}
+pre code {
+  background: none;
+  color: inherit;
+  padding: 0;
+  border-radius: 0;
+}
+blockquote {
+  border-left: 4px solid #38ef7d;
+  padding-left: 15px;
+  color: #555;
+  margin: 12px 0;
+  font-style: italic;
+}
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 15px 0;
+}
+th, td {
+  border: 1px solid #ddd;
+  padding: 8px 12px;
+  text-align: left;
+}
+th {
+  background: #11998e;
+  color: white;
+}
+tr:nth-child(even) { background: #f7fcfb; }
+hr {
+  border: none;
+  border-top: 2px dashed #38ef7d;
+  margin: 25px 0;
+}
+a { color: #11998e; }
+a:hover { color: #0d7a70; }
+.subtitle {
+  text-align: center;
+  color: #666;
+  margin-bottom: 20px;
+  font-size: 0.9em;
+}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>05 Прости типове данни</h1>
+<p><strong>Прости типове данни в С</strong></p>
+<p><strong>Целочислени типове данни</strong></p>
+<ol type="1">
+<li>Константи от целочислен тип (цели числа)<br />
+Започва със знак + или - или е без знак, след което следва
+последователност от цифри<br />
+</li>
+<li>Променливи<br />
+Всяка променлива, която се използва в програмата, трябва да бъде
+дефинирана. При дефинирането на променлива се заделя оперативна памет за
+тази променлива.<br />
+Пример:<br />
+int a; //Дефинира се променлива с име a, която е от тип int.<br />
+int - 4 bytes (32 bits) със знак<br />
+Типови модификатори:<br />
+</li>
+</ol>
+<ul>
+<li>по дължина short, long<br />
+</li>
+<li>по знак signed, unsigned</li>
+</ul>
+<p>Примери:<br />
+unsigned int b; //4 bytes без знак<br />
+short int c; //2 bytes със знак, диапазон -32768 до 32767<br />
+unsigned short int d; //2 bytes без знак, диапазон 0 до 65535</p>
+<p>Операция sizeof(int) - резултат - брой байтове, които се отделят за
+дадения тип ( в случая 4)<br />
+sizeof(a) - ако a е променлива от тип int - резултатът е същият като
+sizeof(int)</p>
+<ol start="3" type="1">
+<li><p>Операции:</p>
+<p>събиране (+), изваждане(-), умножение (*), деление (/), остатък при
+целочислено деление (*%).<br />
+При целочислено деление - цяло/цяло - резултатът е цяло число<br />
+Пример 15/4 е 3</p></li>
+<li><p>Оператор за присвояване:<br />
+променлива = израз;<br />
+</p></li>
+<li><p>Въвеждане и извеждане на данни от целочислен тип:</p></li>
+</ol>
+<p>int a;<br />
+scanf(“%d”,&amp;a); - scanf e функция за форматиран вход. Първият
+параметър се нарича форматиращ низ. Той съдържа форматни спецификатори.
+За въвеждане/ извеждане на цели числа се използва форматен спецификатор
+%d<br />
+printf(“a=%d”,a); //printf е функция за фопрматиран изход.<br />
+Ако стойността на а е например 10, на екрана се извежда:<br />
+а=10</p>
+<p>Задачи:</p>
+<ol type="1">
+<li>Да се състави програма за размяна на две целочислени променливи
+<ol type="1">
+<li>С използване на помощна променлива<br />
+</li>
+<li>Без използване на помощна променлива ( с операции събиране и
+изваждане)<br />
+</li>
+</ol></li>
+<li>Една кола тръгва в h1 часа и m1 минути и пристига в h2 часа и m2
+минути. Колко време е пътувала колата в часове и минути, ако пътуването
+е в рамките на едно денонощие?</li>
+</ol>
+<p><strong>Реални типове данни</strong></p>
+<ol type="1">
+<li>Константи от реален тип (реални числа)<br />
+а/ с десетична точка:<br />
+Примери: 2.33 -12.4 0.123 и др.<br />
+б/ с експонента (с мантиса и порядък)<br />
+Примери: 2.5Е-1 =2.5*10-1 където 2.5 е мантиса, -1 е порядък(цяло
+число). Стойността на числото е равно на мантисата по 10 на степен
+порядъка<br />
+</li>
+<li>Променливи от реални типове:<br />
+float a; - заема 4 байта ОП<br />
+double b; - заема 8 байта ОП<br />
+Разликата между float и double е в диапазона от допустими стойности и
+точност в брой цифри.<br />
+</li>
+<li>Операции и изрази<br />
+Допустими операции: събиране, изваждане, умножение и деление<br />
+Ако един от операторите е от реален тип - резултатът също е от реален
+тип.<br />
+Пример (среден успех на учениците)<br />
+int s,n;<br />
+float avr;<br />
+…<br />
+avr=s/n; - грешно (цяло/цяло дава цяло)<br />
+avr=(1.0*s)/n; - вярно (1.0*s) e реално число<br />
+avr=(float)s/n; - вярно (float) - операция за явно преобразуване на
+типове<br />
+int n;<br />
+float s,avr;<br />
+avr=s/n; - вярно (реално/цяло дава реално)<br />
+</li>
+<li>Въвеждане и извеждане<br />
+scanf(“%f”,&amp;a);<br />
+scanf(“%lf”,&amp;b);<br />
+printf(“a=%f b=%lf”,a,b);</li>
+</ol>
+</div>
+</body>
+</html>
