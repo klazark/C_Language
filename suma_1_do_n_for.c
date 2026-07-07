@@ -1,11 +1,16 @@
 #include <stdio.h>
 
-int main(void)
-{
-    int n, i, s = 0;
+int main(void) {
+    int n;
+    int m = 0;
 
     scanf("%d", &n);
-    for (i = 1; i <= n; i++)
-        s += i;
-    printf("%d\n", s);
+
+    while (n > 0) {
+        m = m * 10 + (n % 10);
+        n = n / 10;
+    }
+
+    printf("%d\n", m);
+    return 0;
 }
