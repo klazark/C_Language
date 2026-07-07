@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>02 Celochisleni Tipowe Danni</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+  min-height: 100vh;
+  padding: 20px;
+  color: #333;
+}
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+  padding: 40px;
+}
+h1 {
+  color: #11998e;
+  text-align: center;
+  margin-bottom: 10px;
+  font-size: 2em;
+  border-bottom: 3px solid #38ef7d;
+  padding-bottom: 15px;
+}
+h2 {
+  color: #0d7a70;
+  margin-top: 30px;
+  margin-bottom: 12px;
+  font-size: 1.4em;
+  border-left: 4px solid #38ef7d;
+  padding-left: 10px;
+}
+h3 {
+  color: #11998e;
+  margin-top: 22px;
+  margin-bottom: 10px;
+  font-size: 1.15em;
+}
+h4 {
+  color: #0d7a70;
+  margin-top: 18px;
+  margin-bottom: 8px;
+  font-size: 1em;
+}
+p { margin: 10px 0; line-height: 1.6; }
+ul, ol { margin: 10px 0 10px 25px; line-height: 1.6; }
+li { margin: 4px 0; }
+strong { color: #0d7a70; }
+code {
+  background: #f0f7f6;
+  color: #11998e;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: 'Consolas', 'Monaco', monospace;
+  font-size: 0.9em;
+}
+pre {
+  background: #1e1e1e;
+  color: #dcdcdc;
+  padding: 16px;
+  border-radius: 8px;
+  overflow-x: auto;
+  margin: 15px 0;
+  font-size: 0.88em;
+  line-height: 1.5;
+}
+pre code {
+  background: none;
+  color: inherit;
+  padding: 0;
+  border-radius: 0;
+}
+blockquote {
+  border-left: 4px solid #38ef7d;
+  padding-left: 15px;
+  color: #555;
+  margin: 12px 0;
+  font-style: italic;
+}
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 15px 0;
+}
+th, td {
+  border: 1px solid #ddd;
+  padding: 8px 12px;
+  text-align: left;
+}
+th {
+  background: #11998e;
+  color: white;
+}
+tr:nth-child(even) { background: #f7fcfb; }
+hr {
+  border: none;
+  border-top: 2px dashed #38ef7d;
+  margin: 25px 0;
+}
+a { color: #11998e; }
+a:hover { color: #0d7a70; }
+.subtitle {
+  text-align: center;
+  color: #666;
+  margin-bottom: 20px;
+  font-size: 0.9em;
+}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>02 Celochisleni Tipowe Danni</h1>
+<h1 id="целочислени-типове-данни">Целочислени типове данни</h1>
+<h2 id="константи-от-целочислен-тип-цели-числа">1. Константи от
+целочислен тип (цели числа)</h2>
+<p>Започва със знак <code>+</code> или <code>-</code> или е без знак,
+след което следва последователност от цифри.</p>
+<h2 id="променливи">2. Променливи</h2>
+<p>Всяка променлива, която се използва в програмата, трябва да бъде
+дефинирана. При дефинирането на променлива се заделя оперативна памет за
+тази променлива.</p>
+<p><strong>Пример:</strong></p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> a<span class="op">;</span>  <span class="co">// int - тип данни, a - име на променлива (идентификатор), ; - край на оператора (декларация)</span></span></code></pre></div>
+<h3 id="терминология">Терминология:</h3>
+<ul>
+<li><strong><code>int</code></strong> - целочислен тип данни (integer),
+4 bytes (32 bits) със знак. Може да съхранява положителни и отрицателни
+цели числа</li>
+<li><strong>Променлива</strong> - именувана област от паметта, която
+съхранява стойност, която може да се променя по време на изпълнение на
+програмата</li>
+<li><strong>Дефиниране на променлива</strong> - процесът на заделяне на
+памет и свързване на име с тази памет</li>
+</ul>
+<h3 id="типови-модификатори">Типови модификатори:</h3>
+<ul>
+<li><strong>по дължина:</strong> <code>short</code>, <code>long</code>
+<ul>
+<li><strong><code>short</code></strong> - намалява размера на типа
+(обикновено 2 bytes)</li>
+<li><strong><code>long</code></strong> - увеличава размера на типа
+(обикновено 8 bytes на 64-битови системи)</li>
+</ul></li>
+<li><strong>по знак:</strong> <code>signed</code>, <code>unsigned</code>
+<ul>
+<li><strong><code>signed</code></strong> - тип със знак, може да
+съхранява положителни и отрицателни числа (по подразбиране)</li>
+<li><strong><code>unsigned</code></strong> - тип без знак, може да
+съхранява само положителни числа (включително 0), което удвоява
+максималната стойност</li>
+</ul></li>
+</ul>
+<p><strong>Примери:</strong></p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="dt">unsigned</span> <span class="dt">int</span> b<span class="op">;</span>              <span class="co">// unsigned - модификатор без знак, int - тип, b - име на променлива, ; - край на оператора</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="dt">short</span> <span class="dt">int</span> c<span class="op">;</span>                 <span class="co">// short - модификатор за дължина, int - тип, c - име на променлива, ; - край на оператора</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="dt">unsigned</span> <span class="dt">short</span> <span class="dt">int</span> d<span class="op">;</span>        <span class="co">// unsigned short - модификатори, int - тип, d - име на променлива, ; - край на оператора</span></span></code></pre></div>
+<p><strong>Операция <code>sizeof(int)</code></strong> - резултат - брой
+байтове, които се отделят за дадения тип (в случая 4)</p>
+<p><code>sizeof(a)</code> - ако <code>a</code> е променлива от тип
+<code>int</code> - резултатът е същият като <code>sizeof(int)</code></p>
+<h3 id="терминология-1">Терминология:</h3>
+<ul>
+<li><strong><code>sizeof()</code></strong> - операция (не функция),
+която връща размера в байтове на даден тип или променлива. Полезно за
+определяне на размера на данни в паметта</li>
+</ul>
+<h2 id="операции">3. Операции</h2>
+<ul>
+<li>събиране (<code>+</code>)</li>
+<li>изваждане (<code>-</code>)</li>
+<li>умножение (<code>*</code>)</li>
+<li>деление (<code>/</code>)</li>
+<li>остатък при целочислено деление (<code>%</code>)</li>
+</ul>
+<h3 id="терминология-2">Терминология:</h3>
+<ul>
+<li><strong><code>%</code> (модуло)</strong> - операция за остатък при
+целочислено деление. Например <code>15 % 4</code> дава <code>3</code>
+(остатъкът при деление на 15 на 4)</li>
+</ul>
+<p>При целочислено деление - цяло/цяло - резултатът е цяло число</p>
+<p><strong>Пример:</strong> <code>15/4</code> е <code>3</code></p>
+<h2 id="оператор-за-присвояване">4. Оператор за присвояване</h2>
+<p><strong>Синтаксис:</strong></p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>променлива <span class="op">=</span> израз<span class="op">;</span>  <span class="co">// = - оператор за присвояване, ; - край на оператора</span></span></code></pre></div>
+<h2 id="въвеждане-и-извеждане-на-данни-от-целочислен-тип">5. Въвеждане и
+извеждане на данни от целочислен тип</h2>
+<div class="sourceCode" id="cb4"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span><span class="pp">          </span><span class="co">// препроцесорна директива - включва стандартната библиотека за вход/изход (виж [Препроцесор](../01_Въведение%20в%20С.md#4-препроцесор-и-етапи-на-компилация))</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> a<span class="op">;</span>                      <span class="co">// int - тип данни (виж [Променливи](#2-променливи)), a - име на променлива, ; - край на оператора</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>scanf<span class="op">(</span><span class="st">&quot;</span><span class="sc">%d</span><span class="st">&quot;</span><span class="op">,</span> <span class="op">&amp;</span>a<span class="op">);</span>            <span class="co">// scanf - функция за вход от #include &lt;stdio.h&gt;, &quot;%d&quot; - форматиращ низ, &amp;a - адрес на променливата (оператор &amp;), ; - край на оператора</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>printf<span class="op">(</span><span class="st">&quot;a=</span><span class="sc">%d</span><span class="st">&quot;</span><span class="op">,</span> a<span class="op">);</span>          <span class="co">// printf - функция за изход от #include &lt;stdio.h&gt;, &quot;a=%d&quot; - форматиращ низ, a - стойност за извеждане, ; - край на оператора</span></span></code></pre></div>
+<p>Ако стойността на <code>a</code> е например 10, на екрана се
+извежда:</p>
+<pre><code>a=10</code></pre>
+<h3 id="терминология-3">Терминология:</h3>
+<ul>
+<li><strong><code>scanf()</code></strong> - функция за форматиран вход
+(scan formatted), чете данни от стандартния вход (обикновено
+клавиатурата). <strong>Идва от
+<code>#include &lt;stdio.h&gt;</code></strong> - препроцесорната
+директива включва стандартната библиотека за вход/изход (виж <a
+href="../01_Въведение%20в%20С.md#4-препроцесор-и-етапи-на-компилация">Препроцесор</a>)</li>
+<li><strong><code>printf()</code></strong> - функция за форматиран изход
+(print formatted), извежда данни на стандартния изход (обикновено
+екрана). <strong>Идва от <code>#include &lt;stdio.h&gt;</code></strong>
+- препроцесорната директива включва стандартната библиотека за
+вход/изход (виж <a
+href="../01_Въведение%20в%20С.md#4-препроцесор-и-етапи-на-компилация">Препроцесор</a>)</li>
+<li><strong><code>%d</code></strong> - форматна спецификация за цели
+числа (decimal). Указва на <code>scanf()</code> и <code>printf()</code>
+как да интерпретират/форматират данните</li>
+<li><strong><code>&amp;a</code></strong> - оператор за адрес
+(<code>&amp;</code>). При <code>scanf()</code> е задължителен, защото
+функцията трябва да знае къде в паметта да запише прочетената стойност.
+<code>&amp;a</code> дава адреса на променливата <code>a</code></li>
+</ul>
+<h2 id="задачи">Задачи</h2>
+<ol type="1">
+<li>Да се състави програма за размяна на две целочислени променливи
+<ol type="1">
+<li>С използване на помощна променлива</li>
+<li>Без използване на помощна променлива (с операции събиране и
+изваждане)</li>
+</ol></li>
+<li>Една кола тръгва в <code>h1</code> часа и <code>m1</code> минути и
+пристига в <code>h2</code> часа и <code>m2</code> минути. Колко време е
+пътувала колата в часове и минути, ако пътуването е в рамките на едно
+денонощие?</li>
+</ol>
+</div>
+</body>
+</html>

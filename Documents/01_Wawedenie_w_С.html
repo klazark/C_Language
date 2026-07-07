@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>01 Wawedenie w С</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+  min-height: 100vh;
+  padding: 20px;
+  color: #333;
+}
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+  padding: 40px;
+}
+h1 {
+  color: #11998e;
+  text-align: center;
+  margin-bottom: 10px;
+  font-size: 2em;
+  border-bottom: 3px solid #38ef7d;
+  padding-bottom: 15px;
+}
+h2 {
+  color: #0d7a70;
+  margin-top: 30px;
+  margin-bottom: 12px;
+  font-size: 1.4em;
+  border-left: 4px solid #38ef7d;
+  padding-left: 10px;
+}
+h3 {
+  color: #11998e;
+  margin-top: 22px;
+  margin-bottom: 10px;
+  font-size: 1.15em;
+}
+h4 {
+  color: #0d7a70;
+  margin-top: 18px;
+  margin-bottom: 8px;
+  font-size: 1em;
+}
+p { margin: 10px 0; line-height: 1.6; }
+ul, ol { margin: 10px 0 10px 25px; line-height: 1.6; }
+li { margin: 4px 0; }
+strong { color: #0d7a70; }
+code {
+  background: #f0f7f6;
+  color: #11998e;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: 'Consolas', 'Monaco', monospace;
+  font-size: 0.9em;
+}
+pre {
+  background: #1e1e1e;
+  color: #dcdcdc;
+  padding: 16px;
+  border-radius: 8px;
+  overflow-x: auto;
+  margin: 15px 0;
+  font-size: 0.88em;
+  line-height: 1.5;
+}
+pre code {
+  background: none;
+  color: inherit;
+  padding: 0;
+  border-radius: 0;
+}
+blockquote {
+  border-left: 4px solid #38ef7d;
+  padding-left: 15px;
+  color: #555;
+  margin: 12px 0;
+  font-style: italic;
+}
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 15px 0;
+}
+th, td {
+  border: 1px solid #ddd;
+  padding: 8px 12px;
+  text-align: left;
+}
+th {
+  background: #11998e;
+  color: white;
+}
+tr:nth-child(even) { background: #f7fcfb; }
+hr {
+  border: none;
+  border-top: 2px dashed #38ef7d;
+  margin: 25px 0;
+}
+a { color: #11998e; }
+a:hover { color: #0d7a70; }
+.subtitle {
+  text-align: center;
+  color: #666;
+  margin-bottom: 20px;
+  font-size: 0.9em;
+}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>01 Wawedenie w С</h1>
+<h1 id="въведение-в-с">Въведение в С</h1>
+<h2 id="азбука">1. Азбука</h2>
+<p><strong>а/</strong> букви - малки и главни латински букви и знак за
+подчертаване</p>
+<p><strong>б/</strong> цифри - от 0 до 9</p>
+<p><strong>в/</strong> специални символи: <code>+</code> <code>-</code>
+<code>*</code> <code>/</code> <code>%</code> <code>!</code>
+<code>?</code> <code>&amp;</code> <code>|</code> <code>&gt;</code>
+<code>&lt;</code> <code>=</code> <code>(</code> <code>)</code>
+<code>[</code> <code>]</code> <code>{</code> <code>}</code>
+<code>.</code> <code>,</code> <code>;</code> <code>:</code>
+<code>#</code> <code>'</code> <code>"</code> и др.</p>
+<h2 id="лексика">2. Лексика</h2>
+<p><strong>Лексема (дума)</strong> - най-малката единица на езика, която
+има определен смисъл</p>
+<h3 id="видове-лексеми-tokens">Видове лексеми (tokens):</h3>
+<p><strong>а/</strong> <strong>служебни (ключови, резервирани, запазени)
+думи</strong> - имат точно предназначение в езика и не могат да се
+използват за други цели (напр. не може да кръстиш променливата си
+<code>while</code>).</p>
+<p>Пишат се с малки букви.</p>
+<p><strong>Примери:</strong> <code>if</code>, <code>else</code>,
+<code>while</code>, <code>do</code>, <code>for</code>,
+<code>switch</code>, <code>case</code>, <code>break</code>,
+<code>continue</code> и др.</p>
+<p><strong>б/</strong> <strong>идентификатори (имена)</strong> - служат
+за обозначаване на променливи, функции и др.</p>
+<p>Идентификаторът започва с буква (виж т.1а), а всеки следващ символ е
+буква или цифра.</p>
+<p>Има разлика между малки и главни букви - <code>Max</code> е различно
+от <code>max</code>.</p>
+<p>Не могат да се използват ключови думи за идентификатори.</p>
+<p><strong>в/</strong> <strong>операции</strong> - някои се състоят от
+един служебен символ, а други от два.</p>
+<p><strong>Примери:</strong> събиране (<code>+</code>), изваждане
+(<code>-</code>) и т.н. <code>&gt;=</code>, <code>&lt;=</code>,
+<code>==</code>, <code>!=</code></p>
+<p><strong>г/</strong> <strong>константи</strong></p>
+<p><strong>Примери:</strong> <code>245</code>, <code>2.5</code>,
+<code>-10.12</code></p>
+<p><strong>д/</strong> <strong>разделители</strong></p>
+<p><strong>Например:</strong> <code>.</code> <code>,</code>
+<code>;</code> <code>:</code> <code>(</code> <code>)</code>
+<code>{</code> <code>}</code> <code>[</code> <code>]</code> и др.</p>
+<p>Програмата е съставена от лексеми. Между всеки две лексеми трябва да
+има един или повече празни символи. Празни символи са интервал,
+табулация, нов ред. Изключение за празните символи между лексемите е ако
+едната от лексемите е разделител или знак за операция (тогава не е
+задължително да има празен символ между тях).</p>
+<h3 id="терминология">Терминология:</h3>
+<ul>
+<li><strong><code>;</code> (точка и запетая)</strong> - разделител,
+който завършва всеки оператор в C</li>
+<li><strong><code>{ }</code> (фигурни скоби)</strong> - обозначават
+началото и края на блок от код (тяло на функция, съставен оператор)</li>
+<li><strong><code>()</code> (кръгли скоби)</strong> - използват се за
+параметри на функции и за групиране на изрази</li>
+<li><strong><code>//</code> (двойна наклонена черта)</strong> - начало
+на коментар на един ред. Всичко след <code>//</code> до края на реда се
+игнорира от компилатора</li>
+</ul>
+<h2 id="синтаксис">3. Синтаксис</h2>
+<p><strong>Структура на програма</strong> - състои се от една или повече
+функции. Има точно една главна функция - <code>main()</code>, от която
+започва изпълнението на програмата.</p>
+<h3 id="дефиниция-на-функция">Дефиниция на функция:</h3>
+<p>Състои се от <strong>заглавие</strong> и <strong>тяло</strong>.</p>
+<p><strong>Заглавието</strong> се състои от: - тип на връщаната от
+функцията стойност (напр. <code>int</code>, <code>float</code>,
+<code>void</code>) - име на функцията (валиден за езика идентификатор) -
+списък от параметри заградени в кръгли скоби (кръглите скоби са
+задължителни, дори да няма параметри)</p>
+<h3 id="терминология-1">Терминология:</h3>
+<ul>
+<li><strong><code>void</code></strong> - празен тип, означава че
+функцията не връща стойност</li>
+<li><strong><code>int</code></strong> - целочислен тип данни, означава
+че функцията връща цяло число</li>
+<li><strong><code>main()</code></strong> - главна функция, от която
+започва изпълнението на програмата. Всяка C програма трябва да има точно
+една функция <code>main()</code></li>
+</ul>
+<p><strong>Тялото</strong> се състои от отварящи фигурни скоби, един или
+повече оператори, затварящи фигурни скоби.</p>
+<p>Всеки оператор в С завършва с <code>;</code></p>
+<h3 id="пример-1">Пример 1:</h3>
+<div class="sourceCode" id="cb1"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span><span class="pp">    </span><span class="co">// препроцесорна директива - включва стандартната библиотека за вход/изход (виж [Препроцесор](#4-препроцесор-и-етапи-на-компилация))</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> main<span class="op">()</span>           <span class="co">// void - тип (не връща стойност) (виж [Синтаксис](#3-синтаксис)), main - име на функция (виж [Синтаксис](#3-синтаксис)), () - кръгли скоби (без параметри)</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="op">{</span>                     <span class="co">// { - начало на съставния оператор (тяло на функцията) (виж [Съставен оператор](../03_Оператори.md#3-съставен-оператор))</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    printf<span class="op">(</span><span class="st">&quot;Hello&quot;</span><span class="op">);</span>  <span class="co">// printf - функция за изход от #include &lt;stdio.h&gt; (виж [Въвеждане и извеждане](../02_Целочислени%20типове%20данни.md#5-въвеждане-и-извеждане-на-данни-от-целочислен-тип)), ; - край на оператора</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span><span class="op">;</span>           <span class="co">// return - оператор за връщане (виж [Синтаксис](#3-синтаксис)), ; - край на оператора (не е задължително при void)</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span>                     <span class="co">// } - край на съставния оператор (виж [Съставен оператор](../03_Оператори.md#3-съставен-оператор))</span></span></code></pre></div>
+<h3 id="пример-2">Пример 2:</h3>
+<div class="sourceCode" id="cb2"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span><span class="pp">    </span><span class="co">// препроцесорна директива - включва стандартната библиотека за вход/изход (виж [Препроцесор](#4-препроцесор-и-етапи-на-компилация))</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">()</span>            <span class="co">// int - тип на връщаната стойност (виж [Синтаксис](#3-синтаксис)), main - име на функция (виж [Синтаксис](#3-синтаксис)), () - кръгли скоби (без параметри)</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="op">{</span>                     <span class="co">// { - начало на съставния оператор (тяло на функцията) (виж [Съставен оператор](../03_Оператори.md#3-съставен-оператор))</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    printf<span class="op">(</span><span class="st">&quot;Hello&quot;</span><span class="op">);</span>  <span class="co">// printf - функция за изход от #include &lt;stdio.h&gt; (виж [Въвеждане и извеждане](../02_Целочислени%20типове%20данни.md#5-въвеждане-и-извеждане-на-данни-от-целочислен-тип)), ; - край на оператора</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span>         <span class="co">// return - оператор за връщане (виж [Синтаксис](#3-синтаксис)), 0 - стойност за връщане, ; - край на оператора</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span>                     <span class="co">// } - край на съставния оператор (виж [Съставен оператор](../03_Оператори.md#3-съставен-оператор))</span></span></code></pre></div>
+<h3 id="терминология-в-примерите">Терминология в примерите:</h3>
+<ul>
+<li><strong><code>#include &lt;stdio.h&gt;</code></strong> -
+препроцесорна директива, която включва стандартната библиотека за
+вход/изход (<code>stdio</code> = standard input/output). Позволява
+използването на функции като <code>printf()</code> и
+<code>scanf()</code>. За повече информация виж <a
+href="#4-препроцесор-и-етапи-на-компилация">Препроцесор и етапи на
+компилация</a></li>
+<li><strong><code>printf()</code></strong> - функция за форматиран изход
+(print formatted), извежда текст и данни на екрана. <strong>Идва от
+<code>#include &lt;stdio.h&gt;</code></strong> - препроцесорната
+директива включва стандартната библиотека за вход/изход. За повече
+информация виж <a
+href="../02_Целочислени%20типове%20данни.md#5-въвеждане-и-извеждане-на-данни-от-целочислен-тип">Въвеждане
+и извеждане</a></li>
+<li><strong><code>scanf()</code></strong> - функция за форматиран вход
+(scan formatted), чете данни от стандартния вход. <strong>Идва от
+<code>#include &lt;stdio.h&gt;</code></strong> - препроцесорната
+директива включва стандартната библиотека за вход/изход. За повече
+информация виж <a
+href="../02_Целочислени%20типове%20данни.md#5-въвеждане-и-извеждане-на-данни-от-целочислен-тип">Въвеждане
+и извеждане</a></li>
+<li><strong><code>return</code></strong> - оператор за връщане от
+функция. При <code>void</code> функции може да се използва
+<code>return;</code> или да се пропусне. При функции, които връщат
+стойност, след <code>return</code> трябва да има стойност (напр.
+<code>return 0;</code>). За повече информация виж <a
+href="#3-синтаксис">Синтаксис</a></li>
+</ul>
+<h2 id="препроцесор-и-етапи-на-компилация">4. Препроцесор и етапи на
+компилация</h2>
+<h3 id="какво-е-препроцесор">Какво е препроцесор?</h3>
+<p><strong>Препроцесорът</strong> е първият етап при обработката на C
+програма преди компилацията. Той обработва <strong>препроцесорните
+директиви</strong> - команди, които започват с <code>#</code>
+(диез).</p>
+<h3 id="какво-прави-препроцесорът">Какво прави препроцесорът?</h3>
+<p>Препроцесорът извършва следните операции:</p>
+<ol type="1">
+<li><strong>Включване на файлове</strong> (<code>#include</code>)
+<ul>
+<li>Заменя <code>#include &lt;stdio.h&gt;</code> с цялото съдържание на
+файла <code>stdio.h</code></li>
+<li>Това позволява използването на функции от стандартните
+библиотеки</li>
+</ul></li>
+<li><strong>Дефиниране на макроси</strong> (<code>#define</code>)
+<ul>
+<li>Заменя дефинирани символи с техните стойности</li>
+<li>Пример: <code>#define PI 3.14</code> - всяко срещане на
+<code>PI</code> се заменя с <code>3.14</code></li>
+</ul></li>
+<li><strong>Условна компилация</strong> (<code>#ifdef</code>,
+<code>#ifndef</code>, <code>#endif</code>)
+<ul>
+<li>Позволява включване/изключване на части от кода в зависимост от
+условия</li>
+</ul></li>
+<li><strong>Премахване на коментари</strong>
+<ul>
+<li>Премахва коментарите от кода преди компилацията</li>
+</ul></li>
+</ol>
+<h3 id="етапите-на-компилация-на-c-програма">Етапите на компилация на C
+програма</h3>
+<p>Преобразуването на C програма в изпълним файл се извършва в няколко
+етапа:</p>
+<h4 id="етап-1-препроцесиране-preprocessing"><strong>Етап 1:
+Препроцесиране (Preprocessing)</strong></h4>
+<p><strong>Вход:</strong> Файл с разширение <code>.c</code> (напр.
+<code>program.c</code>)<br />
+<strong>Изход:</strong> Препроцесиран файл (обикновено с разширение
+<code>.i</code>)</p>
+<p><strong>Какво се случва:</strong> - Препроцесорът обработва всички
+директиви, започващи с <code>#</code> - Заменя <code>#include</code>
+директивите с съдържанието на включените файлове - Обработва макросите и
+условната компилация - Премахва коментарите</p>
+<p><strong>Пример:</strong></p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">// program.c</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    printf<span class="op">(</span><span class="st">&quot;Hello&quot;</span><span class="op">);</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>След препроцесиране, <code>#include &lt;stdio.h&gt;</code> се заменя
+с хиляди редове код от стандартната библиотека.</p>
+<h4 id="етап-2-компилация-compilation"><strong>Етап 2: Компилация
+(Compilation)</strong></h4>
+<p><strong>Вход:</strong> Препроцесиран файл (<code>.i</code>)<br />
+<strong>Изход:</strong> Файл с асемблерен код (обикновено с разширение
+<code>.s</code>)</p>
+<p><strong>Какво се случва:</strong> - Компилаторът преобразува C код в
+асемблерен код (ниско ниво, специфичен за процесора) - Проверява
+синтаксиса и семантиката на кода - Генерира обектен код</p>
+<h4 id="етап-3-асемблиране-assembly"><strong>Етап 3: Асемблиране
+(Assembly)</strong></h4>
+<p><strong>Вход:</strong> Асемблерен файл (<code>.s</code>)<br />
+<strong>Изход:</strong> Обектен файл (обикновено с разширение
+<code>.o</code> или <code>.obj</code>)</p>
+<p><strong>Какво се случва:</strong> - Асемблерът преобразува
+асемблерния код в машинен код (бинарни инструкции) - Създава обектен
+файл, който все още не е изпълним</p>
+<h4 id="етап-4-свързване-linking"><strong>Етап 4: Свързване
+(Linking)</strong></h4>
+<p><strong>Вход:</strong> Обектни файлове (<code>.o</code>) и
+библиотеки<br />
+<strong>Изход:</strong> Изпълним файл (напр. <code>program.exe</code>
+или <code>program</code>)</p>
+<p><strong>Какво се случва:</strong> - Линкерът свързва обектните
+файлове с библиотеките - Разрешава препратките между различни файлове -
+Създава финалния изпълним файл</p>
+<h3 id="визуализация-на-процеса">Визуализация на процеса:</h3>
+<pre><code>program.c  ──[Препроцесиране]──&gt;  program.i  ──[Компилация]──&gt;  program.s
+                                                                      │
+program.exe  &lt;──[Свързване]──  program.o  &lt;──[Асемблиране]───────────┘</code></pre>
+<h3 id="важни-бележки">Важни бележки:</h3>
+<ul>
+<li><strong>Препроцесорът работи преди компилацията</strong> - той
+подготвя кода за компилатора</li>
+<li><strong>Препроцесорните директиви не са C код</strong> - те са
+инструкции за препроцесора</li>
+<li><strong>Всички директиви започват с <code>#</code></strong> - това е
+знакът, който идентифицира препроцесорни команди</li>
+<li><strong>Препроцесорът не разбира C синтаксис</strong> - той просто
+прави текстови замени</li>
+</ul>
+<h3 id="примери-за-препроцесорни-директиви">Примери за препроцесорни
+директиви:</h3>
+<div class="sourceCode" id="cb5"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span><span class="pp">    </span><span class="co">// Включва стандартната библиотека за вход/изход</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&quot;myfile.h&quot;</span><span class="pp">   </span><span class="co">// Включва локален файл</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="pp">#define MAX </span><span class="dv">100</span><span class="pp">       </span><span class="co">// Дефинира макрос MAX със стойност 100</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="pp">#define PI </span><span class="fl">3.14159</span><span class="pp">    </span><span class="co">// Дефинира макрос PI</span></span></code></pre></div>
+<h3 id="защо-е-важно-да-знаем-това">Защо е важно да знаем това?</h3>
+<p>Разбирането на етапите на компилация помага: - Да разберем защо
+трябва да включваме библиотеки с <code>#include</code> - Да разберем
+грешките по време на компилация - Да разберем разликата между грешки на
+компилация и грешки по време на изпълнение - Да използваме правилно
+препроцесорните директиви</p>
+</div>
+</body>
+</html>

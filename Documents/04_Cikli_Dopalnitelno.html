@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>04 Cikli Dopalnitelno</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+  min-height: 100vh;
+  padding: 20px;
+  color: #333;
+}
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+  padding: 40px;
+}
+h1 {
+  color: #11998e;
+  text-align: center;
+  margin-bottom: 10px;
+  font-size: 2em;
+  border-bottom: 3px solid #38ef7d;
+  padding-bottom: 15px;
+}
+h2 {
+  color: #0d7a70;
+  margin-top: 30px;
+  margin-bottom: 12px;
+  font-size: 1.4em;
+  border-left: 4px solid #38ef7d;
+  padding-left: 10px;
+}
+h3 {
+  color: #11998e;
+  margin-top: 22px;
+  margin-bottom: 10px;
+  font-size: 1.15em;
+}
+h4 {
+  color: #0d7a70;
+  margin-top: 18px;
+  margin-bottom: 8px;
+  font-size: 1em;
+}
+p { margin: 10px 0; line-height: 1.6; }
+ul, ol { margin: 10px 0 10px 25px; line-height: 1.6; }
+li { margin: 4px 0; }
+strong { color: #0d7a70; }
+code {
+  background: #f0f7f6;
+  color: #11998e;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: 'Consolas', 'Monaco', monospace;
+  font-size: 0.9em;
+}
+pre {
+  background: #1e1e1e;
+  color: #dcdcdc;
+  padding: 16px;
+  border-radius: 8px;
+  overflow-x: auto;
+  margin: 15px 0;
+  font-size: 0.88em;
+  line-height: 1.5;
+}
+pre code {
+  background: none;
+  color: inherit;
+  padding: 0;
+  border-radius: 0;
+}
+blockquote {
+  border-left: 4px solid #38ef7d;
+  padding-left: 15px;
+  color: #555;
+  margin: 12px 0;
+  font-style: italic;
+}
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 15px 0;
+}
+th, td {
+  border: 1px solid #ddd;
+  padding: 8px 12px;
+  text-align: left;
+}
+th {
+  background: #11998e;
+  color: white;
+}
+tr:nth-child(even) { background: #f7fcfb; }
+hr {
+  border: none;
+  border-top: 2px dashed #38ef7d;
+  margin: 25px 0;
+}
+a { color: #11998e; }
+a:hover { color: #0d7a70; }
+.subtitle {
+  text-align: center;
+  color: #666;
+  margin-bottom: 20px;
+  font-size: 0.9em;
+}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>04 Cikli Dopalnitelno</h1>
+<h1 id="допълнителни-концепции-за-работа-с-цели-числа">Допълнителни
+концепции за работа с цели числа</h1>
+<h2 id="цикъл-for">1. Цикъл for</h2>
+<p><strong>Синтаксис:</strong></p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> <span class="op">(</span>инициализация<span class="op">;</span> условие<span class="op">;</span> стъпка<span class="op">)</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    оператор</span></code></pre></div>
+<p><strong>Начин на изпълнение:</strong></p>
+<ol type="1">
+<li>Изпълнява се <strong>инициализацията</strong> (обикновено задаване
+на начална стойност на брояч)</li>
+<li>Проверява се <strong>условието</strong> - ако е истина, изпълнява се
+операторът</li>
+<li>Изпълнява се <strong>стъпката</strong> (обикновено
+увеличаване/намаляване на брояча)</li>
+<li>Връща се на стъпка 2</li>
+</ol>
+<p><strong>Пример:</strong></p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span><span class="pp">    </span><span class="co">// препроцесорна директива - включва стандартната библиотека за вход/изход (виж [Препроцесор](../01_Въведение%20в%20С.md#4-препроцесор-и-етапи-на-компилация))</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">(</span><span class="dt">void</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> i<span class="op">;</span>            <span class="co">// декларация на променлива (виж [Променливи](../02_Целочислени%20типове%20данни.md#2-променливи))</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Отпечатва числата от 1 до 5</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span>i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;=</span> <span class="dv">5</span><span class="op">;</span> i <span class="op">=</span> i <span class="op">+</span> <span class="dv">1</span><span class="op">)</span> <span class="op">{</span>  <span class="co">// for - цикъл с брояч (виж [Цикъл for](../03_Оператори.md#6-оператор-за-цикъл-for)), (инициализация; условие; стъпка) - кръгли скоби с три части, = - присвояване (виж [Оператор за присвояване](../03_Оператори.md#1-оператор-за-присвояване)), &lt;= - сравнение (виж [Оператори за сравнение](../03_Оператори.md#7-оператори-за-сравнение)), + - събиране (виж [Операции](../02_Целочислени%20типове%20данни.md#3-операции))</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>        printf<span class="op">(</span><span class="st">&quot;</span><span class="sc">%d</span><span class="st"> &quot;</span><span class="op">,</span> i<span class="op">);</span>              <span class="co">// printf - функция за изход от #include &lt;stdio.h&gt; (виж [Въвеждане и извеждане](../02_Целочислени%20типове%20данни.md#5-въвеждане-и-извеждане-на-данни-от-целочислен-тип)), ; - край на оператора</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span>                                  <span class="co">// } - край на съставния оператор (тяло на цикъла) (виж [Съставен оператор](../03_Оператори.md#3-съставен-оператор))</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p><strong>Изход:</strong> <code>1 2 3 4 5</code></p>
+<h3 id="терминология">Терминология:</h3>
+<ul>
+<li><strong><code>for</code></strong> - оператор за цикъл с брояч.
+Удобен когато знаем колко пъти искаме да повторим операцията</li>
+<li><strong>Инициализация</strong> - задава начална стойност на
+променливата-брояч</li>
+<li><strong>Условие</strong> - определя до кога ще продължи цикълът</li>
+<li><strong>Стъпка</strong> - определя как се променя броячът на всяка
+итерация</li>
+</ul>
+<h3 id="примери-за-използване">Примери за използване:</h3>
+<p><strong>Въвеждане на n числа:</strong></p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span><span class="pp">    </span><span class="co">// препроцесорна директива - включва стандартната библиотека за вход/изход (виж [Препроцесор](../01_Въведение%20в%20С.md#4-препроцесор-и-етапи-на-компилация))</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">(</span><span class="dt">void</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> n<span class="op">,</span> i<span class="op">,</span> number<span class="op">;</span>                 <span class="co">// декларация на няколко променливи (виж [Променливи](../02_Целочислени%20типове%20данни.md#2-променливи))</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    printf<span class="op">(</span><span class="st">&quot;Въведете брой числа: &quot;</span><span class="op">);</span>  <span class="co">// printf - функция за изход от #include &lt;stdio.h&gt; (виж [Въвеждане и извеждане](../02_Целочислени%20типове%20данни.md#5-въвеждане-и-извеждане-на-данни-от-целочислен-тип))</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    scanf<span class="op">(</span><span class="st">&quot;</span><span class="sc">%d</span><span class="st">&quot;</span><span class="op">,</span> <span class="op">&amp;</span>n<span class="op">);</span>                   <span class="co">// scanf - функция за вход от #include &lt;stdio.h&gt; (виж [Въвеждане и извеждане](../02_Целочислени%20типове%20данни.md#5-въвеждане-и-извеждане-на-данни-от-целочислен-тип)), &amp; - оператор за адрес</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span>i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;=</span> n<span class="op">;</span> i <span class="op">=</span> i <span class="op">+</span> <span class="dv">1</span><span class="op">)</span> <span class="op">{</span>  <span class="co">// for - цикъл (виж [Цикъл for](../03_Оператори.md#6-оператор-за-цикъл-for)), (инициализация; условие; стъпка), &lt;= - оператор за сравнение (виж [Оператори за сравнение](../03_Оператори.md#7-оператори-за-сравнение))</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>        printf<span class="op">(</span><span class="st">&quot;Въведете число </span><span class="sc">%d</span><span class="st">: &quot;</span><span class="op">,</span> i<span class="op">);</span>  <span class="co">// printf - функция за изход от #include &lt;stdio.h&gt;</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>        scanf<span class="op">(</span><span class="st">&quot;</span><span class="sc">%d</span><span class="st">&quot;</span><span class="op">,</span> <span class="op">&amp;</span>number<span class="op">);</span>           <span class="co">// scanf - функция за вход от #include &lt;stdio.h&gt;, &amp; - оператор за адрес</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Обработка на number</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span>                                  <span class="co">// } - край на съставния оператор (виж [Съставен оператор](../03_Оператори.md#3-съставен-оператор))</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p><strong>Отпечатване на числа в обратен ред:</strong></p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> <span class="op">(</span>i <span class="op">=</span> <span class="dv">10</span><span class="op">;</span> i <span class="op">&gt;=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">=</span> i <span class="op">-</span> <span class="dv">1</span><span class="op">)</span> <span class="op">{</span>     <span class="co">// for - цикъл (виж [Цикъл for](../03_Оператори.md#6-оператор-за-цикъл-for)), (инициализация; условие; стъпка), &gt;= - оператор за сравнение (виж [Оператори за сравнение](../03_Оператори.md#7-оператори-за-сравнение)), - - изваждане (виж [Операции](../02_Целочислени%20типове%20данни.md#3-операции))</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    printf<span class="op">(</span><span class="st">&quot;</span><span class="sc">%d</span><span class="st"> &quot;</span><span class="op">,</span> i<span class="op">);</span>                 <span class="co">// printf - функция за изход от #include &lt;stdio.h&gt;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span>                                      <span class="co">// } - край на съставния оператор (виж [Съставен оператор](../03_Оператори.md#3-съставен-оператор))</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co">// Изход: 10 9 8 7 6 5 4 3 2 1</span></span></code></pre></div>
+<hr />
+<h2 id="цикъл-while">1.1. Цикъл while</h2>
+<p><strong>Синтаксис:</strong></p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> <span class="op">(</span>условие<span class="op">)</span>         <span class="co">// while - цикъл с предусловие, (условие) - кръгли скоби</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    оператор            <span class="co">// тяло на цикъла (може да бъде съставен оператор { })</span></span></code></pre></div>
+<p><strong>Начин на изпълнение:</strong></p>
+<ol type="1">
+<li>Проверява се <strong>условието</strong> - ако е истина (различно от
+0), изпълнява се операторът</li>
+<li>След изпълнение на оператора, отново се проверява условието</li>
+<li>Цикълът се повтаря, докато условието стане лъжа (равно на 0)</li>
+</ol>
+<p><strong>Пример:</strong></p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span><span class="pp">    </span><span class="co">// препроцесорна директива - включва стандартната библиотека за вход/изход (виж [Препроцесор](../01_Въведение%20в%20С.md#4-препроцесор-и-етапи-на-компилация))</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">(</span><span class="dt">void</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> count <span class="op">=</span> <span class="dv">1</span><span class="op">;</span>            <span class="co">// декларация и инициализация (виж [Променливи](../02_Целочислени%20типове%20данни.md#2-променливи)), = - присвояване (виж [Оператор за присвояване](../03_Оператори.md#1-оператор-за-присвояване))</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Отпечатва числата от 1 до 5</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="op">(</span>count <span class="op">&lt;=</span> <span class="dv">5</span><span class="op">)</span> <span class="op">{</span>      <span class="co">// while - цикъл с предусловие (виж [Оператор за цикъл с предусловие](../03_Оператори.md#4-оператор-за-цикъл-с-предусловие)), (условие) - кръгли скоби, &lt;= - сравнение (виж [Оператори за сравнение](../03_Оператори.md#7-оператори-за-сравнение))</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>        printf<span class="op">(</span><span class="st">&quot;</span><span class="sc">%d</span><span class="st"> &quot;</span><span class="op">,</span> count<span class="op">);</span> <span class="co">// printf - функция за изход от #include &lt;stdio.h&gt; (виж [Въвеждане и извеждане](../02_Целочислени%20типове%20данни.md#5-въвеждане-и-извеждане-на-данни-от-целочислен-тип)), ; - край на оператора</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>        count <span class="op">=</span> count <span class="op">+</span> <span class="dv">1</span><span class="op">;</span>    <span class="co">// = - присвояване (виж [Оператор за присвояване](../03_Оператори.md#1-оператор-за-присвояване)), + - събиране (виж [Операции](../02_Целочислени%20типове%20данни.md#3-операции)) (увеличаване на брояча)</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span>                        <span class="co">// } - край на съставния оператор (тяло на цикъла) (виж [Съставен оператор](../03_Оператори.md#3-съставен-оператор))</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p><strong>Изход:</strong> <code>1 2 3 4 5</code></p>
+<h3 id="терминология-1">Терминология:</h3>
+<ul>
+<li><strong><code>while</code></strong> - оператор за цикъл с
+предусловие. Проверява условието <strong>преди</strong> да изпълни
+тялото. Ако условието е лъжа от самото начало, тялото няма да се изпълни
+нито веднъж</li>
+<li><strong>Условие</strong> - израз, който се оценява като истина
+(ненулева стойност) или лъжа (0)</li>
+<li><strong>Предусловие</strong> - условието се проверява
+<strong>преди</strong> изпълнение на тялото</li>
+</ul>
+<h3 id="примери-за-използване-1">Примери за използване:</h3>
+<p><strong>Обработка на число докато не стане 0:</strong></p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span><span class="pp">    </span><span class="co">// препроцесорна директива - включва стандартната библиотека за вход/изход (виж [Препроцесор](../01_Въведение%20в%20С.md#4-препроцесор-и-етапи-на-компилация))</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">(</span><span class="dt">void</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> n <span class="op">=</span> <span class="dv">1234</span><span class="op">;</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> sum <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> digit<span class="op">;</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="op">(</span>n <span class="op">&gt;</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span>          <span class="co">// while - цикъл с предусловие (виж [Оператор за цикъл с предусловие](../03_Оператори.md#4-оператор-за-цикъл-с-предусловие)), (условие) - кръгли скоби, &gt; - сравнение (виж [Оператори за сравнение](../03_Оператори.md#7-оператори-за-сравнение))</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>        digit <span class="op">=</span> n <span class="op">%</span> <span class="dv">10</span><span class="op">;</span>      <span class="co">// % - модуло (виж [Операции](../02_Целочислени%20типове%20данни.md#3-операции)), = - присвояване (виж [Оператор за присвояване](../03_Оператори.md#1-оператор-за-присвояване))</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>        sum <span class="op">=</span> sum <span class="op">+</span> digit<span class="op">;</span>   <span class="co">// = - присвояване, + - събиране (виж [Операции](../02_Целочислени%20типове%20данни.md#3-операции))</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>        n <span class="op">=</span> n <span class="op">/</span> <span class="dv">10</span><span class="op">;</span>          <span class="co">// / - деление (виж [Операции](../02_Целочислени%20типове%20данни.md#3-операции)), = - присвояване</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span>                        <span class="co">// } - край на съставния оператор (тяло на цикъла) (виж [Съставен оператор](../03_Оператори.md#3-съставен-оператор))</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    printf<span class="op">(</span><span class="st">&quot;Сумата на цифрите: </span><span class="sc">%d\n</span><span class="st">&quot;</span><span class="op">,</span> sum<span class="op">);</span>  <span class="co">// printf - функция за изход от #include &lt;stdio.h&gt;</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p><strong>Четене на числа докато не се въведе 0:</strong></p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span><span class="pp">    </span><span class="co">// препроцесорна директива - включва стандартната библиотека за вход/изход (виж [Препроцесор](../01_Въведение%20в%20С.md#4-препроцесор-и-етапи-на-компилация))</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">(</span><span class="dt">void</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> number<span class="op">;</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> sum <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    printf<span class="op">(</span><span class="st">&quot;Въведете числа (0 за край): &quot;</span><span class="op">);</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    scanf<span class="op">(</span><span class="st">&quot;</span><span class="sc">%d</span><span class="st">&quot;</span><span class="op">,</span> <span class="op">&amp;</span>number<span class="op">);</span>    <span class="co">// scanf - функция за вход от #include &lt;stdio.h&gt;, &amp; - оператор за адрес</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="op">(</span>number <span class="op">!=</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span>    <span class="co">// while - цикъл с предусловие (виж [Оператор за цикъл с предусловие](../03_Оператори.md#4-оператор-за-цикъл-с-предусловие)), (условие) - кръгли скоби, != - сравнение за различно (виж [Оператори за сравнение](../03_Оператори.md#7-оператори-за-сравнение))</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>        sum <span class="op">=</span> sum <span class="op">+</span> number<span class="op">;</span>  <span class="co">// = - присвояване, + - събиране</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>        scanf<span class="op">(</span><span class="st">&quot;</span><span class="sc">%d</span><span class="st">&quot;</span><span class="op">,</span> <span class="op">&amp;</span>number<span class="op">);</span> <span class="co">// scanf - функция за вход от #include &lt;stdio.h&gt;, &amp; - оператор за адрес</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span>                        <span class="co">// } - край на съставния оператор (виж [Съставен оператор](../03_Оператори.md#3-съставен-оператор))</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    printf<span class="op">(</span><span class="st">&quot;Сумата е: </span><span class="sc">%d\n</span><span class="st">&quot;</span><span class="op">,</span> sum<span class="op">);</span>  <span class="co">// printf - функция за изход от #include &lt;stdio.h&gt;</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<hr />
+<h2 id="сравнение-между-for-и-while---кога-кое-да-използваме">1.2.
+Сравнение между for и while - кога кое да използваме?</h2>
+<h3 id="основни-разлики">Основни разлики:</h3>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 21%" />
+<col style="width: 28%" />
+</colgroup>
+<thead>
+<tr>
+<th>Характеристика</th>
+<th><code>for</code></th>
+<th><code>while</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Структура</strong></td>
+<td>Три части в заглавието: инициализация, условие, стъпка</td>
+<td>Само условие в заглавието</td>
+</tr>
+<tr>
+<td><strong>Инициализация</strong></td>
+<td>В заглавието на цикъла</td>
+<td>Преди цикъла</td>
+</tr>
+<tr>
+<td><strong>Стъпка (увеличаване/намаляване)</strong></td>
+<td>В заглавието на цикъла</td>
+<td>В тялото на цикъла</td>
+</tr>
+<tr>
+<td><strong>Кога е подходящ</strong></td>
+<td>Когато знаем колко пъти искаме да повторим</td>
+<td>Когато не знаем колко пъти ще се повтори</td>
+</tr>
+</tbody>
+</table>
+<h3 id="кога-да-използваме-for">Кога да използваме
+<code>for</code>:</h3>
+<p><strong><code>for</code> е по-подходящ когато:</strong> - Знаем
+<strong>точно колко пъти</strong> искаме да повторим операцията - Имаме
+<strong>брояч</strong>, който се променя с фиксирана стъпка - Искаме
+<strong>компактност</strong> - инициализацията, условието и стъпката са
+на едно място</p>
+<p><strong>Примери:</strong> - Отпечатване на числа от 1 до n -
+Въвеждане на точно n числа - Обработка на всеки елемент в известен
+диапазон</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Пример: Отпечатване на числа от 1 до 10</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> <span class="op">(</span>i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;=</span> <span class="dv">10</span><span class="op">;</span> i <span class="op">=</span> i <span class="op">+</span> <span class="dv">1</span><span class="op">)</span> <span class="op">{</span>  <span class="co">// for - цикъл (виж [Цикъл for](../03_Оператори.md#6-оператор-за-цикъл-for))</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    printf<span class="op">(</span><span class="st">&quot;</span><span class="sc">%d</span><span class="st"> &quot;</span><span class="op">,</span> i<span class="op">);</span>               <span class="co">// printf - функция за изход от #include &lt;stdio.h&gt;</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span>                                   <span class="co">// } - край на съставния оператор</span></span></code></pre></div>
+<h3 id="кога-да-използваме-while">Кога да използваме
+<code>while</code>:</h3>
+<p><strong><code>while</code> е по-подходящ когато:</strong> -
+<strong>Не знаем</strong> колко пъти ще се повтори операцията -
+Условието зависи от <strong>данни, които се променят в тялото</strong> -
+Искаме да <strong>проверим условие преди</strong> да изпълним тялото -
+Обработваме данни докато не се достигне определено условие</p>
+<p><strong>Примери:</strong> - Обработка на цифри на число (докато
+числото не стане 0) - Четене на данни докато не се въведе специална
+стойност (напр. 0 или -1) - Повтаряне на операция докато условието е
+изпълнено</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Пример: Обработка на цифри докато числото не стане 0</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> <span class="op">(</span>n <span class="op">&gt;</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span>          <span class="co">// while - цикъл с предусловие (виж [Оператор за цикъл с предусловие](../03_Оператори.md#4-оператор-за-цикъл-с-предусловие))</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    digit <span class="op">=</span> n <span class="op">%</span> <span class="dv">10</span><span class="op">;</span>      <span class="co">// % - модуло</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    n <span class="op">=</span> n <span class="op">/</span> <span class="dv">10</span><span class="op">;</span>          <span class="co">// / - деление</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span>                        <span class="co">// } - край на съставния оператор</span></span></code></pre></div>
+<h3 id="еквивалентност-между-for-и-while">Еквивалентност между for и
+while:</h3>
+<p>Всеки <code>for</code> цикъл може да се запише като
+<code>while</code> цикъл и обратно:</p>
+<p><strong>Пример - for като while:</strong></p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">// for цикъл</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> <span class="op">(</span>i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;=</span> <span class="dv">5</span><span class="op">;</span> i <span class="op">=</span> i <span class="op">+</span> <span class="dv">1</span><span class="op">)</span> <span class="op">{</span>  <span class="co">// for - цикъл (виж [Цикъл for](../03_Оператори.md#6-оператор-за-цикъл-for))</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    printf<span class="op">(</span><span class="st">&quot;</span><span class="sc">%d</span><span class="st"> &quot;</span><span class="op">,</span> i<span class="op">);</span>              <span class="co">// printf - функция за изход от #include &lt;stdio.h&gt;</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span>                                  <span class="co">// } - край на съставния оператор</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="co">// Еквивалентен while цикъл</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span>                             <span class="co">// = - присвояване (инициализация)</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> <span class="op">(</span>i <span class="op">&lt;=</span> <span class="dv">5</span><span class="op">)</span> <span class="op">{</span>                   <span class="co">// while - цикъл с предусловие (виж [Оператор за цикъл с предусловие](../03_Оператори.md#4-оператор-за-цикъл-с-предусловие)), &lt;= - сравнение</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    printf<span class="op">(</span><span class="st">&quot;</span><span class="sc">%d</span><span class="st"> &quot;</span><span class="op">,</span> i<span class="op">);</span>              <span class="co">// printf - функция за изход от #include &lt;stdio.h&gt;</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>    i <span class="op">=</span> i <span class="op">+</span> <span class="dv">1</span><span class="op">;</span>                     <span class="co">// = - присвояване, + - събиране (стъпка)</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="op">}</span>                                  <span class="co">// } - край на съставния оператор</span></span></code></pre></div>
+<p><strong>Пример - while като for:</strong></p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">// while цикъл</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">1234</span><span class="op">;</span>                          <span class="co">// = - присвояване (инициализация)</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> <span class="op">(</span>n <span class="op">&gt;</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span>                    <span class="co">// while - цикъл с предусловие (виж [Оператор за цикъл с предусловие](../03_Оператори.md#4-оператор-за-цикъл-с-предусловие)), &gt; - сравнение</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    digit <span class="op">=</span> n <span class="op">%</span> <span class="dv">10</span><span class="op">;</span>                <span class="co">// % - модуло, = - присвояване</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    printf<span class="op">(</span><span class="st">&quot;</span><span class="sc">%d</span><span class="st"> &quot;</span><span class="op">,</span> digit<span class="op">);</span>          <span class="co">// printf - функция за изход от #include &lt;stdio.h&gt;</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    n <span class="op">=</span> n <span class="op">/</span> <span class="dv">10</span><span class="op">;</span>                    <span class="co">// / - деление, = - присвояване (стъпка)</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="op">}</span>                                  <span class="co">// } - край на съставния оператор</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="co">// Еквивалентен for цикъл (по-малко читаем)</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> <span class="op">(</span>n <span class="op">=</span> <span class="dv">1234</span><span class="op">;</span> n <span class="op">&gt;</span> <span class="dv">0</span><span class="op">;</span> n <span class="op">=</span> n <span class="op">/</span> <span class="dv">10</span><span class="op">)</span> <span class="op">{</span>  <span class="co">// for - цикъл (виж [Цикъл for](../03_Оператори.md#6-оператор-за-цикъл-for)), (инициализация; условие; стъпка)</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>    digit <span class="op">=</span> n <span class="op">%</span> <span class="dv">10</span><span class="op">;</span>                  <span class="co">// % - модуло, = - присвояване</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>    printf<span class="op">(</span><span class="st">&quot;</span><span class="sc">%d</span><span class="st"> &quot;</span><span class="op">,</span> digit<span class="op">);</span>            <span class="co">// printf - функция за изход от #include &lt;stdio.h&gt;</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a><span class="op">}</span>                                    <span class="co">// } - край на съставния оператор</span></span></code></pre></div>
+<h3 id="практически-съвети">Практически съвети:</h3>
+<ol type="1">
+<li><strong>Използвай <code>for</code></strong> когато:
+<ul>
+<li>Имаш брояч, който се променя с фиксирана стъпка</li>
+<li>Знаеш колко пъти искаш да повториш операцията</li>
+<li>Кодът става по-четим с инициализация, условие и стъпка на едно
+място</li>
+</ul></li>
+<li><strong>Използвай <code>while</code></strong> когато:
+<ul>
+<li>Условието зависи от данни, които се променят в тялото</li>
+<li>Не знаеш колко пъти ще се повтори операцията</li>
+<li>Условието е по-сложно и не се вписва добре в заглавието на
+<code>for</code></li>
+</ul></li>
+<li><strong>Читаемост на кода:</strong>
+<ul>
+<li><code>for</code> е по-компактен и ясен когато имаш брояч</li>
+<li><code>while</code> е по-ясен когато условието е по-сложно или зависи
+от данни в тялото</li>
+</ul></li>
+</ol>
+<h3 id="резюме">Резюме:</h3>
+<ul>
+<li><strong><code>for</code></strong> - за цикли с <strong>известен брой
+итерации</strong> и брояч с фиксирана стъпка</li>
+<li><strong><code>while</code></strong> - за цикли с <strong>неизвестен
+брой итерации</strong>, където условието зависи от данни в тялото</li>
+</ul>
+<p>И двата цикъла могат да се използват за едни и същи задачи, но
+изборът зависи от читаемостта и яснотата на кода.</p>
+<hr />
+<h2 id="операции-за-сравнение">2. Операции за сравнение</h2>
+<p>Използват се за сравняване на две стойности. Резултатът е
+<strong>истина</strong> (1) или <strong>лъжа</strong> (0).</p>
+<table>
+<thead>
+<tr>
+<th>Оператор</th>
+<th>Значение</th>
+<th>Пример</th>
+<th>Резултат</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>==</code></td>
+<td>Равно</td>
+<td><code>5 == 5</code></td>
+<td>1 (истина)</td>
+</tr>
+<tr>
+<td><code>==</code></td>
+<td>Равно</td>
+<td><code>5 == 3</code></td>
+<td>0 (лъжа)</td>
+</tr>
+<tr>
+<td><code>!=</code></td>
+<td>Различно</td>
+<td><code>5 != 3</code></td>
+<td>1 (истина)</td>
+</tr>
+<tr>
+<td><code>&gt;</code></td>
+<td>По-голямо</td>
+<td><code>5 &gt; 3</code></td>
+<td>1 (истина)</td>
+</tr>
+<tr>
+<td><code>&lt;</code></td>
+<td>По-малко</td>
+<td><code>5 &lt; 3</code></td>
+<td>0 (лъжа)</td>
+</tr>
+<tr>
+<td><code>&gt;=</code></td>
+<td>По-голямо или равно</td>
+<td><code>5 &gt;= 5</code></td>
+<td>1 (истина)</td>
+</tr>
+<tr>
+<td><code>&lt;=</code></td>
+<td>По-малко или равно</td>
+<td><code>3 &lt;= 5</code></td>
+<td>1 (истина)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Важно:</strong> <code>==</code> е за сравнение,
+<code>=</code> е за присвояване!</p>
+<p><strong>Пример:</strong></p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span><span class="pp">    </span><span class="co">// препроцесорна директива - включва стандартната библиотека за вход/изход (виж [Препроцесор](../01_Въведение%20в%20С.md#4-препроцесор-и-етапи-на-компилация))</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">(</span><span class="dt">void</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> a <span class="op">=</span> <span class="dv">5</span><span class="op">,</span> b <span class="op">=</span> <span class="dv">3</span><span class="op">;</span>                  <span class="co">// = - оператор за присвояване (виж [Оператор за присвояване](../03_Оператори.md#1-оператор-за-присвояване))</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>a <span class="op">==</span> b<span class="op">)</span> <span class="op">{</span>                      <span class="co">// if - условен оператор (виж [Условен оператор](../03_Оператори.md#2-условен-оператор)), (условие) - кръгли скоби, == - оператор за сравнение (виж [Оператори за сравнение](../03_Оператори.md#7-оператори-за-сравнение))</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>        printf<span class="op">(</span><span class="st">&quot;Числата са равни</span><span class="sc">\n</span><span class="st">&quot;</span><span class="op">);</span>  <span class="co">// printf - функция за изход от #include &lt;stdio.h&gt; (виж [Въвеждане и извеждане](../02_Целочислени%20типове%20данни.md#5-въвеждане-и-извеждане-на-данни-от-целочислен-тип))</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span> <span class="cf">else</span> <span class="op">{</span>                           <span class="co">// else - алтернативен оператор (виж [Условен оператор](../03_Оператори.md#2-условен-оператор))</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>        printf<span class="op">(</span><span class="st">&quot;Числата са различни</span><span class="sc">\n</span><span class="st">&quot;</span><span class="op">);</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span>                                  <span class="co">// } - край на съставния оператор (виж [Съставен оператор](../03_Оператори.md#3-съставен-оператор))</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>a <span class="op">&gt;</span> b<span class="op">)</span> <span class="op">{</span>                       <span class="co">// if - условен оператор (виж [Условен оператор](../03_Оператори.md#2-условен-оператор)), (условие) - кръгли скоби, &gt; - оператор за сравнение (виж [Оператори за сравнение](../03_Оператори.md#7-оператори-за-сравнение))</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>        printf<span class="op">(</span><span class="st">&quot;</span><span class="sc">%d</span><span class="st"> е по-голямо от </span><span class="sc">%d\n</span><span class="st">&quot;</span><span class="op">,</span> a<span class="op">,</span> b<span class="op">);</span>  <span class="co">// printf - функция за изход от #include &lt;stdio.h&gt;</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span>                                  <span class="co">// } - край на съставния оператор (виж [Съставен оператор](../03_Оператори.md#3-съставен-оператор))</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<hr />
+<h2 id="логически-оператори">3. Логически оператори</h2>
+<p>Използват се за комбиниране на условия.</p>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 20%" />
+<col style="width: 28%" />
+</colgroup>
+<thead>
+<tr>
+<th>Оператор</th>
+<th>Значение</th>
+<th>Пример</th>
+<th>Обяснение</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>&amp;&amp;</code></td>
+<td>И (AND)</td>
+<td><code>(a &gt; 5) &amp;&amp; (a &lt; 10)</code></td>
+<td>Истина само ако и двете условия са истина</td>
+</tr>
+<tr>
+<td><code>\|\|</code></td>
+<td>ИЛИ (OR)</td>
+<td><code>(a &lt; 5) \|\| (a &gt; 10)</code></td>
+<td>Истина ако поне едно условие е истина</td>
+</tr>
+<tr>
+<td><code>!</code></td>
+<td>НЕ (NOT)</td>
+<td><code>!(a == 5)</code></td>
+<td>Обръща резултата (истина става лъжа и обратно)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Приоритет:</strong> <code>!</code> &gt;
+<code>&amp;&amp;</code> &gt; <code>\|\|</code></p>
+<p><strong>Пример:</strong></p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span><span class="pp">    </span><span class="co">// препроцесорна директива - включва стандартната библиотека за вход/изход (виж [Препроцесор](../01_Въведение%20в%20С.md#4-препроцесор-и-етапи-на-компилация))</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">(</span><span class="dt">void</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> age <span class="op">=</span> <span class="dv">20</span><span class="op">;</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Проверка дали възрастта е между 18 и 65</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>age <span class="op">&gt;=</span> <span class="dv">18</span> <span class="op">&amp;&amp;</span> age <span class="op">&lt;=</span> <span class="dv">65</span><span class="op">)</span> <span class="op">{</span>     <span class="co">// if - условен оператор (виж [Условен оператор](../03_Оператори.md#2-условен-оператор)), (условие) - кръгли скоби, &gt;=, &lt;= - оператори за сравнение (виж [Оператори за сравнение](../03_Оператори.md#7-оператори-за-сравнение)), &amp;&amp; - логически оператор И (виж [Логически оператори](../03_Оператори.md#8-логически-оператори))</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>        printf<span class="op">(</span><span class="st">&quot;Възрастта е валидна</span><span class="sc">\n</span><span class="st">&quot;</span><span class="op">);</span>  <span class="co">// printf - функция за изход от #include &lt;stdio.h&gt; (виж [Въвеждане и извеждане](../02_Целочислени%20типове%20данни.md#5-въвеждане-и-извеждане-на-данни-от-целочислен-тип))</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span>                                  <span class="co">// } - край на съставния оператор (виж [Съставен оператор](../03_Оператори.md#3-съставен-оператор))</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Проверка дали числото е извън интервала [10, 20]</span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> number <span class="op">=</span> <span class="dv">25</span><span class="op">;</span></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>number <span class="op">&lt;</span> <span class="dv">10</span> <span class="op">||</span> number <span class="op">&gt;</span> <span class="dv">20</span><span class="op">)</span> <span class="op">{</span> <span class="co">// if - условен оператор (виж [Условен оператор](../03_Оператори.md#2-условен-оператор)), (условие) - кръгли скоби, &lt;, &gt; - оператори за сравнение (виж [Оператори за сравнение](../03_Оператори.md#7-оператори-за-сравнение)), || - логически оператор ИЛИ (виж [Логически оператори](../03_Оператори.md#8-логически-оператори))</span></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>        printf<span class="op">(</span><span class="st">&quot;Числото е извън интервала</span><span class="sc">\n</span><span class="st">&quot;</span><span class="op">);</span>  <span class="co">// printf - функция за изход от #include &lt;stdio.h&gt;</span></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span>                                  <span class="co">// } - край на съставния оператор (виж [Съставен оператор](../03_Оператори.md#3-съставен-оператор))</span></span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<hr />
+<h2 id="работа-с-цифри-на-число">4. Работа с цифри на число</h2>
+<h3 id="извличане-на-цифри-от-число">Извличане на цифри от число</h3>
+<p>За да извлечем цифрите на едно число, използваме операциите
+<strong>деление</strong> (<code>/</code>) и <strong>модуло</strong>
+(<code>%</code>).</p>
+<p><strong>Алгоритъм:</strong></p>
+<ol type="1">
+<li>Вземаме последната цифра: <code>цифра = число % 10</code></li>
+<li>Премахваме последната цифра: <code>число = число / 10</code></li>
+<li>Повтаряме докато <code>число &gt; 0</code></li>
+</ol>
+<p><strong>Пример - сума на цифрите:</strong></p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span><span class="pp">    </span><span class="co">// препроцесорна директива - включва стандартната библиотека за вход/изход (виж [Препроцесор](../01_Въведение%20в%20С.md#4-препроцесор-и-етапи-на-компилация))</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">(</span><span class="dt">void</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> n <span class="op">=</span> <span class="dv">1234</span><span class="op">;</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> sum <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> digit<span class="op">;</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="op">(</span>n <span class="op">&gt;</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span>          <span class="co">// while - цикъл с предусловие (виж [Оператор за цикъл с предусловие](../03_Оператори.md#4-оператор-за-цикъл-с-предусловие)), (условие) - кръгли скоби, &gt; - оператор за сравнение (виж [Оператори за сравнение](../03_Оператори.md#7-оператори-за-сравнение))</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>        digit <span class="op">=</span> n <span class="op">%</span> <span class="dv">10</span><span class="op">;</span>      <span class="co">// % - операция модуло (остатък) (виж [Операции](../02_Целочислени%20типове%20данни.md#3-операции)), = - присвояване (виж [Оператор за присвояване](../03_Оператори.md#1-оператор-за-присвояване))</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>        sum <span class="op">=</span> sum <span class="op">+</span> digit<span class="op">;</span>   <span class="co">// = - присвояване, + - събиране (виж [Операции](../02_Целочислени%20типове%20данни.md#3-операции))</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>        n <span class="op">=</span> n <span class="op">/</span> <span class="dv">10</span><span class="op">;</span>          <span class="co">// / - деление (виж [Операции](../02_Целочислени%20типове%20данни.md#3-операции)), = - присвояване</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span>                        <span class="co">// } - край на съставния оператор (тяло на цикъла) (виж [Съставен оператор](../03_Оператори.md#3-съставен-оператор))</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>    printf<span class="op">(</span><span class="st">&quot;Сумата на цифрите е: </span><span class="sc">%d\n</span><span class="st">&quot;</span><span class="op">,</span> sum<span class="op">);</span>  <span class="co">// printf - функция за изход от #include &lt;stdio.h&gt; (виж [Въвеждане и извеждане](../02_Целочислени%20типове%20данни.md#5-въвеждане-и-извеждане-на-данни-от-целочислен-тип))</span></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Резултат: 1 + 2 + 3 + 4 = 10</span></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p><strong>Пример - проверка за четни цифри:</strong></p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span><span class="pp">    </span><span class="co">// препроцесорна директива - включва стандартната библиотека за вход/изход (виж [Препроцесор](../01_Въведение%20в%20С.md#4-препроцесор-и-етапи-на-компилация))</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">(</span><span class="dt">void</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> n <span class="op">=</span> <span class="dv">1234</span><span class="op">;</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> digit<span class="op">;</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> evenSum <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="op">(</span>n <span class="op">&gt;</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span>              <span class="co">// while - цикъл с предусловие (виж [Оператор за цикъл с предусловие](../03_Оператори.md#4-оператор-за-цикъл-с-предусловие)), (условие) - кръгли скоби</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>        digit <span class="op">=</span> n <span class="op">%</span> <span class="dv">10</span><span class="op">;</span>          <span class="co">// % - модуло (виж [Операции](../02_Целочислени%20типове%20данни.md#3-операции)), = - присвояване (виж [Оператор за присвояване](../03_Оператори.md#1-оператор-за-присвояване))</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>digit <span class="op">%</span> <span class="dv">2</span> <span class="op">==</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span>    <span class="co">// if - условен оператор (виж [Условен оператор](../03_Оператори.md#2-условен-оператор)), (условие) - кръгли скоби, % - модуло, == - сравнение (виж [Оператори за сравнение](../03_Оператори.md#7-оператори-за-сравнение))</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>            evenSum <span class="op">=</span> evenSum <span class="op">+</span> digit<span class="op">;</span>  <span class="co">// = - присвояване, + - събиране (виж [Операции](../02_Целочислени%20типове%20данни.md#3-операции))</span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span>                        <span class="co">// } - край на съставния оператор (тяло на if) (виж [Съставен оператор](../03_Оператори.md#3-съставен-оператор))</span></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>        n <span class="op">=</span> n <span class="op">/</span> <span class="dv">10</span><span class="op">;</span>              <span class="co">// / - деление (виж [Операции](../02_Целочислени%20типове%20данни.md#3-операции)), = - присвояване</span></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span>                            <span class="co">// } - край на съставния оператор (тяло на while) (виж [Съставен оператор](../03_Оператори.md#3-съставен-оператор))</span></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>    printf<span class="op">(</span><span class="st">&quot;Сумата на четните цифри: </span><span class="sc">%d\n</span><span class="st">&quot;</span><span class="op">,</span> evenSum<span class="op">);</span>  <span class="co">// printf - функция за изход от #include &lt;stdio.h&gt; (виж [Въвеждане и извеждане](../02_Целочислени%20типове%20данни.md#5-въвеждане-и-извеждане-на-данни-от-целочислен-тип))</span></span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Резултат: 2 + 4 = 6</span></span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h3 id="брой-на-цифрите-в-число">Брой на цифрите в число</h3>
+<div class="sourceCode" id="cb17"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">(</span><span class="dt">void</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> n <span class="op">=</span> <span class="dv">12345</span><span class="op">;</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> count <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>n <span class="op">==</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span>               <span class="co">// if - условен оператор, (условие) - кръгли скоби, == - сравнение</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>        count <span class="op">=</span> <span class="dv">1</span><span class="op">;</span>              <span class="co">// = - присвояване</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span> <span class="cf">else</span> <span class="op">{</span>                    <span class="co">// else - алтернативен оператор</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">while</span> <span class="op">(</span>n <span class="op">&gt;</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span>         <span class="co">// while - цикъл с предусловие, (условие) - кръгли скоби</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>            count <span class="op">=</span> count <span class="op">+</span> <span class="dv">1</span><span class="op">;</span>  <span class="co">// = - присвояване, + - събиране</span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>            n <span class="op">=</span> n <span class="op">/</span> <span class="dv">10</span><span class="op">;</span>         <span class="co">// / - деление, = - присвояване</span></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span>                       <span class="co">// } - край на съставния оператор (тяло на while)</span></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span>                           <span class="co">// } - край на съставния оператор (тяло на if-else)</span></span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>    printf<span class="op">(</span><span class="st">&quot;Броят на цифрите е: </span><span class="sc">%d\n</span><span class="st">&quot;</span><span class="op">,</span> count<span class="op">);</span></span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Резултат: 5</span></span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h3 id="намиране-на-най-голяма-и-най-малка-цифра">Намиране на най-голяма
+и най-малка цифра</h3>
+<div class="sourceCode" id="cb18"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">(</span><span class="dt">void</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> n <span class="op">=</span> <span class="dv">52341</span><span class="op">;</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> digit<span class="op">;</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> maxDigit <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> minDigit <span class="op">=</span> <span class="dv">9</span><span class="op">;</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>n <span class="op">==</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span>               <span class="co">// if - условен оператор, (условие) - кръгли скоби, == - сравнение</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>        maxDigit <span class="op">=</span> <span class="dv">0</span><span class="op">;</span>           <span class="co">// = - присвояване</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>        minDigit <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span> <span class="cf">else</span> <span class="op">{</span>                    <span class="co">// else - алтернативен оператор</span></span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">while</span> <span class="op">(</span>n <span class="op">&gt;</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span>         <span class="co">// while - цикъл с предусловие, (условие) - кръгли скоби</span></span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>            digit <span class="op">=</span> n <span class="op">%</span> <span class="dv">10</span><span class="op">;</span>      <span class="co">// % - модуло, = - присвояване</span></span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="op">(</span>digit <span class="op">&gt;</span> maxDigit<span class="op">)</span> <span class="op">{</span>  <span class="co">// if - условен оператор, (условие) - кръгли скоби, &gt; - сравнение</span></span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>                maxDigit <span class="op">=</span> digit<span class="op">;</span>    <span class="co">// = - присвояване</span></span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>            <span class="op">}</span>                       <span class="co">// } - край на съставния оператор</span></span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="op">(</span>digit <span class="op">&lt;</span> minDigit<span class="op">)</span> <span class="op">{</span>  <span class="co">// if - условен оператор, (условие) - кръгли скоби, &lt; - сравнение</span></span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>                minDigit <span class="op">=</span> digit<span class="op">;</span>    <span class="co">// = - присвояване</span></span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>            <span class="op">}</span>                       <span class="co">// } - край на съставния оператор</span></span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a>            n <span class="op">=</span> n <span class="op">/</span> <span class="dv">10</span><span class="op">;</span>          <span class="co">// / - деление, = - присвояване</span></span>
+<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span>                       <span class="co">// } - край на съставния оператор (тяло на while)</span></span>
+<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span>                           <span class="co">// } - край на съставния оператор (тяло на if-else)</span></span>
+<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a>    printf<span class="op">(</span><span class="st">&quot;Най-голяма цифра: </span><span class="sc">%d\n</span><span class="st">&quot;</span><span class="op">,</span> maxDigit<span class="op">);</span>  <span class="co">// 5</span></span>
+<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a>    printf<span class="op">(</span><span class="st">&quot;Най-малка цифра: </span><span class="sc">%d\n</span><span class="st">&quot;</span><span class="op">,</span> minDigit<span class="op">);</span>   <span class="co">// 1</span></span>
+<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<hr />
+<h2 id="проверка-за-четност-и-делимост">5. Проверка за четност и
+делимост</h2>
+<h3 id="проверка-за-четност">Проверка за четност</h3>
+<p>Числото е <strong>четно</strong>, ако се дели на 2 без остатък.</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="op">(</span>n <span class="op">%</span> <span class="dv">2</span> <span class="op">==</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span>               <span class="co">// if - условен оператор, (условие) - кръгли скоби, % - модуло, == - сравнение</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    printf<span class="op">(</span><span class="st">&quot;Числото е четно</span><span class="sc">\n</span><span class="st">&quot;</span><span class="op">);</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span> <span class="cf">else</span> <span class="op">{</span>                        <span class="co">// else - алтернативен оператор</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    printf<span class="op">(</span><span class="st">&quot;Числото е нечетно</span><span class="sc">\n</span><span class="st">&quot;</span><span class="op">);</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span>                               <span class="co">// } - край на съставния оператор</span></span></code></pre></div>
+<h3 id="проверка-за-делимост">Проверка за делимост</h3>
+<p>Числото <code>n</code> се дели на <code>k</code>, ако
+<code>n % k == 0</code>.</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> n <span class="op">=</span> <span class="dv">15</span><span class="op">;</span>                     <span class="co">// декларация и инициализация</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> k <span class="op">=</span> <span class="dv">3</span><span class="op">;</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="op">(</span>n <span class="op">%</span> k <span class="op">==</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span>               <span class="co">// if - условен оператор, (условие) - кръгли скоби, % - модуло, == - сравнение</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    printf<span class="op">(</span><span class="st">&quot;</span><span class="sc">%d</span><span class="st"> се дели на </span><span class="sc">%d\n</span><span class="st">&quot;</span><span class="op">,</span> n<span class="op">,</span> k<span class="op">);</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span> <span class="cf">else</span> <span class="op">{</span>                        <span class="co">// else - алтернативен оператор</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>    printf<span class="op">(</span><span class="st">&quot;</span><span class="sc">%d</span><span class="st"> НЕ се дели на </span><span class="sc">%d\n</span><span class="st">&quot;</span><span class="op">,</span> n<span class="op">,</span> k<span class="op">);</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="op">}</span>                               <span class="co">// } - край на съставния оператор</span></span></code></pre></div>
+<p><strong>Пример - сума на числа, които се делят на 3:</strong></p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span><span class="pp">    </span><span class="co">// препроцесорна директива - включва стандартната библиотека за вход/изход (виж [Препроцесор](../01_Въведение%20в%20С.md#4-препроцесор-и-етапи-на-компилация))</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">(</span><span class="dt">void</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> n<span class="op">,</span> i<span class="op">,</span> number<span class="op">;</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> sum <span class="op">=</span> <span class="dv">0</span><span class="op">;</span>                <span class="co">// инициализация на сумата (виж [Броячи и суми в цикли](#7-броячи-и-суми-в-цикли))</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> count <span class="op">=</span> <span class="dv">0</span><span class="op">;</span>              <span class="co">// инициализация на брояча (виж [Броячи и суми в цикли](#7-броячи-и-суми-в-цикли))</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>    printf<span class="op">(</span><span class="st">&quot;Въведете брой числа: &quot;</span><span class="op">);</span>  <span class="co">// printf - функция за изход от #include &lt;stdio.h&gt; (виж [Въвеждане и извеждане](../02_Целочислени%20типове%20данни.md#5-въвеждане-и-извеждане-на-данни-от-целочислен-тип))</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>    scanf<span class="op">(</span><span class="st">&quot;</span><span class="sc">%d</span><span class="st">&quot;</span><span class="op">,</span> <span class="op">&amp;</span>n<span class="op">);</span>            <span class="co">// scanf - функция за вход от #include &lt;stdio.h&gt; (виж [Въвеждане и извеждане](../02_Целочислени%20типове%20данни.md#5-въвеждане-и-извеждане-на-данни-от-целочислен-тип)), &amp; - оператор за адрес</span></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span>i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;=</span> n<span class="op">;</span> i <span class="op">=</span> i <span class="op">+</span> <span class="dv">1</span><span class="op">)</span> <span class="op">{</span>  <span class="co">// for - цикъл (виж [Цикъл for](../03_Оператори.md#6-оператор-за-цикъл-for)), (инициализация; условие; стъпка) - кръгли скоби, &lt;= - сравнение (виж [Оператори за сравнение](../03_Оператори.md#7-оператори-за-сравнение))</span></span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>        printf<span class="op">(</span><span class="st">&quot;Въведете число </span><span class="sc">%d</span><span class="st">: &quot;</span><span class="op">,</span> i<span class="op">);</span>  <span class="co">// printf - функция за изход от #include &lt;stdio.h&gt;</span></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>        scanf<span class="op">(</span><span class="st">&quot;</span><span class="sc">%d</span><span class="st">&quot;</span><span class="op">,</span> <span class="op">&amp;</span>number<span class="op">);</span>   <span class="co">// scanf - функция за вход от #include &lt;stdio.h&gt;, &amp; - оператор за адрес</span></span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>number <span class="op">%</span> <span class="dv">3</span> <span class="op">==</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span>  <span class="co">// if - условен оператор (виж [Условен оператор](../03_Оператори.md#2-условен-оператор)), (условие) - кръгли скоби, % - модуло (виж [Операции](../02_Целочислени%20типове%20данни.md#3-операции)), == - сравнение (виж [Оператори за сравнение](../03_Оператори.md#7-оператори-за-сравнение))</span></span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>            sum <span class="op">=</span> sum <span class="op">+</span> number<span class="op">;</span> <span class="co">// = - присвояване (виж [Оператор за присвояване](../03_Оператори.md#1-оператор-за-присвояване)), + - събиране (виж [Операции](../02_Целочислени%20типове%20данни.md#3-операции))</span></span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>            count <span class="op">=</span> count <span class="op">+</span> <span class="dv">1</span><span class="op">;</span>  <span class="co">// = - присвояване, + - събиране (увеличаване на брояча) (виж [Броячи и суми в цикли](#7-броячи-и-суми-в-цикли))</span></span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span>                       <span class="co">// } - край на съставния оператор (виж [Съставен оператор](../03_Оператори.md#3-съставен-оператор))</span></span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span>                           <span class="co">// } - край на съставния оператор (тяло на for) (виж [Съставен оператор](../03_Оператори.md#3-съставен-оператор))</span></span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>count <span class="op">==</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span>           <span class="co">// if - условен оператор (виж [Условен оператор](../03_Оператори.md#2-условен-оператор)), (условие) - кръгли скоби, == - сравнение (виж [Оператори за сравнение](../03_Оператори.md#7-оператори-за-сравнение))</span></span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>        printf<span class="op">(</span><span class="st">&quot;Няма такова число</span><span class="sc">\n</span><span class="st">&quot;</span><span class="op">);</span>  <span class="co">// printf - функция за изход от #include &lt;stdio.h&gt;</span></span>
+<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span> <span class="cf">else</span> <span class="op">{</span>                    <span class="co">// else - алтернативен оператор (виж [Условен оператор](../03_Оператори.md#2-условен-оператор))</span></span>
+<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a>        printf<span class="op">(</span><span class="st">&quot;Сумата е: </span><span class="sc">%d\n</span><span class="st">&quot;</span><span class="op">,</span> sum<span class="op">);</span>  <span class="co">// printf - функция за изход от #include &lt;stdio.h&gt;</span></span>
+<span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span>                           <span class="co">// } - край на съставния оператор (виж [Съставен оператор](../03_Оператори.md#3-съставен-оператор))</span></span>
+<span id="cb21-26"><a href="#cb21-26" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb21-27"><a href="#cb21-27" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb21-28"><a href="#cb21-28" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<hr />
+<h2 id="намиране-на-минимум-и-максимум">6. Намиране на минимум и
+максимум</h2>
+<h3 id="намиране-на-максимум">Намиране на максимум</h3>
+<div class="sourceCode" id="cb22"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span><span class="pp">    </span><span class="co">// препроцесорна директива - включва стандартната библиотека за вход/изход (виж [Препроцесор](../01_Въведение%20в%20С.md#4-препроцесор-и-етапи-на-компилация))</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">(</span><span class="dt">void</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> n<span class="op">,</span> i<span class="op">,</span> number<span class="op">;</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> max<span class="op">;</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>    printf<span class="op">(</span><span class="st">&quot;Въведете брой числа: &quot;</span><span class="op">);</span>  <span class="co">// printf - функция за изход от #include &lt;stdio.h&gt; (виж [Въвеждане и извеждане](../02_Целочислени%20типове%20данни.md#5-въвеждане-и-извеждане-на-данни-от-целочислен-тип))</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>    scanf<span class="op">(</span><span class="st">&quot;</span><span class="sc">%d</span><span class="st">&quot;</span><span class="op">,</span> <span class="op">&amp;</span>n<span class="op">);</span>            <span class="co">// scanf - функция за вход от #include &lt;stdio.h&gt; (виж [Въвеждане и извеждане](../02_Целочислени%20типове%20данни.md#5-въвеждане-и-извеждане-на-данни-от-целочислен-тип)), &amp; - оператор за адрес</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>n <span class="op">&gt;</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span>                <span class="co">// if - условен оператор (виж [Условен оператор](../03_Оператори.md#2-условен-оператор)), (условие) - кръгли скоби, &gt; - сравнение (виж [Оператори за сравнение](../03_Оператори.md#7-оператори-за-сравнение))</span></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>        printf<span class="op">(</span><span class="st">&quot;Въведете число 1: &quot;</span><span class="op">);</span>  <span class="co">// printf - функция за изход от #include &lt;stdio.h&gt;</span></span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>        scanf<span class="op">(</span><span class="st">&quot;</span><span class="sc">%d</span><span class="st">&quot;</span><span class="op">,</span> <span class="op">&amp;</span>max<span class="op">);</span>      <span class="co">// scanf - функция за вход от #include &lt;stdio.h&gt;, &amp; - оператор за адрес, = - присвояване чрез scanf</span></span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="op">(</span>i <span class="op">=</span> <span class="dv">2</span><span class="op">;</span> i <span class="op">&lt;=</span> n<span class="op">;</span> i <span class="op">=</span> i <span class="op">+</span> <span class="dv">1</span><span class="op">)</span> <span class="op">{</span>  <span class="co">// for - цикъл (виж [Цикъл for](../03_Оператори.md#6-оператор-за-цикъл-for)), (инициализация; условие; стъпка) - кръгли скоби</span></span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>            printf<span class="op">(</span><span class="st">&quot;Въведете число </span><span class="sc">%d</span><span class="st">: &quot;</span><span class="op">,</span> i<span class="op">);</span>  <span class="co">// printf - функция за изход от #include &lt;stdio.h&gt;</span></span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>            scanf<span class="op">(</span><span class="st">&quot;</span><span class="sc">%d</span><span class="st">&quot;</span><span class="op">,</span> <span class="op">&amp;</span>number<span class="op">);</span>  <span class="co">// scanf - функция за вход от #include &lt;stdio.h&gt;, &amp; - оператор за адрес</span></span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="op">(</span>number <span class="op">&gt;</span> max<span class="op">)</span> <span class="op">{</span>    <span class="co">// if - условен оператор (виж [Условен оператор](../03_Оператори.md#2-условен-оператор)), (условие) - кръгли скоби, &gt; - сравнение (виж [Оператори за сравнение](../03_Оператори.md#7-оператори-за-сравнение))</span></span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a>                max <span class="op">=</span> number<span class="op">;</span>      <span class="co">// = - присвояване (виж [Оператор за присвояване](../03_Оператори.md#1-оператор-за-присвояване))</span></span>
+<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a>            <span class="op">}</span>                      <span class="co">// } - край на съставния оператор (виж [Съставен оператор](../03_Оператори.md#3-съставен-оператор))</span></span>
+<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span>                          <span class="co">// } - край на съставния оператор (тяло на for) (виж [Съставен оператор](../03_Оператори.md#3-съставен-оператор))</span></span>
+<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a>        printf<span class="op">(</span><span class="st">&quot;Най-голямото число е: </span><span class="sc">%d\n</span><span class="st">&quot;</span><span class="op">,</span> max<span class="op">);</span>  <span class="co">// printf - функция за изход от #include &lt;stdio.h&gt;</span></span>
+<span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span>                             <span class="co">// } - край на съставния оператор (тяло на if) (виж [Съставен оператор](../03_Оператори.md#3-съставен-оператор))</span></span>
+<span id="cb22-25"><a href="#cb22-25" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb22-26"><a href="#cb22-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb22-27"><a href="#cb22-27" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h3 id="намиране-на-минимум">Намиране на минимум</h3>
+<div class="sourceCode" id="cb23"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> min<span class="op">;</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="op">(</span>n <span class="op">&gt;</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span>                    <span class="co">// if - условен оператор, (условие) - кръгли скоби</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    printf<span class="op">(</span><span class="st">&quot;Въведете число 1: &quot;</span><span class="op">);</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    scanf<span class="op">(</span><span class="st">&quot;</span><span class="sc">%d</span><span class="st">&quot;</span><span class="op">,</span> <span class="op">&amp;</span>min<span class="op">);</span>          <span class="co">// &amp; - оператор за адрес</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span>i <span class="op">=</span> <span class="dv">2</span><span class="op">;</span> i <span class="op">&lt;=</span> n<span class="op">;</span> i <span class="op">=</span> i <span class="op">+</span> <span class="dv">1</span><span class="op">)</span> <span class="op">{</span>  <span class="co">// for - цикъл, (инициализация; условие; стъпка) - кръгли скоби</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>        printf<span class="op">(</span><span class="st">&quot;Въведете число </span><span class="sc">%d</span><span class="st">: &quot;</span><span class="op">,</span> i<span class="op">);</span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>        scanf<span class="op">(</span><span class="st">&quot;</span><span class="sc">%d</span><span class="st">&quot;</span><span class="op">,</span> <span class="op">&amp;</span>number<span class="op">);</span>   <span class="co">// &amp; - оператор за адрес</span></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>number <span class="op">&lt;</span> min<span class="op">)</span> <span class="op">{</span>     <span class="co">// if - условен оператор, (условие) - кръгли скоби, &lt; - сравнение</span></span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>            min <span class="op">=</span> number<span class="op">;</span>       <span class="co">// = - присвояване</span></span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span>                       <span class="co">// } - край на съставния оператор</span></span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span>                           <span class="co">// } - край на съставния оператор (тяло на for)</span></span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>    printf<span class="op">(</span><span class="st">&quot;Най-малкото число е: </span><span class="sc">%d\n</span><span class="st">&quot;</span><span class="op">,</span> min<span class="op">);</span></span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a><span class="op">}</span>                               <span class="co">// } - край на съставния оператор (тяло на if)</span></span></code></pre></div>
+<h3 id="намиране-на-минимум-и-максимум-едновременно">Намиране на минимум
+и максимум едновременно</h3>
+<div class="sourceCode" id="cb24"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">(</span><span class="dt">void</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> n<span class="op">,</span> i<span class="op">,</span> number<span class="op">;</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> min<span class="op">,</span> max<span class="op">;</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>    printf<span class="op">(</span><span class="st">&quot;Въведете брой числа: &quot;</span><span class="op">);</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>    scanf<span class="op">(</span><span class="st">&quot;</span><span class="sc">%d</span><span class="st">&quot;</span><span class="op">,</span> <span class="op">&amp;</span>n<span class="op">);</span>            <span class="co">// &amp; - оператор за адрес</span></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>n <span class="op">&gt;</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span>                <span class="co">// if - условен оператор, (условие) - кръгли скоби</span></span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>        printf<span class="op">(</span><span class="st">&quot;Въведете число 1: &quot;</span><span class="op">);</span></span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>        scanf<span class="op">(</span><span class="st">&quot;</span><span class="sc">%d</span><span class="st">&quot;</span><span class="op">,</span> <span class="op">&amp;</span>number<span class="op">);</span>   <span class="co">// &amp; - оператор за адрес</span></span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>        min <span class="op">=</span> number<span class="op">;</span>           <span class="co">// = - присвояване</span></span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>        max <span class="op">=</span> number<span class="op">;</span>           <span class="co">// = - присвояване</span></span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="op">(</span>i <span class="op">=</span> <span class="dv">2</span><span class="op">;</span> i <span class="op">&lt;=</span> n<span class="op">;</span> i <span class="op">=</span> i <span class="op">+</span> <span class="dv">1</span><span class="op">)</span> <span class="op">{</span>  <span class="co">// for - цикъл, (инициализация; условие; стъпка) - кръгли скоби</span></span>
+<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a>            printf<span class="op">(</span><span class="st">&quot;Въведете число </span><span class="sc">%d</span><span class="st">: &quot;</span><span class="op">,</span> i<span class="op">);</span></span>
+<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a>            scanf<span class="op">(</span><span class="st">&quot;</span><span class="sc">%d</span><span class="st">&quot;</span><span class="op">,</span> <span class="op">&amp;</span>number<span class="op">);</span>  <span class="co">// &amp; - оператор за адрес</span></span>
+<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb24-20"><a href="#cb24-20" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="op">(</span>number <span class="op">&gt;</span> max<span class="op">)</span> <span class="op">{</span>    <span class="co">// if - условен оператор, (условие) - кръгли скоби, &gt; - сравнение</span></span>
+<span id="cb24-21"><a href="#cb24-21" aria-hidden="true" tabindex="-1"></a>                max <span class="op">=</span> number<span class="op">;</span>      <span class="co">// = - присвояване</span></span>
+<span id="cb24-22"><a href="#cb24-22" aria-hidden="true" tabindex="-1"></a>            <span class="op">}</span>                      <span class="co">// } - край на съставния оператор</span></span>
+<span id="cb24-23"><a href="#cb24-23" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="op">(</span>number <span class="op">&lt;</span> min<span class="op">)</span> <span class="op">{</span>    <span class="co">// if - условен оператор, (условие) - кръгли скоби, &lt; - сравнение</span></span>
+<span id="cb24-24"><a href="#cb24-24" aria-hidden="true" tabindex="-1"></a>                min <span class="op">=</span> number<span class="op">;</span>      <span class="co">// = - присвояване</span></span>
+<span id="cb24-25"><a href="#cb24-25" aria-hidden="true" tabindex="-1"></a>            <span class="op">}</span>                      <span class="co">// } - край на съставния оператор</span></span>
+<span id="cb24-26"><a href="#cb24-26" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span>                          <span class="co">// } - край на съставния оператор (тяло на for)</span></span>
+<span id="cb24-27"><a href="#cb24-27" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb24-28"><a href="#cb24-28" aria-hidden="true" tabindex="-1"></a>        printf<span class="op">(</span><span class="st">&quot;Най-голямото: </span><span class="sc">%d\n</span><span class="st">&quot;</span><span class="op">,</span> max<span class="op">);</span></span>
+<span id="cb24-29"><a href="#cb24-29" aria-hidden="true" tabindex="-1"></a>        printf<span class="op">(</span><span class="st">&quot;Най-малкото: </span><span class="sc">%d\n</span><span class="st">&quot;</span><span class="op">,</span> min<span class="op">);</span></span>
+<span id="cb24-30"><a href="#cb24-30" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span>                             <span class="co">// } - край на съставния оператор (тяло на if)</span></span>
+<span id="cb24-31"><a href="#cb24-31" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb24-32"><a href="#cb24-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb24-33"><a href="#cb24-33" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<hr />
+<h2 id="броячи-и-суми-в-цикли">7. Броячи и суми в цикли</h2>
+<h3 id="брояч">Брояч</h3>
+<p>Променлива, която се увеличава с 1 при всяко изпълнение на
+условие.</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> count <span class="op">=</span> <span class="dv">0</span><span class="op">;</span>          <span class="co">// декларация и инициализация на брояча, = - оператор за присвояване</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="co">// Увеличаване на брояча</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>count <span class="op">=</span> count <span class="op">+</span> <span class="dv">1</span><span class="op">;</span>      <span class="co">// = - присвояване, + - събиране</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="co">// или</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>count<span class="op">++;</span>                <span class="co">// ++ - оператор за увеличаване с 1</span></span></code></pre></div>
+<p><strong>Пример - броене на четни числа:</strong></p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span><span class="pp">    </span><span class="co">// препроцесорна директива - включва стандартната библиотека за вход/изход (виж [Препроцесор](../01_Въведение%20в%20С.md#4-препроцесор-и-етапи-на-компилация))</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">(</span><span class="dt">void</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> n<span class="op">,</span> i<span class="op">,</span> number<span class="op">;</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> evenCount <span class="op">=</span> <span class="dv">0</span><span class="op">;</span>         <span class="co">// инициализация на брояча (виж [Броячи и суми в цикли](#7-броячи-и-суми-в-цикли)), = - присвояване (виж [Оператор за присвояване](../03_Оператори.md#1-оператор-за-присвояване))</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>    printf<span class="op">(</span><span class="st">&quot;Въведете брой числа: &quot;</span><span class="op">);</span>  <span class="co">// printf - функция за изход от #include &lt;stdio.h&gt; (виж [Въвеждане и извеждане](../02_Целочислени%20типове%20данни.md#5-въвеждане-и-извеждане-на-данни-от-целочислен-тип))</span></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>    scanf<span class="op">(</span><span class="st">&quot;</span><span class="sc">%d</span><span class="st">&quot;</span><span class="op">,</span> <span class="op">&amp;</span>n<span class="op">);</span>           <span class="co">// scanf - функция за вход от #include &lt;stdio.h&gt; (виж [Въвеждане и извеждане](../02_Целочислени%20типове%20данни.md#5-въвеждане-и-извеждане-на-данни-от-целочислен-тип)), &amp; - оператор за адрес</span></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span>i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;=</span> n<span class="op">;</span> i <span class="op">=</span> i <span class="op">+</span> <span class="dv">1</span><span class="op">)</span> <span class="op">{</span>  <span class="co">// for - цикъл (виж [Цикъл for](../03_Оператори.md#6-оператор-за-цикъл-for)), (инициализация; условие; стъпка) - кръгли скоби, &lt;= - сравнение (виж [Оператори за сравнение](../03_Оператори.md#7-оператори-за-сравнение))</span></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>        printf<span class="op">(</span><span class="st">&quot;Въведете число </span><span class="sc">%d</span><span class="st">: &quot;</span><span class="op">,</span> i<span class="op">);</span>  <span class="co">// printf - функция за изход от #include &lt;stdio.h&gt;</span></span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>        scanf<span class="op">(</span><span class="st">&quot;</span><span class="sc">%d</span><span class="st">&quot;</span><span class="op">,</span> <span class="op">&amp;</span>number<span class="op">);</span>   <span class="co">// scanf - функция за вход от #include &lt;stdio.h&gt;, &amp; - оператор за адрес</span></span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>number <span class="op">%</span> <span class="dv">2</span> <span class="op">==</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span>  <span class="co">// if - условен оператор (виж [Условен оператор](../03_Оператори.md#2-условен-оператор)), (условие) - кръгли скоби, % - модуло (виж [Операции](../02_Целочислени%20типове%20данни.md#3-операции)), == - сравнение (виж [Оператори за сравнение](../03_Оператори.md#7-оператори-за-сравнение))</span></span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>            evenCount <span class="op">=</span> evenCount <span class="op">+</span> <span class="dv">1</span><span class="op">;</span>  <span class="co">// = - присвояване, + - събиране (увеличаване на брояча) (виж [Броячи и суми в цикли](#7-броячи-и-суми-в-цикли))</span></span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span>                       <span class="co">// } - край на съставния оператор (виж [Съставен оператор](../03_Оператори.md#3-съставен-оператор))</span></span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span>                           <span class="co">// } - край на съставния оператор (тяло на for) (виж [Съставен оператор](../03_Оператори.md#3-съставен-оператор))</span></span>
+<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a>    printf<span class="op">(</span><span class="st">&quot;Броят на четните числа: </span><span class="sc">%d\n</span><span class="st">&quot;</span><span class="op">,</span> evenCount<span class="op">);</span>  <span class="co">// printf - функция за изход от #include &lt;stdio.h&gt;</span></span>
+<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb26-21"><a href="#cb26-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb26-22"><a href="#cb26-22" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h3 id="сума">Сума</h3>
+<p>Променлива, която натрупва стойности.</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> sum <span class="op">=</span> <span class="dv">0</span><span class="op">;</span>           <span class="co">// декларация и инициализация на сумата, = - оператор за присвояване</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="co">// Добавяне към сумата</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>sum <span class="op">=</span> sum <span class="op">+</span> value<span class="op">;</span>     <span class="co">// = - присвояване, + - събиране</span></span></code></pre></div>
+<p><strong>Пример - сума на положителни числа:</strong></p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span><span class="pp">    </span><span class="co">// препроцесорна директива - включва стандартната библиотека за вход/изход (виж [Препроцесор](../01_Въведение%20в%20С.md#4-препроцесор-и-етапи-на-компилация))</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">(</span><span class="dt">void</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> n<span class="op">,</span> i<span class="op">,</span> number<span class="op">;</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> sum <span class="op">=</span> <span class="dv">0</span><span class="op">;</span>               <span class="co">// инициализация на сумата (виж [Броячи и суми в цикли](#7-броячи-и-суми-в-цикли)), = - присвояване (виж [Оператор за присвояване](../03_Оператори.md#1-оператор-за-присвояване))</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>    printf<span class="op">(</span><span class="st">&quot;Въведете брой числа: &quot;</span><span class="op">);</span>  <span class="co">// printf - функция за изход от #include &lt;stdio.h&gt; (виж [Въвеждане и извеждане](../02_Целочислени%20типове%20данни.md#5-въвеждане-и-извеждане-на-данни-от-целочислен-тип))</span></span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>    scanf<span class="op">(</span><span class="st">&quot;</span><span class="sc">%d</span><span class="st">&quot;</span><span class="op">,</span> <span class="op">&amp;</span>n<span class="op">);</span>           <span class="co">// scanf - функция за вход от #include &lt;stdio.h&gt; (виж [Въвеждане и извеждане](../02_Целочислени%20типове%20данни.md#5-въвеждане-и-извеждане-на-данни-от-целочислен-тип)), &amp; - оператор за адрес</span></span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span>i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;=</span> n<span class="op">;</span> i <span class="op">=</span> i <span class="op">+</span> <span class="dv">1</span><span class="op">)</span> <span class="op">{</span>  <span class="co">// for - цикъл (виж [Цикъл for](../03_Оператори.md#6-оператор-за-цикъл-for)), (инициализация; условие; стъпка) - кръгли скоби, &lt;= - сравнение (виж [Оператори за сравнение](../03_Оператори.md#7-оператори-за-сравнение))</span></span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>        printf<span class="op">(</span><span class="st">&quot;Въведете число </span><span class="sc">%d</span><span class="st">: &quot;</span><span class="op">,</span> i<span class="op">);</span>  <span class="co">// printf - функция за изход от #include &lt;stdio.h&gt;</span></span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>        scanf<span class="op">(</span><span class="st">&quot;</span><span class="sc">%d</span><span class="st">&quot;</span><span class="op">,</span> <span class="op">&amp;</span>number<span class="op">);</span>   <span class="co">// scanf - функция за вход от #include &lt;stdio.h&gt;, &amp; - оператор за адрес</span></span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>number <span class="op">&gt;</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span>       <span class="co">// if - условен оператор (виж [Условен оператор](../03_Оператори.md#2-условен-оператор)), (условие) - кръгли скоби, &gt; - сравнение (виж [Оператори за сравнение](../03_Оператори.md#7-оператори-за-сравнение))</span></span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>            sum <span class="op">=</span> sum <span class="op">+</span> number<span class="op">;</span>  <span class="co">// = - присвояване (виж [Оператор за присвояване](../03_Оператори.md#1-оператор-за-присвояване)), + - събиране (виж [Операции](../02_Целочислени%20типове%20данни.md#3-операции)) (добавяне към сумата) (виж [Броячи и суми в цикли](#7-броячи-и-суми-в-цикли))</span></span>
+<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span>                       <span class="co">// } - край на съставния оператор (виж [Съставен оператор](../03_Оператори.md#3-съставен-оператор))</span></span>
+<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span>                           <span class="co">// } - край на съставния оператор (тяло на for) (виж [Съставен оператор](../03_Оператори.md#3-съставен-оператор))</span></span>
+<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a>    printf<span class="op">(</span><span class="st">&quot;Сумата на положителните числа: </span><span class="sc">%d\n</span><span class="st">&quot;</span><span class="op">,</span> sum<span class="op">);</span>  <span class="co">// printf - функция за изход от #include &lt;stdio.h&gt;</span></span>
+<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb28-21"><a href="#cb28-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb28-22"><a href="#cb28-22" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<hr />
+<h2 id="проверка-за-палиндром">8. Проверка за палиндром</h2>
+<p><strong>Палиндром</strong> - число, което се чете еднакво отляво
+надясно и отдясно наляво.</p>
+<p><strong>Примери:</strong> 121, 1221, 12321</p>
+<p><strong>Алгоритъм:</strong></p>
+<ol type="1">
+<li>Запазваме оригиналното число</li>
+<li>Обръщаме числото (извличаме цифрите в обратен ред)</li>
+<li>Сравняваме оригиналното с обърнатото</li>
+</ol>
+<div class="sourceCode" id="cb29"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span><span class="pp">    </span><span class="co">// препроцесорна директива - включва стандартната библиотека за вход/изход (виж [Препроцесор](../01_Въведение%20в%20С.md#4-препроцесор-и-етапи-на-компилация))</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">(</span><span class="dt">void</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> n<span class="op">,</span> original<span class="op">,</span> reversed <span class="op">=</span> <span class="dv">0</span><span class="op">,</span> digit<span class="op">;</span>  <span class="co">// декларация на променливи (виж [Променливи](../02_Целочислени%20типове%20данни.md#2-променливи)), = - присвояване (виж [Оператор за присвояване](../03_Оператори.md#1-оператор-за-присвояване))</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>    printf<span class="op">(</span><span class="st">&quot;Въведете число: &quot;</span><span class="op">);</span>  <span class="co">// printf - функция за изход от #include &lt;stdio.h&gt; (виж [Въвеждане и извеждане](../02_Целочислени%20типове%20данни.md#5-въвеждане-и-извеждане-на-данни-от-целочислен-тип))</span></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>    scanf<span class="op">(</span><span class="st">&quot;</span><span class="sc">%d</span><span class="st">&quot;</span><span class="op">,</span> <span class="op">&amp;</span>n<span class="op">);</span>            <span class="co">// scanf - функция за вход от #include &lt;stdio.h&gt; (виж [Въвеждане и извеждане](../02_Целочислени%20типове%20данни.md#5-въвеждане-и-извеждане-на-данни-от-целочислен-тип)), &amp; - оператор за адрес</span></span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>    original <span class="op">=</span> n<span class="op">;</span>               <span class="co">// = - оператор за присвояване (виж [Оператор за присвояване](../03_Оператори.md#1-оператор-за-присвояване)) (запазваме оригиналното число)</span></span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Обръщаме числото</span></span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="op">(</span>n <span class="op">&gt;</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span>             <span class="co">// while - цикъл с предусловие (виж [Оператор за цикъл с предусловие](../03_Оператори.md#4-оператор-за-цикъл-с-предусловие)), (условие) - кръгли скоби, &gt; - сравнение (виж [Оператори за сравнение](../03_Оператори.md#7-оператори-за-сравнение))</span></span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>        digit <span class="op">=</span> n <span class="op">%</span> <span class="dv">10</span><span class="op">;</span>         <span class="co">// % - модуло (виж [Операции](../02_Целочислени%20типове%20данни.md#3-операции)), = - присвояване (виж [Оператор за присвояване](../03_Оператори.md#1-оператор-за-присвояване))</span></span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>        reversed <span class="op">=</span> reversed <span class="op">*</span> <span class="dv">10</span> <span class="op">+</span> digit<span class="op">;</span>  <span class="co">// = - присвояване, * - умножение (виж [Операции](../02_Целочислени%20типове%20данни.md#3-операции)), + - събиране (виж [Операции](../02_Целочислени%20типове%20данни.md#3-операции))</span></span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a>        n <span class="op">=</span> n <span class="op">/</span> <span class="dv">10</span><span class="op">;</span>             <span class="co">// / - деление (виж [Операции](../02_Целочислени%20типове%20данни.md#3-операции)), = - присвояване</span></span>
+<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span>                           <span class="co">// } - край на съставния оператор (тяло на while) (виж [Съставен оператор](../03_Оператори.md#3-съставен-оператор))</span></span>
+<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Проверяваме дали са равни</span></span>
+<span id="cb29-19"><a href="#cb29-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>original <span class="op">==</span> reversed<span class="op">)</span> <span class="op">{</span> <span class="co">// if - условен оператор (виж [Условен оператор](../03_Оператори.md#2-условен-оператор)), (условие) - кръгли скоби, == - сравнение (виж [Оператори за сравнение](../03_Оператори.md#7-оператори-за-сравнение))</span></span>
+<span id="cb29-20"><a href="#cb29-20" aria-hidden="true" tabindex="-1"></a>        printf<span class="op">(</span><span class="st">&quot;ДА</span><span class="sc">\n</span><span class="st">&quot;</span><span class="op">);</span>         <span class="co">// printf - функция за изход от #include &lt;stdio.h&gt;</span></span>
+<span id="cb29-21"><a href="#cb29-21" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span> <span class="cf">else</span> <span class="op">{</span>                    <span class="co">// else - алтернативен оператор (виж [Условен оператор](../03_Оператори.md#2-условен-оператор))</span></span>
+<span id="cb29-22"><a href="#cb29-22" aria-hidden="true" tabindex="-1"></a>        printf<span class="op">(</span><span class="st">&quot;НЕ</span><span class="sc">\n</span><span class="st">&quot;</span><span class="op">);</span>          <span class="co">// printf - функция за изход от #include &lt;stdio.h&gt;</span></span>
+<span id="cb29-23"><a href="#cb29-23" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span>                           <span class="co">// } - край на съставния оператор (виж [Съставен оператор](../03_Оператори.md#3-съставен-оператор))</span></span>
+<span id="cb29-24"><a href="#cb29-24" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb29-25"><a href="#cb29-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb29-26"><a href="#cb29-26" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p><strong>Обяснение на обръщането:</strong></p>
+<ul>
+<li>За числото 123:
+<ul>
+<li>Итерация 1: <code>digit = 3</code>,
+<code>reversed = 0 * 10 + 3 = 3</code>, <code>n = 12</code></li>
+<li>Итерация 2: <code>digit = 2</code>,
+<code>reversed = 3 * 10 + 2 = 32</code>, <code>n = 1</code></li>
+<li>Итерация 3: <code>digit = 1</code>,
+<code>reversed = 32 * 10 + 1 = 321</code>, <code>n = 0</code></li>
+<li>Резултат: <code>reversed = 321</code></li>
+</ul></li>
+</ul>
+<hr />
+<h2 id="проверка-за-различни-цифри">9. Проверка за различни цифри</h2>
+<p>Проверяваме дали всички цифри на числото са различни (няма повтарящи
+се).</p>
+<p><strong>Алгоритъм:</strong></p>
+<ol type="1">
+<li>За всяка цифра проверяваме дали се среща в останалата част на
+числото</li>
+<li>Използваме вложени цикли</li>
+</ol>
+<div class="sourceCode" id="cb30"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">(</span><span class="dt">void</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> n<span class="op">,</span> temp1<span class="op">,</span> temp2<span class="op">;</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> digit1<span class="op">,</span> digit2<span class="op">;</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> hasDuplicate <span class="op">=</span> <span class="dv">0</span><span class="op">;</span>       <span class="co">// флаг: 0 = няма дубликати, 1 = има дубликати, = - присвояване</span></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>    printf<span class="op">(</span><span class="st">&quot;Въведете число: &quot;</span><span class="op">);</span></span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>    scanf<span class="op">(</span><span class="st">&quot;</span><span class="sc">%d</span><span class="st">&quot;</span><span class="op">,</span> <span class="op">&amp;</span>n<span class="op">);</span>            <span class="co">// &amp; - оператор за адрес</span></span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>    temp1 <span class="op">=</span> n<span class="op">;</span>                  <span class="co">// = - присвояване</span></span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Външен цикъл - за всяка цифра</span></span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="op">(</span>temp1 <span class="op">&gt;</span> <span class="dv">0</span> <span class="op">&amp;&amp;</span> hasDuplicate <span class="op">==</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span>  <span class="co">// while - цикъл, (условие) - кръгли скоби, &gt; - сравнение, &amp;&amp; - логически И, == - сравнение</span></span>
+<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a>        digit1 <span class="op">=</span> temp1 <span class="op">%</span> <span class="dv">10</span><span class="op">;</span>    <span class="co">// % - модуло, = - присвояване</span></span>
+<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a>        temp1 <span class="op">=</span> temp1 <span class="op">/</span> <span class="dv">10</span><span class="op">;</span>     <span class="co">// / - деление, = - присвояване</span></span>
+<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a>        temp2 <span class="op">=</span> temp1<span class="op">;</span>          <span class="co">// = - присвояване (проверяваме в останалата част)</span></span>
+<span id="cb30-19"><a href="#cb30-19" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb30-20"><a href="#cb30-20" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Вътрешен цикъл - проверяваме дали digit1 се среща още</span></span>
+<span id="cb30-21"><a href="#cb30-21" aria-hidden="true" tabindex="-1"></a>        <span class="cf">while</span> <span class="op">(</span>temp2 <span class="op">&gt;</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span>     <span class="co">// while - вложен цикъл, (условие) - кръгли скоби, &gt; - сравнение</span></span>
+<span id="cb30-22"><a href="#cb30-22" aria-hidden="true" tabindex="-1"></a>            digit2 <span class="op">=</span> temp2 <span class="op">%</span> <span class="dv">10</span><span class="op">;</span>  <span class="co">// % - модуло, = - присвояване</span></span>
+<span id="cb30-23"><a href="#cb30-23" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb30-24"><a href="#cb30-24" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="op">(</span>digit1 <span class="op">==</span> digit2<span class="op">)</span> <span class="op">{</span>  <span class="co">// if - условен оператор, (условие) - кръгли скоби, == - сравнение</span></span>
+<span id="cb30-25"><a href="#cb30-25" aria-hidden="true" tabindex="-1"></a>                hasDuplicate <span class="op">=</span> <span class="dv">1</span><span class="op">;</span>   <span class="co">// = - присвояване (намерихме дубликат)</span></span>
+<span id="cb30-26"><a href="#cb30-26" aria-hidden="true" tabindex="-1"></a>                <span class="cf">break</span><span class="op">;</span>              <span class="co">// break - прекъсване на цикъла</span></span>
+<span id="cb30-27"><a href="#cb30-27" aria-hidden="true" tabindex="-1"></a>            <span class="op">}</span>                       <span class="co">// } - край на съставния оператор</span></span>
+<span id="cb30-28"><a href="#cb30-28" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb30-29"><a href="#cb30-29" aria-hidden="true" tabindex="-1"></a>            temp2 <span class="op">=</span> temp2 <span class="op">/</span> <span class="dv">10</span><span class="op">;</span>     <span class="co">// / - деление, = - присвояване</span></span>
+<span id="cb30-30"><a href="#cb30-30" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span>                           <span class="co">// } - край на съставния оператор (тяло на вътрешния while)</span></span>
+<span id="cb30-31"><a href="#cb30-31" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span>                               <span class="co">// } - край на съставния оператор (тяло на външния while)</span></span>
+<span id="cb30-32"><a href="#cb30-32" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb30-33"><a href="#cb30-33" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>hasDuplicate <span class="op">==</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span>       <span class="co">// if - условен оператор, (условие) - кръгли скоби, == - сравнение</span></span>
+<span id="cb30-34"><a href="#cb30-34" aria-hidden="true" tabindex="-1"></a>        printf<span class="op">(</span><span class="st">&quot;ДА</span><span class="sc">\n</span><span class="st">&quot;</span><span class="op">);</span></span>
+<span id="cb30-35"><a href="#cb30-35" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span> <span class="cf">else</span> <span class="op">{</span>                        <span class="co">// else - алтернативен оператор</span></span>
+<span id="cb30-36"><a href="#cb30-36" aria-hidden="true" tabindex="-1"></a>        printf<span class="op">(</span><span class="st">&quot;НЕ</span><span class="sc">\n</span><span class="st">&quot;</span><span class="op">);</span></span>
+<span id="cb30-37"><a href="#cb30-37" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span>                               <span class="co">// } - край на съставния оператор</span></span>
+<span id="cb30-38"><a href="#cb30-38" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb30-39"><a href="#cb30-39" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb30-40"><a href="#cb30-40" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<hr />
+<h2 id="степенуване">10. Степенуване</h2>
+<p>Изчисляване на <code>a</code> на степен <code>n</code> (a^n).</p>
+<p><strong>Алгоритъм:</strong></p>
+<p>Умножаваме <code>a</code> по себе си <code>n</code> пъти.</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span><span class="pp">    </span><span class="co">// препроцесорна директива - включва стандартната библиотека за вход/изход (виж [Препроцесор](../01_Въведение%20в%20С.md#4-препроцесор-и-етапи-на-компилация))</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">(</span><span class="dt">void</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> a<span class="op">,</span> n<span class="op">,</span> i<span class="op">;</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> result <span class="op">=</span> <span class="dv">1</span><span class="op">;</span>             <span class="co">// инициализация на резултата, = - присвояване (виж [Оператор за присвояване](../03_Оператори.md#1-оператор-за-присвояване))</span></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>    printf<span class="op">(</span><span class="st">&quot;Въведете основа (a): &quot;</span><span class="op">);</span>  <span class="co">// printf - функция за изход от #include &lt;stdio.h&gt; (виж [Въвеждане и извеждане](../02_Целочислени%20типове%20данни.md#5-въвеждане-и-извеждане-на-данни-от-целочислен-тип))</span></span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>    scanf<span class="op">(</span><span class="st">&quot;</span><span class="sc">%d</span><span class="st">&quot;</span><span class="op">,</span> <span class="op">&amp;</span>a<span class="op">);</span>           <span class="co">// scanf - функция за вход от #include &lt;stdio.h&gt; (виж [Въвеждане и извеждане](../02_Целочислени%20типове%20данни.md#5-въвеждане-и-извеждане-на-данни-от-целочислен-тип)), &amp; - оператор за адрес</span></span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>    printf<span class="op">(</span><span class="st">&quot;Въведете степен (n): &quot;</span><span class="op">);</span>  <span class="co">// printf - функция за изход от #include &lt;stdio.h&gt;</span></span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>    scanf<span class="op">(</span><span class="st">&quot;</span><span class="sc">%d</span><span class="st">&quot;</span><span class="op">,</span> <span class="op">&amp;</span>n<span class="op">);</span>           <span class="co">// scanf - функция за вход от #include &lt;stdio.h&gt;, &amp; - оператор за адрес</span></span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>n <span class="op">&lt;</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span>               <span class="co">// if - условен оператор (виж [Условен оператор](../03_Оператори.md#2-условен-оператор)), (условие) - кръгли скоби, &lt; - сравнение (виж [Оператори за сравнение](../03_Оператори.md#7-оператори-за-сравнение))</span></span>
+<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a>        printf<span class="op">(</span><span class="st">&quot;Отрицателна степен не се поддържа за цели числа</span><span class="sc">\n</span><span class="st">&quot;</span><span class="op">);</span>  <span class="co">// printf - функция за изход от #include &lt;stdio.h&gt;</span></span>
+<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span> <span class="cf">else</span> <span class="cf">if</span> <span class="op">(</span>n <span class="op">==</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span>       <span class="co">// else if - алтернативно условие (виж [Условен оператор](../03_Оператори.md#2-условен-оператор)), (условие) - кръгли скоби, == - сравнение (виж [Оператори за сравнение](../03_Оператори.md#7-оператори-за-сравнение))</span></span>
+<span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a>        result <span class="op">=</span> <span class="dv">1</span><span class="op">;</span>            <span class="co">// = - присвояване (виж [Оператор за присвояване](../03_Оператори.md#1-оператор-за-присвояване)) (всяко число на степен 0 е 1)</span></span>
+<span id="cb31-17"><a href="#cb31-17" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span> <span class="cf">else</span> <span class="op">{</span>                   <span class="co">// else - алтернативен оператор (виж [Условен оператор](../03_Оператори.md#2-условен-оператор))</span></span>
+<span id="cb31-18"><a href="#cb31-18" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="op">(</span>i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;=</span> n<span class="op">;</span> i <span class="op">=</span> i <span class="op">+</span> <span class="dv">1</span><span class="op">)</span> <span class="op">{</span>  <span class="co">// for - цикъл (виж [Цикъл for](../03_Оператори.md#6-оператор-за-цикъл-for)), (инициализация; условие; стъпка) - кръгли скоби, &lt;= - сравнение (виж [Оператори за сравнение](../03_Оператори.md#7-оператори-за-сравнение))</span></span>
+<span id="cb31-19"><a href="#cb31-19" aria-hidden="true" tabindex="-1"></a>            result <span class="op">=</span> result <span class="op">*</span> a<span class="op">;</span>  <span class="co">// = - присвояване (виж [Оператор за присвояване](../03_Оператори.md#1-оператор-за-присвояване)), * - умножение (виж [Операции](../02_Целочислени%20типове%20данни.md#3-операции))</span></span>
+<span id="cb31-20"><a href="#cb31-20" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span>                       <span class="co">// } - край на съставния оператор (тяло на for) (виж [Съставен оператор](../03_Оператори.md#3-съставен-оператор))</span></span>
+<span id="cb31-21"><a href="#cb31-21" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span>                           <span class="co">// } - край на съставния оператор (тяло на if-else if-else) (виж [Съставен оператор](../03_Оператори.md#3-съставен-оператор))</span></span>
+<span id="cb31-22"><a href="#cb31-22" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb31-23"><a href="#cb31-23" aria-hidden="true" tabindex="-1"></a>    printf<span class="op">(</span><span class="st">&quot;</span><span class="sc">%d</span><span class="st"> на степен </span><span class="sc">%d</span><span class="st"> = </span><span class="sc">%d\n</span><span class="st">&quot;</span><span class="op">,</span> a<span class="op">,</span> n<span class="op">,</span> result<span class="op">);</span>  <span class="co">// printf - функция за изход от #include &lt;stdio.h&gt;</span></span>
+<span id="cb31-24"><a href="#cb31-24" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb31-25"><a href="#cb31-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb31-26"><a href="#cb31-26" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p><strong>Пример:</strong> <code>2^3 = 2 * 2 * 2 = 8</code></p>
+<hr />
+<h2 id="намиране-на-делители">11. Намиране на делители</h2>
+<p><strong>Делител</strong> на число <code>n</code> е число, на което
+<code>n</code> се дели без остатък.</p>
+<p><strong>Алгоритъм:</strong></p>
+<p>Проверяваме всички числа от 1 до <code>n</code> дали са делители.</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span><span class="pp">    </span><span class="co">// препроцесорна директива - включва стандартната библиотека за вход/изход (виж [Препроцесор](../01_Въведение%20в%20С.md#4-препроцесор-и-етапи-на-компилация))</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">(</span><span class="dt">void</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> n<span class="op">,</span> i<span class="op">;</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> count <span class="op">=</span> <span class="dv">0</span><span class="op">;</span>             <span class="co">// инициализация на брояча (виж [Броячи и суми в цикли](#7-броячи-и-суми-в-цикли)), = - присвояване (виж [Оператор за присвояване](../03_Оператори.md#1-оператор-за-присвояване))</span></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>    printf<span class="op">(</span><span class="st">&quot;Въведете число: &quot;</span><span class="op">);</span>  <span class="co">// printf - функция за изход от #include &lt;stdio.h&gt; (виж [Въвеждане и извеждане](../02_Целочислени%20типове%20данни.md#5-въвеждане-и-извеждане-на-данни-от-целочислен-тип))</span></span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>    scanf<span class="op">(</span><span class="st">&quot;</span><span class="sc">%d</span><span class="st">&quot;</span><span class="op">,</span> <span class="op">&amp;</span>n<span class="op">);</span>           <span class="co">// scanf - функция за вход от #include &lt;stdio.h&gt; (виж [Въвеждане и извеждане](../02_Целочислени%20типове%20данни.md#5-въвеждане-и-извеждане-на-данни-от-целочислен-тип)), &amp; - оператор за адрес</span></span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>    printf<span class="op">(</span><span class="st">&quot;Делителите на </span><span class="sc">%d</span><span class="st"> са: &quot;</span><span class="op">,</span> n<span class="op">);</span>  <span class="co">// printf - функция за изход от #include &lt;stdio.h&gt;</span></span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span>i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;=</span> n<span class="op">;</span> i <span class="op">=</span> i <span class="op">+</span> <span class="dv">1</span><span class="op">)</span> <span class="op">{</span>  <span class="co">// for - цикъл (виж [Цикъл for](../03_Оператори.md#6-оператор-за-цикъл-for)), (инициализация; условие; стъпка) - кръгли скоби, &lt;= - сравнение (виж [Оператори за сравнение](../03_Оператори.md#7-оператори-за-сравнение))</span></span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>n <span class="op">%</span> i <span class="op">==</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span>      <span class="co">// if - условен оператор (виж [Условен оператор](../03_Оператори.md#2-условен-оператор)), (условие) - кръгли скоби, % - модуло (виж [Операции](../02_Целочислени%20типове%20данни.md#3-операции)), == - сравнение (виж [Оператори за сравнение](../03_Оператори.md#7-оператори-за-сравнение))</span></span>
+<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a>            printf<span class="op">(</span><span class="st">&quot;</span><span class="sc">%d</span><span class="st"> &quot;</span><span class="op">,</span> i<span class="op">);</span>  <span class="co">// printf - функция за изход от #include &lt;stdio.h&gt;</span></span>
+<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a>            count <span class="op">=</span> count <span class="op">+</span> <span class="dv">1</span><span class="op">;</span> <span class="co">// = - присвояване (виж [Оператор за присвояване](../03_Оператори.md#1-оператор-за-присвояване)), + - събиране (виж [Операции](../02_Целочислени%20типове%20данни.md#3-операции)) (увеличаване на брояча) (виж [Броячи и суми в цикли](#7-броячи-и-суми-в-цикли))</span></span>
+<span id="cb32-16"><a href="#cb32-16" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span>                      <span class="co">// } - край на съставния оператор (виж [Съставен оператор](../03_Оператори.md#3-съставен-оператор))</span></span>
+<span id="cb32-17"><a href="#cb32-17" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span>                          <span class="co">// } - край на съставния оператор (тяло на for) (виж [Съставен оператор](../03_Оператори.md#3-съставен-оператор))</span></span>
+<span id="cb32-18"><a href="#cb32-18" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb32-19"><a href="#cb32-19" aria-hidden="true" tabindex="-1"></a>    printf<span class="op">(</span><span class="st">&quot;</span><span class="sc">\n</span><span class="st">Броят на делителите е: </span><span class="sc">%d\n</span><span class="st">&quot;</span><span class="op">,</span> count<span class="op">);</span>  <span class="co">// printf - функция за изход от #include &lt;stdio.h&gt;</span></span>
+<span id="cb32-20"><a href="#cb32-20" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb32-21"><a href="#cb32-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb32-22"><a href="#cb32-22" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p><strong>Пример:</strong> За <code>n = 12</code>, делителите са: 1, 2,
+3, 4, 6, 12 (общо 6)</p>
+<hr />
+<h2 id="проверка-за-просто-число">12. Проверка за просто число</h2>
+<p><strong>Просто число</strong> - число, което има точно два делителя:
+1 и самото число.</p>
+<p><strong>Алгоритъм:</strong></p>
+<ol type="1">
+<li>Ако числото е по-малко от 2, не е просто</li>
+<li>Проверяваме дали има делители между 2 и <code>n-1</code></li>
+<li>Ако няма такива делители, числото е просто</li>
+</ol>
+<div class="sourceCode" id="cb33"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span><span class="pp">    </span><span class="co">// препроцесорна директива - включва стандартната библиотека за вход/изход (виж [Препроцесор](../01_Въведение%20в%20С.md#4-препроцесор-и-етапи-на-компилация))</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">(</span><span class="dt">void</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> n<span class="op">,</span> i<span class="op">;</span></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> isPrime <span class="op">=</span> <span class="dv">1</span><span class="op">;</span>            <span class="co">// флаг: 1 = просто, 0 = не е просто, = - присвояване (виж [Оператор за присвояване](../03_Оператори.md#1-оператор-за-присвояване))</span></span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>    printf<span class="op">(</span><span class="st">&quot;Въведете число: &quot;</span><span class="op">);</span>  <span class="co">// printf - функция за изход от #include &lt;stdio.h&gt; (виж [Въвеждане и извеждане](../02_Целочислени%20типове%20данни.md#5-въвеждане-и-извеждане-на-данни-от-целочислен-тип))</span></span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>    scanf<span class="op">(</span><span class="st">&quot;</span><span class="sc">%d</span><span class="st">&quot;</span><span class="op">,</span> <span class="op">&amp;</span>n<span class="op">);</span>           <span class="co">// scanf - функция за вход от #include &lt;stdio.h&gt; (виж [Въвеждане и извеждане](../02_Целочислени%20типове%20данни.md#5-въвеждане-и-извеждане-на-данни-от-целочислен-тип)), &amp; - оператор за адрес</span></span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>n <span class="op">&lt;</span> <span class="dv">2</span><span class="op">)</span> <span class="op">{</span>               <span class="co">// if - условен оператор (виж [Условен оператор](../03_Оператори.md#2-условен-оператор)), (условие) - кръгли скоби, &lt; - сравнение (виж [Оператори за сравнение](../03_Оператори.md#7-оператори-за-сравнение))</span></span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>        isPrime <span class="op">=</span> <span class="dv">0</span><span class="op">;</span>           <span class="co">// = - присвояване (виж [Оператор за присвояване](../03_Оператори.md#1-оператор-за-присвояване)) (числата по-малки от 2 не са прости)</span></span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span> <span class="cf">else</span> <span class="op">{</span>                   <span class="co">// else - алтернативен оператор (виж [Условен оператор](../03_Оператори.md#2-условен-оператор))</span></span>
+<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="op">(</span>i <span class="op">=</span> <span class="dv">2</span><span class="op">;</span> i <span class="op">&lt;</span> n<span class="op">;</span> i <span class="op">=</span> i <span class="op">+</span> <span class="dv">1</span><span class="op">)</span> <span class="op">{</span>  <span class="co">// for - цикъл (виж [Цикъл for](../03_Оператори.md#6-оператор-за-цикъл-for)), (инициализация; условие; стъпка) - кръгли скоби, &lt; - сравнение (виж [Оператори за сравнение](../03_Оператори.md#7-оператори-за-сравнение))</span></span>
+<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="op">(</span>n <span class="op">%</span> i <span class="op">==</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span>   <span class="co">// if - условен оператор (виж [Условен оператор](../03_Оператори.md#2-условен-оператор)), (условие) - кръгли скоби, % - модуло (виж [Операции](../02_Целочислени%20типове%20данни.md#3-операции)), == - сравнение (виж [Оператори за сравнение](../03_Оператори.md#7-оператори-за-сравнение))</span></span>
+<span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a>                isPrime <span class="op">=</span> <span class="dv">0</span><span class="op">;</span>    <span class="co">// = - присвояване (виж [Оператор за присвояване](../03_Оператори.md#1-оператор-за-присвояване)) (намерихме делител, значи не е просто)</span></span>
+<span id="cb33-16"><a href="#cb33-16" aria-hidden="true" tabindex="-1"></a>                <span class="cf">break</span><span class="op">;</span>         <span class="co">// break - прекъсване на цикъла</span></span>
+<span id="cb33-17"><a href="#cb33-17" aria-hidden="true" tabindex="-1"></a>            <span class="op">}</span>                  <span class="co">// } - край на съставния оператор (виж [Съставен оператор](../03_Оператори.md#3-съставен-оператор))</span></span>
+<span id="cb33-18"><a href="#cb33-18" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span>                      <span class="co">// } - край на съставния оператор (тяло на for) (виж [Съставен оператор](../03_Оператори.md#3-съставен-оператор))</span></span>
+<span id="cb33-19"><a href="#cb33-19" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span>                          <span class="co">// } - край на съставния оператор (тяло на if-else) (виж [Съставен оператор](../03_Оператори.md#3-съставен-оператор))</span></span>
+<span id="cb33-20"><a href="#cb33-20" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb33-21"><a href="#cb33-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>isPrime <span class="op">==</span> <span class="dv">1</span><span class="op">)</span> <span class="op">{</span>        <span class="co">// if - условен оператор (виж [Условен оператор](../03_Оператори.md#2-условен-оператор)), (условие) - кръгли скоби, == - сравнение (виж [Оператори за сравнение](../03_Оператори.md#7-оператори-за-сравнение))</span></span>
+<span id="cb33-22"><a href="#cb33-22" aria-hidden="true" tabindex="-1"></a>        printf<span class="op">(</span><span class="st">&quot;Просто число</span><span class="sc">\n</span><span class="st">&quot;</span><span class="op">);</span>  <span class="co">// printf - функция за изход от #include &lt;stdio.h&gt;</span></span>
+<span id="cb33-23"><a href="#cb33-23" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span> <span class="cf">else</span> <span class="op">{</span>                   <span class="co">// else - алтернативен оператор (виж [Условен оператор](../03_Оператори.md#2-условен-оператор))</span></span>
+<span id="cb33-24"><a href="#cb33-24" aria-hidden="true" tabindex="-1"></a>        printf<span class="op">(</span><span class="st">&quot;Не е просто число</span><span class="sc">\n</span><span class="st">&quot;</span><span class="op">);</span>  <span class="co">// printf - функция за изход от #include &lt;stdio.h&gt;</span></span>
+<span id="cb33-25"><a href="#cb33-25" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span>                          <span class="co">// } - край на съставния оператор (виж [Съставен оператор](../03_Оператори.md#3-съставен-оператор))</span></span>
+<span id="cb33-26"><a href="#cb33-26" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb33-27"><a href="#cb33-27" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb33-28"><a href="#cb33-28" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p><strong>Пример:</strong> - <code>7</code> е просто (делители: 1, 7) -
+<code>8</code> не е просто (делители: 1, 2, 4, 8)</p>
+<hr />
+<h2 id="обобщение-на-важните-техники">Обобщение на важните техники</h2>
+<ol type="1">
+<li><strong>Въвеждане на n числа:</strong> Използваме <code>for</code>
+цикъл от 1 до n</li>
+<li><strong>Работа с цифри:</strong> Използваме <code>% 10</code> и
+<code>/ 10</code> в цикъл</li>
+<li><strong>Проверка за четност:</strong> <code>n % 2 == 0</code></li>
+<li><strong>Проверка за делимост:</strong> <code>n % k == 0</code></li>
+<li><strong>Намиране на мин/макс:</strong> Инициализираме с първото
+число, след това сравняваме</li>
+<li><strong>Броячи:</strong> Инициализация с 0, увеличаване с 1</li>
+<li><strong>Суми:</strong> Инициализация с 0, добавяне на стойности</li>
+<li><strong>Обръщане на число:</strong>
+<code>reversed = reversed * 10 + digit</code></li>
+<li><strong>Проверка за палиндром:</strong> Сравняваме оригиналното с
+обърнатото</li>
+<li><strong>Прости числа:</strong> Проверяваме за делители между 2 и
+n-1</li>
+</ol>
+</div>
+</body>
+</html>
